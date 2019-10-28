@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.layout.VBox?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MyController_Rules">
+   <children>
+      <Accordion fx:id="rules" layoutX="1.0" layoutY="42.0" prefHeight="356.0" prefWidth="600.0">
+        <panes>
+          <TitledPane animated="false" text="Overview">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <VBox>
+                <Label wrapText="true" alignment="TOP_LEFT" text="In Fantasy Realms you will draw cards from the deck or discard pile in order to form the best combos possible.&#13;">
+                </Label>
+
+                <Label wrapText="true" alignment="TOP_LEFT" text="Victory goes to the player with the highest points.&#13;"/>
+                <Label wrapText="true" alignment="TOP_LEFT" text="Every card contains four pieces of information: its name, its suit, its base strength, and its bonuses and/or penalty.&#13;"/>
+
+                <Label wrapText="true" fx:id="gameplay_list" alignment="TOP_LEFT" text="
+                    1. Name - Every card has a unique name.&#13;
+                    2. Suit - Each suit has its own color. There are ten suits: Army, Leader, Wizard, Weapon, Artifact, Beast, Land, Weather, Flood and Flame, along with three Wild cards.&#13;
+                    3. Base strenght - Base strengths run from 0 to 40. &#13;">
+
+                </Label>
+                </VBox>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Gameplay">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <VBox>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                    Setup: Every player gets seven cards. Starting player is then chosen randomly.&#13;
+                    Turns: During each player's turn, he or she has a choice of drawing the top card from the deck or taking any one face-up card from the discard area. The player who goes first must draw a card from the deck. At the end of each turn, a player must discard a card to the discard area.&#13;
+                    End of Game: The game ends when there are ten cards in the discard area. The player holding the highest scoring hand wins. In case of a tie, the hand with the lowest total base strengths wins.&#13;"/>
+                </VBox>
+
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Scoring hands">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <VBox>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                        At the end of the game, add the base strengths, applying any bonuses and penalties, of all cards in your hand. Cards only care about what is in your hand (except for Mirage and Shapeshifter). Ignore any cards that are blanked.&#13;">
+
+                    </Label>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="Cards held by your opponents have no effect on the scoring of your hand.&#13;">
+                    </Label>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                        There are terms that are used in the Bonus and Penalty sections of cards:&#13;">
+                    </Label>
+                    <Text>With</Text>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                        If a card receives a bonus WITH a certain other card or type of card, then it may only receive that bonus once.&#13;
+                        EXAMPLE: You have the Magic Wand (Bonus: +25 with any one Wizard) and two Wizards. You only get the +25 bonus once.&#13;"/>
+                    <Text>For each</Text>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                        A card that receives a bonus or penalty FOR EACH of a particular kind of card may receive that bonus or penalty once for each card you hold of the variety named.&#13;"/>
+                    <Text>Blanks</Text>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                        Certain penalty cards say that they BLANK certain other cards. A card which has been blanked has no suit, no bonuses or penalties, and no base strength.&#13;"/>
+                    <Text>Blanked unless with</Text>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                        This card is blanked, according to the rules above, unless one of the named cards is in your hand.&#13;"/>
+                    <Text>Clears</Text>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                        A special kind of bonus is the ability to CLEAR penalties or parts of penalties from other cards. A card that has had its penalty cleared still keeps its suit, base strength, and bonus. Clearing takes place before any penalties are applied.&#13;"/>
+                    <Label wrapText="true" alignment="TOP_LEFT" text="
+                        All other bonuses and penalties should be self-explanatory.&#13;"/>
+                </VBox>
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+      <Label layoutX="260.0" layoutY="3.0" text="Rules">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Button layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#toMain_Menu" text="Back to main menu" />
+   </children>
+</Pane>
