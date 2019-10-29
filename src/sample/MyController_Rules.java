@@ -24,19 +24,19 @@ public class MyController_Rules extends Main implements Initializable
     private Label gameplay_list;
 
     @FXML
-    private Accordion rules;
+    private Accordion rules_accordion;
 
     @FXML
     void toMain_Menu(ActionEvent event) throws IOException {
         Parent menu = FXMLLoader.load(getClass().getResource("menu.fxml"));
-        window.getScene().setRoot(menu);
+        window.setScene(new Scene(menu, 800, 600));
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rootPane = new Pane();
-        rules.setMaxSize(1000.0,600.0);
+        rules_accordion.setMaxSize(1000.0,600.0);
         System.out.println("Jsem v konstruktoru initialize");
     }
 
