@@ -1,0 +1,25 @@
+#card_canvas {
+  width: 100;
+  height: 150;
+  
+}
+
+#rectangle_type {
+  width: 20;
+  height: 150;
+}
+
+#rectangle_name {
+  width: 100;
+  height: 20;
+}
+
+#region_card_image {
+  width: 70;
+  height: 70;
+}
+
+#oval_strength {
+  
+}
+
