@@ -2,24 +2,108 @@
   width: 100;
   height: 150;
   
+  
 }
 
-#rectangle_type {
+#rectangle_type_flood{
   width: 20;
   height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+
+#rectangle_type_fire{
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+
+#rectangle_type_earth{
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+
+#rectangle_type_weather {
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+
+#rectangle_type_weapon {
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+
+#rectangle_type_army {
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+
+#rectangle_type_leader {
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+#rectangle_type_wizard{
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+#rectangle_type_wild{
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+
+#rectangle_type_creature{
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
+}
+
+
+#rectangle_type_artifact{
+  width: 20;
+  height: 150;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#, #);
 }
 
 #rectangle_name {
   width: 100;
   height: 20;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
+  -fx-background-color: linear-gradient(#2A5058, #61a2b1);
 }
 
 #region_card_image {
   width: 70;
   height: 70;
+  -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
 }
 
 #oval_strength {
-  
+  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,3,3 );
 }
 
