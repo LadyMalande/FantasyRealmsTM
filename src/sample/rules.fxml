@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.layout.VBox?>
-<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MyController_Menu">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.RulesController">
    <children>
       <Accordion fx:id="rules_accordion" layoutX="1.0" layoutY="42.0" prefHeight="356.0" prefWidth="600.0">
         <panes>
@@ -86,6 +86,6 @@
             <Font size="27.0" />
          </font>
       </Label>
-      <Button fx:id="button_toMenu" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#toMain_Menu" text="Back to main menu" />
+      <Button fx:id="button_toMenu" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#toMainMenu" text="Back to main menu" />
    </children>
 </Pane>

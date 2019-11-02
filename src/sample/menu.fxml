@@ -30,9 +30,9 @@
       </HBox>
       <VBox id="VBox_MENU" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 20;" spacing="20">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#start_game" prefHeight="50" prefWidth="100" style="-fx-padding: 20; -fx-background-color: F08825;" text="Play" />
-            <Button fx:id="button_rules" alignment="CENTER" mnemonicParsing="false" onAction="#show_rules" prefHeight="50" prefWidth="100" style="-fx-padding: 20;" text="Rules" />
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#exit" prefHeight="50" prefWidth="100" style="-fx-padding: 20;" text="Exit" />
+            <Button styleClass="menu_button" mnemonicParsing="false" onAction="#start_game" text="Play" />
+            <Button styleClass="menu_button" mnemonicParsing="false" onAction="#show_rules" text="Rules" />
+            <Button styleClass="menu_button" mnemonicParsing="false" onAction="#exit" text="Exit" />
          </children>
       </VBox>
    </children>

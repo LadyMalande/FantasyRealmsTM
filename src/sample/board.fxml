@@ -3,48 +3,75 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?scenebuilder-stylesheet style.css?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.canvas.Canvas?>
+<VBox spacing="20" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@style.css" fx:controller="sample.BoardController" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox layoutX="14.0" layoutY="286.0" prefHeight="100.0" prefWidth="571.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-         </children>
-      </HBox>
-      <HBox layoutX="14.0" layoutY="60.0" prefHeight="100.0" prefWidth="450.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-         </children>
-      </HBox>
-      <HBox layoutX="14.0" layoutY="172.0" prefHeight="100.0" prefWidth="450.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Button" />
-         </children>
-      </HBox>
-      <Label layoutX="14.0" layoutY="14.0" text="Fantasy Realms TM">
+      <HBox spacing="20">
+         <Label layoutX="14.0" layoutY="14.0" text="Fantasy Realms TM">
          <font>
             <Font name="Impact" size="24.0" />
          </font>
-      </Label>
-      <Label layoutX="219.0" layoutY="20.0" text="x players in-game" />
-      <Button layoutX="496.0" layoutY="222.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="71.0" text="End round" />
+         </Label>
+         <Label layoutX="219.0" layoutY="20.0" text="x players in-game" />
+         <Button layoutX="496.0" layoutY="222.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="71.0" text="End round" />
+      </HBox>
+
+      <HBox spacing="20" alignment="CENTER">
+         <children>
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+         </children>
+      </HBox>
+      <HBox spacing="20" alignment="CENTER">
+         <children>
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+         </children>
+      </HBox>
+      <HBox fx:id="hand_HBox" spacing="10">
+         <children>
+            <Group fx:id="group_hand_buttons">
+               <StackPane styleClass="hand_StackPane" fx:id="stack_hand1">
+                  <Button fx:id="hand1" styleClass="button_card_in_hand" mnemonicParsing="false" />
+               </StackPane>
+               <StackPane styleClass="hand_StackPane" fx:id="stack_hand2">
+                  <Button fx:id="hand2" styleClass="button_card_in_hand" mnemonicParsing="false" />
+               </StackPane>
+               <StackPane styleClass="hand_StackPane" fx:id="stack_hand3">
+                  <Button fx:id="hand3" styleClass="button_card_in_hand" mnemonicParsing="false" />
+               </StackPane>
+               <StackPane styleClass="hand_StackPane" fx:id="stack_hand4">
+                  <Button fx:id="hand4" styleClass="button_card_in_hand" mnemonicParsing="false" />
+               </StackPane>
+               <StackPane styleClass="hand_StackPane" fx:id="stack_hand5">
+                  <Button fx:id="hand5" styleClass="button_card_in_hand" mnemonicParsing="false" />
+               </StackPane>
+               <StackPane styleClass="hand_StackPane" fx:id="stack_hand6">
+                  <Button fx:id="hand6" styleClass="button_card_in_hand" mnemonicParsing="false" />
+               </StackPane>
+               <StackPane styleClass="hand_StackPane" fx:id="stack_hand7">
+                  <Button fx:id="hand7" styleClass="button_card_in_hand" mnemonicParsing="false" />
+               </StackPane>
+               <StackPane styleClass="hand_StackPane" fx:id="stack_hand8">
+                  <Button fx:id="hand8" styleClass="button_card_in_hand" mnemonicParsing="false" />
+               </StackPane>
+            </Group>
+         </children>
+      </HBox>
+
+
+
    </children>
-</Pane>
+</VBox>
