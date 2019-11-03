@@ -5,13 +5,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?scenebuilder-stylesheet style.css?>
-
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.canvas.Canvas?>
+
 <VBox spacing="20" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@style.css" fx:controller="sample.BoardController" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
       <HBox spacing="20">
          <Label layoutX="14.0" layoutY="14.0" text="Fantasy Realms TM">
          <font>
@@ -23,28 +20,29 @@
       </HBox>
 
       <HBox spacing="20" alignment="CENTER">
-         <children>
+
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-         </children>
+
       </HBox>
       <HBox spacing="20" alignment="CENTER">
-         <children>
+
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-         </children>
+
       </HBox>
       <HBox fx:id="hand_HBox" spacing="10">
-         <children>
-            <Group fx:id="group_hand_buttons">
+
                <StackPane styleClass="hand_StackPane" fx:id="stack_hand1">
-                  <Button fx:id="hand1" styleClass="button_card_in_hand" mnemonicParsing="false" />
+
+
+
                </StackPane>
                <StackPane styleClass="hand_StackPane" fx:id="stack_hand2">
                   <Button fx:id="hand2" styleClass="button_card_in_hand" mnemonicParsing="false" />
@@ -67,11 +65,10 @@
                <StackPane styleClass="hand_StackPane" fx:id="stack_hand8">
                   <Button fx:id="hand8" styleClass="button_card_in_hand" mnemonicParsing="false" />
                </StackPane>
-            </Group>
-         </children>
+
       </HBox>
 
 
 
-   </children>
+
 </VBox>

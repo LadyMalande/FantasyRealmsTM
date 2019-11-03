@@ -1,0 +1,5 @@
+package sample;
+
+public enum Type {
+    FLOOD, FIRE, EARTH, WEATHER, ARMY, WEAPON, ARTIFACT, WIZARD, LEADER, CREATURE, WILD
+}
