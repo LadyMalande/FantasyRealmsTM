@@ -1,5 +1,5 @@
-package sample;
+package bonuses;
 
 public interface ScoringInterface {
-    void count();
+    int count();
 }
