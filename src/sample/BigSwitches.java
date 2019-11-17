@@ -63,6 +63,66 @@ public class BigSwitches {
         }
     }
 
+    public static String switchIdForName(int id){
+        switch(id){
+            case 1: return "Unicorn";
+            case 2: return "Magic Staff";
+            case 3: return "Hydra";
+            case 4: return "Basilisk";
+            case 5: return "Warhorse";
+            case 6: return "Dragon";
+            case 7: return "Zeppelin";
+            case 8: return "Warship";
+            case 9: return "Bow";
+            case 10: return "Keth Sword";
+            case 11: return "Lord of Beasts";
+            case 12: return "Collector";
+            case 13: return "Necromant";
+            case 14: return "Jester";
+            case 15: return "Witch";
+            case 16: return "Archmage";
+            case 17: return "Princess";
+            case 18: return "Commander";
+            case 19: return "Queen";
+            case 20: return "King";
+            case 21: return "Empress";
+            case 22: return "Swordswomen";
+            case 23: return "Striders";
+            case 24: return "Dwarf Infantry";
+            case 25: return "Elven Bowmen";
+            case 26: return "Cavalry";
+            case 27: return "Keth Shield";
+            case 28: return "Guard Rune";
+            case 29: return "Crystal of Order";
+            case 30: return "World Tree";
+            case 31: return "Book of Spells";
+            case 32: return "Fountain of Life";
+            case 33: return "Great Flood";
+            case 34: return "Elemental of Water";
+            case 35: return "Swamp";
+            case 36: return "Island";
+            case 37: return "Elemental of Fire";
+            case 38: return "Lightning";
+            case 39: return "Candle";
+            case 40: return "Forge";
+            case 41: return "Conflagration";
+            case 42: return "Belfry";
+            case 43: return "Elemental of Earth";
+            case 44: return "Cave";
+            case 45: return "Mountain";
+            case 46: return "Forest";
+            case 47: return "Blizzard";
+            case 48: return "Elemental of Air";
+            case 49: return "Tornado";
+            case 50: return "Storm";
+            case 51: return "Smoke";
+            case 52: return "Skinchanger";
+            case 53: return "Doppleganger";
+            case 54: return "Mirage";
+            default: return "FAIL";
+        }
+    }
+
     public static ArrayList<String> switchType(Type type){
         ArrayList<String> arr = new ArrayList<>();
         switch(type){

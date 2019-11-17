@@ -1,6 +1,13 @@
 package interactive;
 
-public class TakeCardOfTypeAtTheEnd implements InteractiveBonusInterface {
+public class TakeCardOfTypeAtTheEnd extends Interactive  {
+    public String text;
+
+    @Override
+    public String getText(){
+        return this.text;
+    }
+
     @Override
     public void askPlayer() {
 

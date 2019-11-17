@@ -16,6 +16,11 @@ public class DeleteAllMalusesOnType extends Bonus  {
     }
 
     @Override
+    public String getText(){
+        return this.text;
+    }
+
+    @Override
     public int count() {
         for(Card c: BoardController.player.hand){
             if(c.type.equals(deleteMalusesOnThisType)){

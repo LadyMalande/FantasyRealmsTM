@@ -4,9 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -15,8 +17,12 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import bonuses.Bonus;
+import maluses.Malus;
+import interactive.Interactive;
 
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.*;
 
@@ -41,7 +47,11 @@ public class BoardController implements Initializable{
     @FXML
     private Button hand1, hand2, hand3, hand4, hand5, hand6, hand7, hand8;
 
-    public Deck deck;
+    public static Deck deck;
+
+    public Deck getDeck(){
+        return deck;
+    }
     /**
      * Event handler fired when the user requests a previous vista.
      *
@@ -95,7 +105,39 @@ public class BoardController implements Initializable{
         gc.fillText(type_name, bounds.getMinX()-80, bounds.getMinY() + 14);
         gc.restore();
 
-        sp.getChildren().addAll(canvas_hand1, b);
+        String allText = "";
+
+
+        if(card.bonuses != null){
+            allText += "BONUS:\n";
+            for(var bonus: card.bonuses){
+
+
+                allText += bonus.getText();
+                allText += "\n";
+            }
+        }
+        if(card.maluses != null){
+            for(Malus malus: card.maluses){
+                allText += malus.text;
+                allText += "&#13;";
+            }
+        }
+        if(card.interactives != null){
+            for(Interactive inter: card.interactives){
+                allText += inter.text;
+                allText += "&#13;";
+            }
+        }
+        Label text = new Label(allText);
+        text.setWrapText(true);
+        text.setTranslateY(50);
+        text.setTranslateX(10);
+        text.setMaxSize(110,150);
+        text.setAlignment(Pos.CENTER);
+
+
+        sp.getChildren().addAll(canvas_hand1, b, text);
     }
 
     @Override

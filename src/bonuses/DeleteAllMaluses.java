@@ -3,9 +3,17 @@ package bonuses;
 import sample.BoardController;
 import sample.Card;
 
-public class DeleteAllMaluses extends Bonus {
+import java.io.Serializable;
+
+public class DeleteAllMaluses extends Bonus implements Serializable {
     public int priority = 1;
     public String text = "Remove all maluses from all cards";
+
+    @Override
+    public String getText(){
+        return this.text;
+    }
+
     @Override
     public int count() {
         for(Card c: BoardController.player.hand){

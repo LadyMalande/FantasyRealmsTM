@@ -6,12 +6,18 @@ import sample.Card;
 import java.util.ArrayList;
 
 public class PlusIfYouHaveAll extends Bonus{
+    public String text;
     private int how_much;
     private ArrayList<String> namesOfCardsNeeded;
 
     public PlusIfYouHaveAll(int hm, ArrayList<String> cards){
         this.how_much = hm;
         this.namesOfCardsNeeded = cards;
+    }
+
+    @Override
+    public String getText(){
+        return this.text;
     }
 
     @Override

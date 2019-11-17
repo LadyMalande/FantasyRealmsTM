@@ -1,10 +1,12 @@
 package sample;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-class Deck {
+public class Deck implements Serializable {
     ArrayList<Card> deck;
+    public int maxStrength;
 
     ArrayList<Card> getDeck(){
         return deck;
@@ -13,8 +15,12 @@ class Deck {
         DeckInitializer di = new DeckInitializer();
         di.storeDecktoFile();
         deck = di.loadDeckFromFile();
+        maxStrength = 0;
+        for(Card c: deck){
+            if(c.strength > maxStrength){
+                maxStrength = c.strength;
+            }
+        }
         System.out.println(deck.isEmpty()) ;
-        //deck.add(new Card("Unicorn", 18, Type.CREATURE, null ,null));
-        //deck.add(new Card("Magic staff", 1, Type.WEAPON, null, null));
     }
 }

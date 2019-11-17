@@ -1,9 +1,14 @@
 package sample;
 
+import bonuses.*;
+import maluses.*;
+import interactive.*;
+
+
 import java.io.*;
 import java.util.ArrayList;
 
-public class DeckInitializer {
+public class DeckInitializer implements Serializable{
     public void storeDecktoFile() {
         ArrayList<Card> tempDeck = new ArrayList<>();
         tempDeck.add(new Card(1, "Unicorn", 9, Type.CREATURE, null, null, null));
@@ -33,24 +38,24 @@ public class DeckInitializer {
         tempDeck.add(new Card(25,"Elven Bowmen",10, Type.ARMY, null, null, null));
         tempDeck.add(new Card(26,"Cavalry",17, Type.ARMY, null, null, null));
         tempDeck.add(new Card(27,"Keth Shield",4, Type.ARTIFACT, null, null, null));
-        tempDeck.add(new Card(28,"Guard Rune",1, Type.ARTIFACT, null, null, null));
-        tempDeck.add(new Card(29,"Crystal of Order",5, Type.ARTIFACT, null, null, null));
-        tempDeck.add(new Card(30,"World Tree",2, Type.ARTIFACT, null, null, null));
-        tempDeck.add(new Card(31,"Book of Spells",3, Type.ARTIFACT, null, null, null));
-        tempDeck.add(new Card(32,"Fountain of Life",1, Type.FLOOD, null, null, null));
-        tempDeck.add(new Card(33,"Great Flood",32, Type.FLOOD, null, null, null));
-        tempDeck.add(new Card(34,"Elemental of Water",4, Type.FLOOD, null, null, null));
-        tempDeck.add(new Card(35,"Swamp",18, Type.FLOOD, null, null, null));
-        tempDeck.add(new Card(36,"Island",14, Type.FLOOD, null, null, null));
-        tempDeck.add(new Card(37,"Elemental of Fire",4, Type.FIRE, null, null, null));
-        tempDeck.add(new Card(38,"Lightning",11, Type.FIRE, null, null, null));
-        tempDeck.add(new Card(39,"Candle",2, Type.FIRE, null, null, null));
-        tempDeck.add(new Card(40,"Forge",9, Type.FIRE, null, null, null));
-        tempDeck.add(new Card(41,"Conflagration",40, Type.FIRE, null, null, null));
-        tempDeck.add(new Card(42,"Belfry",8, Type.EARTH, null, null, null));
-        tempDeck.add(new Card(43,"Elemental of Earth",4, Type.EARTH, null, null, null));
-        tempDeck.add(new Card(44,"Cave",6, Type.EARTH, null, null, null));
-        tempDeck.add(new Card(45,"Mountain",9, Type.EARTH, null, null, null));
+        tempDeck.add(new Card(28,"Guard Rune",1, Type.ARTIFACT, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}  , null, null));
+        tempDeck.add(new Card(29,"Crystal of Order",5, Type.ARTIFACT, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(30,"World Tree",2, Type.ARTIFACT, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(31,"Book of Spells",3, Type.ARTIFACT, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(32,"Fountain of Life",1, Type.FLOOD, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(33,"Great Flood",32, Type.FLOOD, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(34,"Elemental of Water",4, Type.FLOOD, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(35,"Swamp",18, Type.FLOOD, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(36,"Island",14, Type.FLOOD, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(37,"Elemental of Fire",4, Type.FIRE, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(38,"Lightning",11, Type.FIRE, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(39,"Candle",2, Type.FIRE, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(40,"Forge",9, Type.FIRE, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(41,"Conflagration",40, Type.FIRE, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(42,"Belfry",8, Type.EARTH, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(43,"Elemental of Earth",4, Type.EARTH, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(44,"Cave",6, Type.EARTH, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
+        tempDeck.add(new Card(45,"Mountain",9, Type.EARTH, new ArrayList<Bonus>() {{add(new DeleteAllMaluses());}}, null, null));
         tempDeck.add(new Card(46,"Forest",7, Type.EARTH, null, null, null));
         tempDeck.add(new Card(47,"Blizzard",30, Type.WEATHER, null, null, null));
         tempDeck.add(new Card(48,"Elemental of Air",4, Type.WEATHER, null, null, null));
