@@ -45,7 +45,13 @@ public class BoardController implements Initializable{
     private StackPane stack_hand1, stack_hand2, stack_hand3, stack_hand4, stack_hand5, stack_hand6, stack_hand7, stack_hand8;
 
     @FXML
+    private StackPane stack_table1, stack_table2, stack_table3, stack_table4, stack_table5, stack_table6, stack_stable7, stack_table8, stack_table9, stack_table10;
+
+    @FXML
     private Button hand1, hand2, hand3, hand4, hand5, hand6, hand7, hand8;
+
+    @FXML
+    private Label label_score;
 
     public static Deck deck;
 
@@ -119,14 +125,14 @@ public class BoardController implements Initializable{
         }
         if(card.maluses != null){
             for(Malus malus: card.maluses){
-                allText += malus.text;
-                allText += "&#13;";
+                allText += malus.getText();
+                allText += "\n";
             }
         }
         if(card.interactives != null){
             for(Interactive inter: card.interactives){
-                allText += inter.text;
-                allText += "&#13;";
+                allText += inter.getText();
+                allText += "\n";
             }
         }
         Label text = new Label(allText);
@@ -138,6 +144,7 @@ public class BoardController implements Initializable{
 
 
         sp.getChildren().addAll(canvas_hand1, b, text);
+
     }
 
     @Override
@@ -148,15 +155,19 @@ public class BoardController implements Initializable{
         hand_StackPanes.addAll(Arrays.asList(stack_hand1, stack_hand2, stack_hand3, stack_hand4, stack_hand5, stack_hand6, stack_hand7, stack_hand8));
         deck = new Deck();
         randomGenerator = new Random();
-        Player p = new Player(createHandForPlayer());
-        System.out.println("In hand there is " + Integer.toString(p.hand.size()) + " cards.");
-        Iterator<Card> iter = p.hand.iterator();
+        player = new Player(createHandForPlayer());
+        System.out.println("In hand there are " + Integer.toString(player.hand.size()) + " cards.");
+        Iterator<Card> iter = player.hand.iterator();
 
         for(StackPane sp : hand_StackPanes){
             if(iter.hasNext()) {
                 create_card(sp, iter.next());
             }
         }
+    }
+
+    public void evaluateHand(){
+        label_score.setText(Integer.toString(player.evaluateHand()));
     }
 
     public ArrayList<Card> createHandForPlayer(){

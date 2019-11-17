@@ -6,6 +6,7 @@ import maluses.Malus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Card implements Serializable {
@@ -25,5 +26,23 @@ public class Card implements Serializable {
         this.bonuses = bonuses;
         this.maluses = maluses;
         this.interactives = in;
+    }
+
+    public int giveMinPriority(){
+        ArrayList<Integer> priorities = new ArrayList<Integer>();
+        if(bonuses != null)
+        for(Bonus b: bonuses){
+                priorities.add(b.priority);
+            }
+        if(maluses != null)
+            for(Malus m: maluses){
+                priorities.add(m.priority);
+            }
+        if(interactives != null)
+            for(Interactive in: interactives){
+                priorities.add(in.priority);
+            }
+        Collections.sort(priorities);
+        return priorities.get(0);
     }
 }

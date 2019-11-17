@@ -11,7 +11,7 @@ public class PlusForEachSelftypeExceptThis extends Bonus  {
     public Type type;
     public int thiscardid;
 
-    public PlusForEachSelftypeExceptThis(int how_much, int thiscardid, String text, Type type) {
+    public PlusForEachSelftypeExceptThis(int how_much, int thiscardid, Type type) {
         this.how_much = how_much;
         this.type = type;
         this.thiscardid = thiscardid;

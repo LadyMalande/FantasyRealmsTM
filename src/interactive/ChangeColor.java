@@ -1,7 +1,15 @@
 package interactive;
 
+import sample.Type;
+
+import java.util.ArrayList;
+
 public class ChangeColor extends Interactive {
     public String text;
+
+    public ChangeColor() {
+        this.text = "Change type of one card in your hand";
+    }
 
     @Override
     public String getText(){

@@ -166,6 +166,11 @@ public class BigSwitches {
     }
 
     public static String switchTypeForName(Type type){
+        if (type == null) {
+            System.out.println("Null pointer v switchTypeForName");
+            return null;
+
+        }
         switch(type){
             case ARMY: return "Army";
             case CREATURE: return "Creature";
@@ -177,6 +182,7 @@ public class BigSwitches {
             case WEAPON: return "Weapon";
             case WEATHER: return "Weather";
             case ARTIFACT: return "Artifact";
+            case WILD: return "Wild";
             default: return "FAIL";
         }
     }

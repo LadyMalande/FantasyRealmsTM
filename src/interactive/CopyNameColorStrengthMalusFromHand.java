@@ -1,7 +1,7 @@
 package interactive;
 
 public class CopyNameColorStrengthMalusFromHand extends Interactive  {
-    public String text;
+    public String text = "Copy name, type, strength and malus of any card in your hand";
 
 
     @Override

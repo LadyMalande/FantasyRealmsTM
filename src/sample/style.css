@@ -118,9 +118,14 @@
 
 
 .button_card_on_board {
+
     -fx-pref-width: 150;
     -fx-pref-height: 200;
-    -fx-background-color: F02050;
+    -fx-background-color: transparent;
+}
+
+.button_card_on_board:hover {
+    -fx-background-color: rgba(255, 255, 255, .3);
 }
 
 #vistaHolder {

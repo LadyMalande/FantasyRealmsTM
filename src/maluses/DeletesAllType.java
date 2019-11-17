@@ -6,14 +6,12 @@ import sample.Type;
 
 import java.util.ArrayList;
 
-public class MinusForEachType extends Malus {
+public class DeletesAllType extends Malus{
     public String text;
-    public int howMuch;
     public ArrayList<Type> types;
 
-    public MinusForEachType( int howMuch, ArrayList<Type> types) {
-        this.text = howMuch + " for each " + giveListOfTypesWithSeparator(types, " or ");
-        this.howMuch = howMuch;
+    public DeletesAllType( ArrayList<Type> types) {
+        this.text = "Deletes all "+ giveListOfTypesWithSeparator(types, ", ");
         this.types = types;
     }
 
@@ -25,12 +23,11 @@ public class MinusForEachType extends Malus {
     @Override
     public int count() {
 
-        int total = 0;
         for(Card c: BoardController.player.hand){
             if(types.contains(c.type)){
-                total += howMuch;
+                BoardController.player.hand.remove(c);
             }
         }
-        return total;
+        return 0;
     }
 }

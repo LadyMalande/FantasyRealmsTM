@@ -12,7 +12,7 @@ public class PlusForEachType extends Bonus  {
     public ArrayList<Type> types;
     public int how_much;
 
-    public PlusForEachType(String text, ArrayList<Type> types, int how_much) {
+    public PlusForEachType( ArrayList<Type> types, int how_much) {
         this.types = types;
         this.how_much = how_much;
         String s = new String();

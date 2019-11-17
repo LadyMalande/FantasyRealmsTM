@@ -17,24 +17,44 @@
          </Label>
          <Label layoutX="219.0" layoutY="20.0" text="x players in-game" />
          <Button layoutX="496.0" layoutY="222.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="71.0" text="End round" />
+          <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="71.0" onAction="#evaluateHand" text="Evaluate" />
+          <Label fx:id="label_score" text="Score"></Label>
       </HBox>
 
       <HBox spacing="20" alignment="CENTER">
-
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table1">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table2">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table3">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table4">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table5">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
 
       </HBox>
       <HBox spacing="20" alignment="CENTER">
-
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table6">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table7">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table8">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table9">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
+          <StackPane styleClass="hand_StackPane" fx:id="stack_table10">
             <Button styleClass="button_card_on_board" mnemonicParsing="false" />
+          </StackPane>
 
       </HBox>
       <HBox fx:id="hand_HBox" spacing="10">

@@ -28,7 +28,7 @@ public class PlusForEachTypeOrSelfType extends Bonus  {
             listtypes += BigSwitches.switchTypeForName(type);
             first = false;
         }
-        text = "+" + howMuch + " for each " + listtypes + "or any other " + BigSwitches.switchTypeForName(selftype) + " you have";
+        text = "+" + howMuch + " for each " + listtypes + " or any other " + BigSwitches.switchTypeForName(selftype) + " you have";
     }
 
     @Override
