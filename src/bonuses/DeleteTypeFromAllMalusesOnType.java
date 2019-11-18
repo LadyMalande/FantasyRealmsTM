@@ -8,8 +8,8 @@ import sample.Type;
 
 public class DeleteTypeFromAllMalusesOnType extends Bonus  {
     public int priority = 1;
-    Type deleteThisTypeFromMaluses;
-    Type onWhichType;
+    private Type deleteThisTypeFromMaluses;
+    private Type onWhichType;
     public String text;
 
     public DeleteTypeFromAllMalusesOnType(Type whichType, Type onWhichType){
@@ -22,16 +22,15 @@ public class DeleteTypeFromAllMalusesOnType extends Bonus  {
     public String getText(){
         return this.text;
     }
-
+    @Override
+    public int getPriority(){ return this.priority; }
     @Override
     public int count() {
         for(Card c: BoardController.player.hand){
             if(c.type.equals(onWhichType)) {
                 if (!c.maluses.isEmpty()) {
                     for (Malus m : c.maluses) {
-                        if (m.types.contains(deleteThisTypeFromMaluses)) {
-                            m.types.remove(deleteThisTypeFromMaluses);
-                        }
+                        m.types.remove(deleteThisTypeFromMaluses);
                     }
                 }
             }

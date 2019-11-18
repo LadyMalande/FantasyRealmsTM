@@ -8,11 +8,9 @@ import java.util.HashMap;
 
 public class PlusForSameColorCards extends Bonus  {
     public String text;
-    public Type type;
-    public int howMuch;
 
     public PlusForSameColorCards() {
-        this.text = "+10 for 3 cards of same type, +40 for 4 cards of the same type, +100 for 5 cards of the same type";
+        this.text = "+10 for 3, +40 for 4, +100 for 5 cards of the same type";
     }
 
     @Override
@@ -25,7 +23,7 @@ public class PlusForSameColorCards extends Bonus  {
         int total = 0;
         HashMap<Type, Integer> table = new HashMap<>();
         for(Card c: BoardController.player.hand){
-            if(table.containsKey(type)){
+            if(table.containsKey(c.type)){
                 table.put(c.type, table.get(c.type) + 1);
             } else{
                 table.put(c.type, 1);

@@ -5,6 +5,7 @@ import sample.Type;
 import java.util.ArrayList;
 
 public class DeleteOneMalusOnType extends Interactive {
+    public int priority = 1;
     public String text;
     public ArrayList<Type> types;
 
@@ -17,7 +18,8 @@ public class DeleteOneMalusOnType extends Interactive {
     public String getText(){
         return this.text;
     }
-
+    @Override
+    public int getPriority(){ return this.priority; }
     @Override
     public void askPlayer() {
 

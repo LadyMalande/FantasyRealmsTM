@@ -9,13 +9,13 @@ public class PlusForEachSelftypeExceptThis extends Bonus  {
     public int how_much;
     public String text;
     public Type type;
-    public int thiscardid;
+    private int thiscardid;
 
     public PlusForEachSelftypeExceptThis(int how_much, int thiscardid, Type type) {
         this.how_much = how_much;
         this.type = type;
         this.thiscardid = thiscardid;
-        this.text = "+" + Integer.toString(how_much) + " for each other card of type " + BigSwitches.switchTypeForName(type) + " in your hand";
+        this.text = "+" + how_much + " for each other card of type " + BigSwitches.switchTypeForName(type) + " in your hand";
     }
 
     @Override
@@ -31,6 +31,6 @@ public class PlusForEachSelftypeExceptThis extends Bonus  {
                 sum += how_much;
             }
         }
-        return sum - how_much;
+        return sum;
     }
 }

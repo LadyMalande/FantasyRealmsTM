@@ -15,16 +15,16 @@ public class PlusForEachType extends Bonus  {
     public PlusForEachType( ArrayList<Type> types, int how_much) {
         this.types = types;
         this.how_much = how_much;
-        String s = new String();
+        StringBuilder s = new StringBuilder();
         boolean first = true;
         for(Type t: types){
             if(!first){
-                s+=" or ";
+                s.append(" or ");
             }
-            s += BigSwitches.switchTypeForName(t);
+            s.append(BigSwitches.switchTypeForName(t));
             first = false;
         }
-        this.text = "+" + Integer.toString(how_much) + " for each card of type " + s;
+        this.text = "+" + how_much + " for each card of type " + s;
     }
 
     @Override
@@ -36,11 +36,9 @@ public class PlusForEachType extends Bonus  {
     public int count() {
         int sum = 0;
         for(Card c: BoardController.player.hand){
-            for(Type type: types) {
-                if (c.type.equals(type)) {
+                if (types.contains(c.type)) {
                     sum += how_much;
                 }
-            }
         }
 
         return sum;

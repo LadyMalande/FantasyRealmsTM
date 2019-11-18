@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class PlusForEachTypeAndForEachCard extends Bonus  {
     public String text;
-    public int how_Much;
+    private int how_Much;
     public ArrayList<Type> types;
     public ArrayList<Integer> cards;
 

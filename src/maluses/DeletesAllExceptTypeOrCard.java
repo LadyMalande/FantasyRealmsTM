@@ -26,7 +26,9 @@ public class DeletesAllExceptTypeOrCard extends Malus {
 
     @Override
     public int count() {
-        for(Card c: BoardController.player.hand){
+        ArrayList<Card> copyDeckToMakeChanges = new ArrayList<>();
+        copyDeckToMakeChanges.addAll(BoardController.player.hand);
+        for(Card c: copyDeckToMakeChanges){
             if(!cards.contains(c.id) && !types.contains(c.type) && c.id != thiscardid){
                 BoardController.player.hand.remove(c);
             }

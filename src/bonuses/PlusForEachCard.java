@@ -13,18 +13,18 @@ public class PlusForEachCard extends Bonus {
     public String text;
 
     public PlusForEachCard(int hm, ArrayList<Integer> ids){
-        String s = new String();
+        StringBuilder s = new StringBuilder();
         this.how_much = hm;
         this.idsOfCardsNeeded = ids;
         boolean first = true;
         for(Integer i: idsOfCardsNeeded){
             if(!first){
-                s+=", ";
+                s.append(", ");
             }
-            s += BigSwitches.switchIdForName(i);
+            s.append(BigSwitches.switchIdForName(i));
             first = false;
         }
-        this.text = "+" + Integer.toString(how_much) + " for each of these cards: " + s;
+        this.text = "+" + how_much + " for each of these cards: " + s;
     }
 
     @Override

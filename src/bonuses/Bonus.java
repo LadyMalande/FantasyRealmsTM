@@ -19,33 +19,31 @@ public class Bonus implements ScoringInterface, Serializable {
 
     @Override
     public int count() {
-        int score = 0;
-
-        return score;
+        return 0;
     }
-    public String giveListOfCardsWithSeparator(ArrayList<Integer> cards, String separator) {
-        String listcards = "";
+    String giveListOfCardsWithSeparator(ArrayList<Integer> cards, String separator) {
+        StringBuilder listcards = new StringBuilder();
         boolean first = true;
         for (Integer c : cards) {
             if (!first) {
-                listcards += separator;
+                listcards.append(separator);
             }
-            listcards += BigSwitches.switchIdForName(c);
+            listcards.append(BigSwitches.switchIdForName(c));
             first = false;
         }
-        return listcards;
+        return listcards.toString();
     }
 
     public String giveListOfTypesWithSeparator(ArrayList<Type> types, String separator){
-        String listtypes = "";
+        StringBuilder listtypes = new StringBuilder();
         boolean first = true;
         for(Type type: types){
             if(!first){
-                listtypes += separator;
+                listtypes.append(separator);
             }
-            listtypes += BigSwitches.switchTypeForName(type);
+            listtypes.append(BigSwitches.switchTypeForName(type));
             first = false;
         }
-        return listtypes;
+        return listtypes.toString();
     }
 }

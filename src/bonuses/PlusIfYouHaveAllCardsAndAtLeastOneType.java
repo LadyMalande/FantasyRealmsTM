@@ -1,6 +1,5 @@
 package bonuses;
 
-import sample.BigSwitches;
 import sample.BoardController;
 import sample.Card;
 import sample.Type;
@@ -9,8 +8,8 @@ import java.util.ArrayList;
 
 public class PlusIfYouHaveAllCardsAndAtLeastOneType extends Bonus  {
     public String text;
-    public int howMuch;
-    public ArrayList<Integer> idCardsNeeded;
+    private int howMuch;
+    private ArrayList<Integer> idCardsNeeded;
     public ArrayList<Type> types;
 
     public PlusIfYouHaveAllCardsAndAtLeastOneType( int howMuch, ArrayList<Integer> idCardsNeeded, ArrayList<Type> types) {
@@ -37,7 +36,7 @@ public class PlusIfYouHaveAllCardsAndAtLeastOneType extends Bonus  {
             else if(types.contains(c.type)){
                 hasoneofthese = true;
             }
-            if(hascards == idCardsNeeded.size() && hasoneofthese == true){
+            if(hascards == idCardsNeeded.size() && hasoneofthese){
                 return howMuch;
             }
         }

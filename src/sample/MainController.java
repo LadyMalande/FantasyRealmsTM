@@ -18,7 +18,7 @@ public class MainController {
      *
      * @param node the vista node to be swapped in.
      */
-    public void setVista(Node node) {
+    void setVista(Node node) {
         vistaHolder.getChildren().setAll(node);
     }
 

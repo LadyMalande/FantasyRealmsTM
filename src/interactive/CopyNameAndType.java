@@ -5,6 +5,7 @@ import sample.Type;
 import java.util.ArrayList;
 
 public class CopyNameAndType extends Interactive {
+    public int priority = 2;
     public String text;
     public ArrayList<Type> types;
 

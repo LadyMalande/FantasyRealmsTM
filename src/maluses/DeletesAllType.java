@@ -22,8 +22,9 @@ public class DeletesAllType extends Malus{
 
     @Override
     public int count() {
-
-        for(Card c: BoardController.player.hand){
+        ArrayList<Card> copyDeckToMakeChanges = new ArrayList<>();
+        copyDeckToMakeChanges.addAll(BoardController.player.hand);
+        for(Card c: copyDeckToMakeChanges){
             if(types.contains(c.type)){
                 BoardController.player.hand.remove(c);
             }

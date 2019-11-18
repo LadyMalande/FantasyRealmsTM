@@ -8,7 +8,7 @@ import sample.Type;
 public class DeleteAllMalusesOnType extends Bonus  {
     public int priority = 1;
     public String text;
-    Type deleteMalusesOnThisType;
+    private Type deleteMalusesOnThisType;
 
     public DeleteAllMalusesOnType(Type t){
         this.deleteMalusesOnThisType = t;
@@ -19,12 +19,16 @@ public class DeleteAllMalusesOnType extends Bonus  {
     public String getText(){
         return this.text;
     }
-
+    @Override
+    public int getPriority(){ return this.priority; }
     @Override
     public int count() {
         for(Card c: BoardController.player.hand){
             if(c.type.equals(deleteMalusesOnThisType)){
-                c.maluses.clear();
+                if(c.maluses != null){
+                    c.maluses.clear();
+                }
+
             }
 
         }

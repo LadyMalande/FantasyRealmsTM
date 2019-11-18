@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,12 +20,12 @@ public class MyController_Menu extends Main implements Initializable {
     }
 
     @FXML
-    void show_rules(ActionEvent event) throws IOException {
+    void show_rules(ActionEvent event) {
         SceneNavigator.loadVista(SceneNavigator.RULES);
     }
 
     @FXML
-    void start_game(ActionEvent event) throws IOException{
+    void start_game(ActionEvent event) {
         SceneNavigator.loadVista(SceneNavigator.BOARD);
     }
 

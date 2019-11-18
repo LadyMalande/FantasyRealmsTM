@@ -1,12 +1,10 @@
 package bonuses;
 
-import java.util.ArrayList;
-
 public class BonusOrBonus extends Bonus {
 
-    String text;
-    Bonus b1;
-    Bonus b2;
+    private String text;
+    private Bonus b1;
+    private Bonus b2;
 
     public BonusOrBonus(Bonus b1, Bonus b2) {
         this.text = b1.getText() + "\n----- OR -----\n" + b2.getText();
@@ -18,12 +16,7 @@ public class BonusOrBonus extends Bonus {
 
     @Override
     public int count() {
-        if(b1.count() > b2.count()){
-            return b1.count();
-        }
-        else{
-            return b2.count();
-        }
+        return Math.max(b1.count(), b2.count());
     }
 
     @Override

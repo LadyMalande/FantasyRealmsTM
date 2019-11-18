@@ -8,7 +8,7 @@ import sample.Type;
 
 public class DeleteSelftypeFromAllMaluses extends Bonus  {
     public int priority = 1;
-    Type deleteThisTypeFromMaluses;
+    private Type deleteThisTypeFromMaluses;
     public String text;
 
     public DeleteSelftypeFromAllMaluses(Type t){
@@ -21,15 +21,14 @@ public class DeleteSelftypeFromAllMaluses extends Bonus  {
     public String getText(){
         return this.text;
     }
-
+    @Override
+    public int getPriority(){ return this.priority; }
     @Override
     public int count() {
         for(Card c: BoardController.player.hand){
             if(!c.maluses.isEmpty()){
                 for(Malus m: c.maluses){
-                    if(m.types.contains(deleteThisTypeFromMaluses)){
-                        m.types.remove(deleteThisTypeFromMaluses);
-                    }
+                    m.types.remove(deleteThisTypeFromMaluses);
                 }
             }
 

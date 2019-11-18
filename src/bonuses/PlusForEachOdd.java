@@ -6,14 +6,15 @@ import sample.Card;
 public class PlusForEachOdd extends Bonus  {
     public String text;
     public int how_much;
-    public boolean odd;
+    private boolean odd;
 
     public PlusForEachOdd(int how_much, boolean odd) {
+        this.odd = odd;
         this.how_much = how_much;
         if(odd) {
-            this.text = "+" + Integer.toString(how_much) + " for each card in your hand with odd strength";
+            this.text = "+" + how_much + " for each card in your hand with odd strength";
         } else{
-            this.text = "+" + Integer.toString(how_much) + " for each card in your hand with even strength";
+            this.text = "+" + how_much + " for each card in your hand with even strength";
         }
     }
 

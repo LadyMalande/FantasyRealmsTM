@@ -143,7 +143,7 @@ public class BoardController implements Initializable{
         text.setAlignment(Pos.CENTER);
 
 
-        sp.getChildren().addAll(canvas_hand1, b, text);
+        sp.getChildren().addAll(canvas_hand1, text, b);
 
     }
 

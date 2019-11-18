@@ -11,15 +11,15 @@ import java.io.IOException;
  * All methods on the navigator are static to facilitate
  * simple access from anywhere in the application.
  */
-public class SceneNavigator {
+class SceneNavigator {
 
     /**
      * Convenience constants for fxml layouts managed by the navigator.
      */
-    public static final String MAIN    = "main.fxml";
-    public static final String MENU = "menu.fxml";
-    public static final String RULES = "rules.fxml";
-    public static final String BOARD   = "board.fxml";
+    static final String MAIN    = "main.fxml";
+    static final String MENU = "menu.fxml";
+    static final String RULES = "rules.fxml";
+    static final String BOARD   = "board.fxml";
 
     /** The main application layout controller. */
     private static MainController mainController;
@@ -29,7 +29,7 @@ public class SceneNavigator {
      *
      * @param mainController the main application layout controller.
      */
-    public static void setMainController(MainController mainController) {
+    static void setMainController(MainController mainController) {
         SceneNavigator.mainController = mainController;
     }
 
@@ -50,7 +50,7 @@ public class SceneNavigator {
      *
      * @param fxml the fxml file to be loaded.
      */
-    public static void loadVista(String fxml) {
+    static void loadVista(String fxml) {
         try {
             mainController.setVista(
                     FXMLLoader.load(
