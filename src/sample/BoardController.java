@@ -32,7 +32,7 @@ import java.util.*;
 public class BoardController implements Initializable{
 
     private List<Button> hand_Canvases;
-    private List<StackPane> hand_StackPanes;
+    public  static List<StackPane> hand_StackPanes;
     private Random randomGenerator;
     public static Player player;
 
@@ -42,7 +42,7 @@ public class BoardController implements Initializable{
 
 
     @FXML
-    private StackPane stack_hand1, stack_hand2, stack_hand3, stack_hand4, stack_hand5, stack_hand6, stack_hand7, stack_hand8;
+    public  StackPane stack_hand1, stack_hand2, stack_hand3, stack_hand4, stack_hand5, stack_hand6, stack_hand7, stack_hand8;
 
     @FXML
     private StackPane stack_table1, stack_table2, stack_table3, stack_table4, stack_table5, stack_table6, stack_stable7, stack_table8, stack_table9, stack_table10;

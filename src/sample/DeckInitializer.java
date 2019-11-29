@@ -24,7 +24,7 @@ class DeckInitializer implements Serializable{
         tempDeck.add(new Card(11,"Lord of Beasts",9, Type.WIZARD, new ArrayList<>() {{add(new PlusForEachType(new ArrayList<>() {{add(Type.CREATURE);}},9) );add(new DeleteAllMalusesOnType(Type.CREATURE));}}, null, null));
         tempDeck.add(new Card(12,"Collector",7, Type.WIZARD, new ArrayList<>() {{add(new PlusForSameColorCards());}}, null, null));
         tempDeck.add(new Card(13,"Necromant",3, Type.WIZARD, null, null, new ArrayList<>() {{add(new TakeCardOfTypeAtTheEnd(new ArrayList<>() {{add(Type.ARMY); add(Type.LEADER);  add(Type.WIZARD); add(Type.CREATURE);}}));}}));
-        tempDeck.add( new Card(14,"Jester",3, Type.WIZARD, new ArrayList<>() {{add(new BonusOrBonus(new PlusForEachOdd(3, true), new PlusIfAllAreOdd(50, true)));}}, null, null));
+        tempDeck.add( new Card(14,"Jester",3, Type.WIZARD, new ArrayList<>() {{add(new BonusOrBonus(new PlusForEachOdd(3, true,14), new PlusIfAllAreOdd(50, true)));}}, null, null));
         tempDeck.add(new Card(15,"Witch",5, Type.WIZARD, new ArrayList<>() {{add(new PlusForEachType(new ArrayList<>() {{add(Type.EARTH); add(Type.WEATHER); add(Type.FLOOD); add(Type.FIRE);}},5));}}, null, null));
         tempDeck.add(new Card(16,"Archmage",25, Type.WIZARD, null, new ArrayList<>() {{add(new MinusForEachOtherSelftypeOrType(-10,new ArrayList<>() {{add(Type.LEADER);}}, Type.WIZARD, 17));}}, null));
         tempDeck.add(new Card(17,"Princess",2, Type.LEADER, new ArrayList<>() {{add(new PlusForEachTypeOrSelfType(8, 17, new ArrayList<>(){{add(Type.ARMY);add(Type.WIZARD);}}, Type.LEADER));}}, null, null));
@@ -46,7 +46,7 @@ class DeckInitializer implements Serializable{
         tempDeck.add(new Card(31,"Book of Spells",3, Type.ARTIFACT, null, null, new ArrayList<>(){{add(new ChangeColor());}}));
         tempDeck.add(new Card(32,"Fountain of Life",1, Type.FLOOD, new ArrayList<>() {{add(new PlusStrengthOfAnyCardOfType(new ArrayList<>(){{add(Type.WEAPON); add(Type.FLOOD); add(Type.FIRE); add(Type.EARTH); add(Type.WEATHER);}}));}}, null, null));
 
-        tempDeck.add(new Card(33,"Great Flood",32, Type.FLOOD, null, new ArrayList<>() {{add(new DeletesAllTypeExceptCard(new ArrayList<>() {{add(Type.ARMY);add(Type.EARTH);add(Type.FIRE);}},new ArrayList<>() {{add(38);add(45);}}));}}, null));
+        tempDeck.add(new Card(33,"Great Flood",32, Type.FLOOD, null, new ArrayList<>() {{add(new DeletesAllTypeExceptCard(33,new ArrayList<>() {{add(Type.ARMY);add(Type.EARTH);add(Type.FIRE);}},new ArrayList<>() {{add(38);add(45);}}));}}, null));
         tempDeck.add(new Card(34,"Elemental of Water",4, Type.FLOOD, new ArrayList<>() {{add(new PlusForEachSelftypeExceptThis(15,34,Type.FLOOD));}}, null, null));
 
         tempDeck.add(new Card(35,"Swamp",18, Type.FLOOD, null, new ArrayList<>() {{add(new MinusForEachType(-3,new ArrayList<>() {{add(Type.ARMY);add(Type.FIRE);}}));}}, null));
@@ -62,10 +62,10 @@ class DeckInitializer implements Serializable{
         tempDeck.add(new Card(44,"Cave",6, Type.EARTH, new ArrayList<>() {{add(new PlusIfYouHaveAtLeastOneCard(25,new ArrayList<>() {{add(6);add(24);}}));add(new DeleteAllMalusesOnType(Type.WEATHER));}}, null, null));
         tempDeck.add(new Card(45,"Mountain",9, Type.EARTH, new ArrayList<>() {{add(new PlusIfYouHaveAll(50, new ArrayList<>() {{add(51);add(41);}}));add(new DeleteAllMalusesOnType(Type.FLOOD));}}, null, null));
         tempDeck.add(new Card(46,"Forest",7, Type.EARTH, new ArrayList<>() {{add(new PlusForEachTypeAndForEachCard(12,new ArrayList<>() {{add(Type.CREATURE);}}, new ArrayList<>() {{add(25);}}));}}, null, null));
-        tempDeck.add(new Card(47,"Blizzard",30, Type.WEATHER, null, new ArrayList<>() {{add(new DeletesAllType(new ArrayList<>() {{add(Type.FLOOD);}}));add( new MinusForEachType(-5,new ArrayList<>() {{add(Type.ARMY);add(Type.LEADER);add(Type.CREATURE); add(Type.FIRE);}}));}}, null));
+        tempDeck.add(new Card(47,"Blizzard",30, Type.WEATHER, null, new ArrayList<>() {{add(new DeletesAllType(47,new ArrayList<>() {{add(Type.FLOOD);}}));add( new MinusForEachType(-5,new ArrayList<>() {{add(Type.ARMY);add(Type.LEADER);add(Type.CREATURE); add(Type.FIRE);}}));}}, null));
         tempDeck.add(new Card(48,"Elemental of Air",4, Type.WEATHER, new ArrayList<>() {{add(new PlusForEachSelftypeExceptThis(15,48,Type.WEATHER));}}, null, null));
         tempDeck.add(new Card(49,"Tornado",13, Type.WEATHER, new ArrayList<>() {{add(new PlusIfYouHaveCardAndAtLeastOneFrom(40, new ArrayList<>() {{add(47);add(33);}}, 50));}}, null, null));
-        tempDeck.add(new Card(50,"Storm",8, Type.WEATHER, new ArrayList<>() {{add(new PlusForEachType(new ArrayList<>() {{add(Type.FLOOD);}},10));}}, new ArrayList<>() {{add(new DeletesAllTypeExceptCard(new ArrayList<>() {{add(Type.FIRE);}},new ArrayList<>() {{add(38);}}));}}, null));
+        tempDeck.add(new Card(50,"Storm",8, Type.WEATHER, new ArrayList<>() {{add(new PlusForEachType(new ArrayList<>() {{add(Type.FLOOD);}},10));}}, new ArrayList<>() {{add(new DeletesAllTypeExceptCard(50,new ArrayList<>() {{add(Type.FIRE);}},new ArrayList<>() {{add(38);}}));}}, null));
         tempDeck.add(new Card(51,"Smoke",27, Type.WEATHER, null, new ArrayList<>() {{add(new CardIsDeletedIfYouDontHaveAtLeastOneType(51,new ArrayList<>(){{add(Type.FIRE);}}));}}, null));
         tempDeck.add(new Card(52,"Skinchanger",0, Type.WILD, null, null, new ArrayList<>() {{add(new CopyNameAndType(new ArrayList<>() {{add(Type.ARTIFACT); add(Type.LEADER); add(Type.WIZARD); add(Type.WEAPON); add(Type.CREATURE);}}));}}));
         tempDeck.add(new Card(53,"Doppleganger",0, Type.WILD, null, null, new ArrayList<>() {{add(new CopyNameColorStrengthMalusFromHand());}}));

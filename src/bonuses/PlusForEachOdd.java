@@ -7,9 +7,11 @@ public class PlusForEachOdd extends Bonus  {
     public String text;
     public int how_much;
     private boolean odd;
+    private int thiscardid;
 
-    public PlusForEachOdd(int how_much, boolean odd) {
+    public PlusForEachOdd(int how_much, boolean odd, int thiscardid) {
         this.odd = odd;
+        this.thiscardid = thiscardid;
         this.how_much = how_much;
         if(odd) {
             this.text = "+" + how_much + " for each card in your hand with odd strength";
@@ -28,12 +30,12 @@ public class PlusForEachOdd extends Bonus  {
         int sum = 0;
         for(Card c:BoardController.player.hand){
             if(odd){
-                if((c.strength % 2) != 0){
+                if(((c.strength % 2) != 0) && c.id != thiscardid){
                     sum += how_much;
                 }
             }
             else{
-                if((c.strength % 2) == 0){
+                if(((c.strength % 2) == 0) && c.id != thiscardid){
                     sum += how_much;
                 }
             }

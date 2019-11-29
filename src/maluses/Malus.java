@@ -8,7 +8,10 @@ import sample.Type;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
+
 public class Malus implements ScoringInterface , Serializable {
+
     public int priority = 3;
     public ArrayList<Type> types;
     public ArrayList<Card> cards;

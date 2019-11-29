@@ -26,9 +26,11 @@ public class DeleteSelftypeFromAllMaluses extends Bonus  {
     @Override
     public int count() {
         for(Card c: BoardController.player.hand){
-            if(!c.maluses.isEmpty()){
+            if(c.maluses != null && !c.maluses.isEmpty()){
                 for(Malus m: c.maluses){
-                    m.types.remove(deleteThisTypeFromMaluses);
+                    if(m.types.contains(deleteThisTypeFromMaluses)) {
+                        m.types.remove(deleteThisTypeFromMaluses);
+                    }
                 }
             }
 

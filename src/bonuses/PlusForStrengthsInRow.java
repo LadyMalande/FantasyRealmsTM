@@ -3,6 +3,8 @@ package bonuses;
 import sample.BoardController;
 import sample.Card;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class PlusForStrengthsInRow extends Bonus  {
@@ -22,15 +24,22 @@ public class PlusForStrengthsInRow extends Bonus  {
         BoardController.player.hand.sort(Comparator.comparingInt((Card c) -> c.strength));
         int howMuchInARow = 0;
         int laststrength = -100;
+        ArrayList<Integer> allrows = new ArrayList<>();
         for(Card c:BoardController.player.hand ){
             if(laststrength + 1 == c.strength){
                 howMuchInARow++;
             }
+            else if(laststrength == c.strength){
+                // nothing happens
+            }
             else if(laststrength != c.strength){
+                allrows.add(howMuchInARow);
                 howMuchInARow = 0;
             }
+            laststrength = c.strength;
         }
-        switch (howMuchInARow){
+        allrows.add(howMuchInARow);
+        switch (Collections.max(allrows)){
             case 3:return 10;
             case 4: return 40;
             case 5: return 60;

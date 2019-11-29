@@ -2,9 +2,12 @@ package sample;
 
 import bonuses.Bonus;
 import interactive.Interactive;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import maluses.Malus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player {
     public ArrayList<Card> hand;
@@ -16,27 +19,49 @@ public class Player {
     }
 
     Integer evaluateHand(){
+        HashMap<Type, Malus> types_maluses = new HashMap<>();
         int sum = 0;
         ArrayList<Card> copyDeckToMakeChanges = new ArrayList<>();
         copyDeckToMakeChanges.addAll(hand);
         for(int i = MIN_PRIORITY; i <= MAX_PRIORITY;i++ ){
             for(Card c: copyDeckToMakeChanges){
                 if(hand.contains(c)){
-                    if(c.giveMinPriority() == i){
                         if(c.interactives != null)
                             for(Interactive in: c.interactives){
-                                in.getText();
+                                if(in.getPriority() == i) {
+                                    in.getText();
+                                    StackPane sp = BoardController.hand_StackPanes.get(copyDeckToMakeChanges.indexOf(c));
+                                    sp.getChildren().add(new Label("Not deleted"));
+                                }
                             }
                         if(c.bonuses != null)
                             for(Bonus b: c.bonuses){
-                                sum += b.count();
+                                if(b.getPriority() == i) {
+                                    sum += b.count();
+                                    StackPane sp = BoardController.hand_StackPanes.get(copyDeckToMakeChanges.indexOf(c));
+                                    sp.getChildren().add(new Label(Integer.toString(b.count())));
+                                }
                             }
                         if(c.maluses != null)
                             for(Malus m: c.maluses){
-                                sum += m.count();
+                                if(m.getPriority() == 3){
+                                    types_maluses.put(c.type, m);
+                                    System.out.println("This Malus still exists: " + c.name + " " + c.maluses);
+                                }
+                                else if(m.getPriority() == i) {
+
+                                    sum += m.count();
+                                    StackPane sp = BoardController.hand_StackPanes.get(copyDeckToMakeChanges.indexOf(c));
+                                    sp.getChildren().add(new Label(Integer.toString(m.count())));
+                                }
                             }
 
-                    }
+
+                }
+            }
+            if(i == 3){
+                for(Malus m: Sorts.topologicalSort(types_maluses)){
+                    sum += m.count();
                 }
             }
         }

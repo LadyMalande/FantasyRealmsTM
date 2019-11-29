@@ -19,7 +19,7 @@ public class MinusForEachOtherSelftypeOrType extends Malus {
         if(types == null){
             this.text =  howMuch + " for any other " + BigSwitches.switchTypeForName(selftype);
         }else {
-            this.text = howMuch + " for each " + giveListOfTypesWithSeparator(types, ", ") + "or any other " + BigSwitches.switchTypeForName(selftype);
+            this.text = howMuch + " for each " + giveListOfTypesWithSeparator(types, ", ") + " or any other " + BigSwitches.switchTypeForName(selftype);
         }
         this.howMuch = howMuch;
         this.types = types;

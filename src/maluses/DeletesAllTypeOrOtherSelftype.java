@@ -14,7 +14,7 @@ public class DeletesAllTypeOrOtherSelftype  extends Malus{
     private int thiscardid;
 
     public DeletesAllTypeOrOtherSelftype(ArrayList<Type> types, Type type, int thiscardid) {
-        this.text = "Deletes all " + giveListOfTypesWithSeparator(types, ", ") + " or other " + BigSwitches.switchTypeForName(selftype);
+        this.text = "Deletes all " + giveListOfTypesWithSeparator(types, ", ") + " or other " + BigSwitches.switchTypeForName(type);
         this.types = types;
         this.selftype = type;
         this.thiscardid = thiscardid;
