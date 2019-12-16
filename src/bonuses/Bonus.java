@@ -2,6 +2,7 @@ package bonuses;
 
 import javafx.collections.ArrayChangeListener;
 import sample.BigSwitches;
+import sample.Card;
 import sample.Type;
 
 import java.io.Serializable;
@@ -18,7 +19,7 @@ public class Bonus implements ScoringInterface, Serializable {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         return 0;
     }
     String giveListOfCardsWithSeparator(ArrayList<Integer> cards, String separator) {

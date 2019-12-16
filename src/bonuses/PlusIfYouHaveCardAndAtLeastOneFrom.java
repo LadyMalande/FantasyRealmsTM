@@ -25,7 +25,7 @@ public class PlusIfYouHaveCardAndAtLeastOneFrom extends Bonus{
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         boolean hascard = false;
         boolean hasoneofthese = false;
         for(Card c: BoardController.player.hand){

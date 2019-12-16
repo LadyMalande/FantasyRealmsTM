@@ -20,9 +20,9 @@ public class PlusForStrengthsInRow extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         BoardController.player.hand.sort(Comparator.comparingInt((Card c) -> c.strength));
-        int howMuchInARow = 0;
+        int howMuchInARow = 1;
         int laststrength = -100;
         ArrayList<Integer> allrows = new ArrayList<>();
         for(Card c:BoardController.player.hand ){
@@ -32,16 +32,16 @@ public class PlusForStrengthsInRow extends Bonus  {
             else if(laststrength == c.strength){
                 // nothing happens
             }
-            else if(laststrength != c.strength){
+            else{
                 allrows.add(howMuchInARow);
-                howMuchInARow = 0;
+                howMuchInARow = 1;
             }
             laststrength = c.strength;
         }
         allrows.add(howMuchInARow);
         switch (Collections.max(allrows)){
             case 3:return 10;
-            case 4: return 40;
+            case 4: return 30;
             case 5: return 60;
             case 6: return 100;
             case 7: return 150;

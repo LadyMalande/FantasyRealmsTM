@@ -34,7 +34,7 @@ public class PlusIfYouHaveAtLeastOneCard extends Bonus {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         for(Card c: BoardController.player.hand){
             if(idsOfCardsNeeded.contains(c.id)){
                 return how_much;

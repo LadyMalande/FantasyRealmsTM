@@ -21,7 +21,7 @@ public class PlusIfTypesAreUnique extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         ArrayList<Type> types = new ArrayList<Type>();
         for(Card c: BoardController.player.hand){
             if(types.contains(c.type)){

@@ -47,7 +47,7 @@ public class PlusForEachTypeAndForEachCard extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         int total = 0;
         for(Card c: BoardController.player.hand){
                 if (types.contains(c.type)) {

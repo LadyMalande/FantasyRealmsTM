@@ -6,6 +6,8 @@ import sample.BoardController;
 import sample.Card;
 import sample.Type;
 
+import java.util.ArrayList;
+
 public class DeleteSelftypeFromAllMaluses extends Bonus  {
     public int priority = 1;
     private Type deleteThisTypeFromMaluses;
@@ -24,11 +26,11 @@ public class DeleteSelftypeFromAllMaluses extends Bonus  {
     @Override
     public int getPriority(){ return this.priority; }
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         for(Card c: BoardController.player.hand){
             if(c.maluses != null && !c.maluses.isEmpty()){
                 for(Malus m: c.maluses){
-                    if(m.types.contains(deleteThisTypeFromMaluses)) {
+                    if(m.types != null && m.types.contains(deleteThisTypeFromMaluses)) {
                         m.types.remove(deleteThisTypeFromMaluses);
                     }
                 }

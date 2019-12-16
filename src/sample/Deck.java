@@ -21,6 +21,5 @@ public class Deck implements Serializable {
                 maxStrength = c.strength;
             }
         }
-        System.out.println(deck.isEmpty()) ;
     }
 }

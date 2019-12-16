@@ -4,6 +4,7 @@ import sample.BoardController;
 import sample.Card;
 import sample.Type;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlusForSameColorCards extends Bonus  {
@@ -19,7 +20,7 @@ public class PlusForSameColorCards extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         int total = 0;
         HashMap<Type, Integer> table = new HashMap<>();
         for(Card c: BoardController.player.hand){

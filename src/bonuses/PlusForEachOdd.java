@@ -3,6 +3,8 @@ package bonuses;
 import sample.BoardController;
 import sample.Card;
 
+import java.util.ArrayList;
+
 public class PlusForEachOdd extends Bonus  {
     public String text;
     public int how_much;
@@ -26,7 +28,7 @@ public class PlusForEachOdd extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         int sum = 0;
         for(Card c:BoardController.player.hand){
             if(odd){

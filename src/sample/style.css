@@ -113,7 +113,7 @@
 }
 
 .button_card_in_hand:hover {
-    -fx-background-color: rgba(255, 255, 255, .3);
+    -fx-background-color: rgba(255, 255, 200, .3);
 }
 
 
@@ -129,7 +129,7 @@
 }
 
 #vistaHolder {
-    -fx-background-color: red;
+    -fx-background-color: FFAAAA;
 }
 
 .menu_button {

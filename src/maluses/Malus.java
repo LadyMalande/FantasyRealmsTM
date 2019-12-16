@@ -24,7 +24,7 @@ public class Malus implements ScoringInterface , Serializable {
         return this.priority;
     }
     @Override
-    public int count(){
+    public int count(ArrayList<Card> hand){
         return 0;
     }
 

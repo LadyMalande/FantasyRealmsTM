@@ -25,7 +25,7 @@ public class PlusIfYouHaveAllCardsAndAtLeastOneType extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
 
         int hascards = 0;
         boolean hasoneofthese = false;

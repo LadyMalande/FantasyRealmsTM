@@ -1,5 +1,9 @@
 package bonuses;
 
+import sample.Card;
+
+import java.util.ArrayList;
+
 public class BonusOrBonus extends Bonus {
 
     private String text;
@@ -15,8 +19,8 @@ public class BonusOrBonus extends Bonus {
 
 
     @Override
-    public int count() {
-        return Math.max(b1.count(), b2.count());
+    public int count(ArrayList<Card> hand) {
+        return Math.max(b1.count(hand), b2.count(hand));
     }
 
     @Override

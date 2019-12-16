@@ -5,6 +5,8 @@ import sample.BoardController;
 import sample.Card;
 import sample.Type;
 
+import java.util.ArrayList;
+
 public class PlusSumOfStrengthsType extends Bonus  {
     public String text;
     public Type type;
@@ -20,7 +22,7 @@ public class PlusSumOfStrengthsType extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         int total = 0;
         for(Card c: BoardController.player.hand){
             if(type.equals(c.type)){

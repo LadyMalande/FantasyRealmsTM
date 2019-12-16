@@ -26,7 +26,7 @@ public class DeletesAllTypeOrOtherSelftype  extends Malus{
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         ArrayList<Card> copyDeckToMakeChanges = new ArrayList<>();
         copyDeckToMakeChanges.addAll(BoardController.player.hand);
         for(Card c: copyDeckToMakeChanges){

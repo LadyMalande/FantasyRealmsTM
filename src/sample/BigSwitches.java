@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.layout.StackPane;
+
 import java.util.ArrayList;
 
 public class BigSwitches {
@@ -186,4 +188,26 @@ public class BigSwitches {
             default: return "FAIL";
         }
     }
+    public static Type switchNameForType(String name){
+        if (name == null) {
+            System.out.println("Null pointer v switchNameForType");
+            return null;
+
+        }
+        switch(name){
+            case "Army": return Type.ARMY ;
+            case "Creature": return Type.CREATURE;
+            case "Leader":  return Type.LEADER;
+            case "Wizard": return Type.WIZARD;
+            case "Flood": return Type.FLOOD;
+            case "Earth": return Type.EARTH;
+            case "Fire": return Type.FIRE;
+            case "Weapon": return Type.WEAPON;
+            case "Weather": return Type.WEATHER;
+            case "Artifact": return Type.ARTIFACT;
+            case "Wild": return Type.WILD;
+            default: return null;
+        }
+    }
+
 }

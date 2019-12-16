@@ -22,7 +22,7 @@ public class PlusIfYouHaveAll extends Bonus{
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         int completed = 0;
         for(int id: idsOfCardsNeeded){
             for(Card card: BoardController.player.hand){

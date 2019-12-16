@@ -11,9 +11,8 @@ import java.util.HashMap;
 
 public class Player {
     public ArrayList<Card> hand;
-    private static int MAX_PRIORITY = 5;
-    private static int MIN_PRIORITY = 1;
-     Player(ArrayList<Card> your_hand){
+
+    Player(ArrayList<Card> your_hand){
         hand = your_hand;
 
     }
@@ -21,15 +20,16 @@ public class Player {
     Integer evaluateHand(){
         HashMap<Type, Malus> types_maluses = new HashMap<>();
         int sum = 0;
-        ArrayList<Card> copyDeckToMakeChanges = new ArrayList<>();
-        copyDeckToMakeChanges.addAll(hand);
-        for(int i = MIN_PRIORITY; i <= MAX_PRIORITY;i++ ){
+        ArrayList<Card> copyDeckToMakeChanges = new ArrayList<>(hand);
+        int MAX_PRIORITY = 5;
+        int MIN_PRIORITY = 0;
+        for(int i = MIN_PRIORITY; i <= MAX_PRIORITY; i++ ){
             for(Card c: copyDeckToMakeChanges){
                 if(hand.contains(c)){
                         if(c.interactives != null)
                             for(Interactive in: c.interactives){
                                 if(in.getPriority() == i) {
-                                    in.getText();
+                                    in.askPlayer();
                                     StackPane sp = BoardController.hand_StackPanes.get(copyDeckToMakeChanges.indexOf(c));
                                     sp.getChildren().add(new Label("Not deleted"));
                                 }
@@ -37,22 +37,21 @@ public class Player {
                         if(c.bonuses != null)
                             for(Bonus b: c.bonuses){
                                 if(b.getPriority() == i) {
-                                    sum += b.count();
+                                    sum += b.count(hand);
                                     StackPane sp = BoardController.hand_StackPanes.get(copyDeckToMakeChanges.indexOf(c));
-                                    sp.getChildren().add(new Label(Integer.toString(b.count())));
+                                    sp.getChildren().add(new Label(Integer.toString(b.count(hand))));
                                 }
                             }
                         if(c.maluses != null)
                             for(Malus m: c.maluses){
                                 if(m.getPriority() == 3){
                                     types_maluses.put(c.type, m);
-                                    System.out.println("This Malus still exists: " + c.name + " " + c.maluses);
                                 }
                                 else if(m.getPriority() == i) {
 
-                                    sum += m.count();
+                                    sum += m.count(hand);
                                     StackPane sp = BoardController.hand_StackPanes.get(copyDeckToMakeChanges.indexOf(c));
-                                    sp.getChildren().add(new Label(Integer.toString(m.count())));
+                                    sp.getChildren().add(new Label(Integer.toString(m.count(hand))));
                                 }
                             }
 
@@ -61,7 +60,7 @@ public class Player {
             }
             if(i == 3){
                 for(Malus m: Sorts.topologicalSort(types_maluses)){
-                    sum += m.count();
+                    sum += m.count(hand);
                 }
             }
         }

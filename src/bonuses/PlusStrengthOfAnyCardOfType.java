@@ -6,6 +6,7 @@ import sample.Card;
 import sample.Type;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlusStrengthOfAnyCardOfType extends Bonus  {
@@ -32,7 +33,7 @@ public class PlusStrengthOfAnyCardOfType extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         int max_on_hand = 0;
         for(Card c: BoardController.player.hand){
             if(types.contains(c.type) && c.strength>max_on_hand){

@@ -4,6 +4,7 @@ import sample.BoardController;
 import sample.Card;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class DeleteAllMaluses extends Bonus implements Serializable {
     public int priority = 1;
@@ -17,8 +18,8 @@ public class DeleteAllMaluses extends Bonus implements Serializable {
     public int getPriority(){ return this.priority; }
 
     @Override
-    public int count() {
-        for(Card c: BoardController.player.hand){
+    public int count(ArrayList<Card> hand) {
+        for(Card c: hand){
             if(c.maluses != null) {
                 c.maluses = null;
             }

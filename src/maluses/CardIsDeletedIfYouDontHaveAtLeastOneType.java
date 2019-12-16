@@ -26,7 +26,7 @@ public class CardIsDeletedIfYouDontHaveAtLeastOneType extends Malus {
     @Override
     public int getPriority(){ return this.priority; }
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         boolean delete = true;
         for(Card c: BoardController.player.hand){
             if(types.contains(c.type)){

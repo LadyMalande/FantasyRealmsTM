@@ -5,6 +5,8 @@ import sample.BoardController;
 import sample.Card;
 import sample.Type;
 
+import java.util.ArrayList;
+
 public class PlusForEachSelftypeExceptThis extends Bonus  {
     public int how_much;
     public String text;
@@ -24,11 +26,21 @@ public class PlusForEachSelftypeExceptThis extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         int sum = 0;
-        for(Card c: BoardController.player.hand){
-            if(c.type.equals(type) && c.id != thiscardid){
-                sum += how_much;
+        if(BoardController.player.hand.stream().filter(card -> card.id == thiscardid).count() > 1 ){
+            for(Card c: BoardController.player.hand){
+                if(c.type.equals(type)){
+                    sum += how_much;
+                }
+            }
+            sum -= how_much;
+        }
+        else {
+            for (Card c : BoardController.player.hand) {
+                if (c.type.equals(type) && c.id != thiscardid) {
+                    sum += how_much;
+                }
             }
         }
         return sum;

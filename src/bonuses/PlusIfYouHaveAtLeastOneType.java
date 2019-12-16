@@ -35,7 +35,7 @@ public class PlusIfYouHaveAtLeastOneType extends Bonus  {
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         for(Card c: BoardController.player.hand){
             if(types.contains(c.type)){
                 return how_much;

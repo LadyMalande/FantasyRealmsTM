@@ -23,7 +23,7 @@ public class DeletesAllType extends Malus{
     }
 
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
         if(!BoardController.player.hand.stream().filter(card -> card.id == this.thiscardid).findAny().isEmpty()) {
             ArrayList<Card> copyDeckToMakeChanges = new ArrayList<>();
             copyDeckToMakeChanges.addAll(BoardController.player.hand);

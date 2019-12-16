@@ -25,7 +25,7 @@ public class MinusForEachType extends Malus {
     @Override
     public int getPriority(){ return this.priority; }
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
 
         int total = 0;
         for(Card c: BoardController.player.hand){

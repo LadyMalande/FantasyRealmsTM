@@ -8,32 +8,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="VBox_Background" fx:id="rootVBox" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MyController_Menu">
+<VBox id="VBox_Background" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MenuController">
 
-   <children>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@graphics/The_Witcher_Driad_1.jpg" />
-               </image></ImageView>
-            <Label text="Fantasy Realms TM">
-               <font>
-                  <Font name="Century Gothic Bold" size="24.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@graphics/The_Witcher_Geralt_5.jpg" />
-               </image></ImageView>
-         </children>
-      </HBox>
-      <VBox id="VBox_MENU" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 20;" spacing="20">
-         <children>
-            <Button styleClass="menu_button" mnemonicParsing="false" onAction="#start_game" text="Play" />
-            <Button styleClass="menu_button" mnemonicParsing="false" onAction="#show_rules" text="Rules" />
-            <Button styleClass="menu_button" mnemonicParsing="false" onAction="#exit" text="Exit" />
-         </children>
-      </VBox>
-   </children>
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20">
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@graphics/The_Witcher_Driad_1.jpg"/>
+      </ImageView>
+      <Label text="Fantasy Realms TM">
+         <font>
+            <Font name="Century Gothic Bold" size="24.0"/>
+         </font>
+      </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@graphics/The_Witcher_Geralt_5.jpg"/>
+      </ImageView>
+   </HBox>
+   <VBox id="VBox_MENU" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 20;" spacing="20">
+      <Button styleClass="menu_button" mnemonicParsing="false" onAction="#start_game" text="Play"/>
+      <Button styleClass="menu_button" mnemonicParsing="false" onAction="#show_rules" text="Rules"/>
+      <Button styleClass="menu_button" mnemonicParsing="false" onAction="#exit" text="Exit"/>
+   </VBox>
 </VBox>

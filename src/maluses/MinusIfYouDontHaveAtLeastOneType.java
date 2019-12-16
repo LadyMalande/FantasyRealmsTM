@@ -25,7 +25,7 @@ public class MinusIfYouDontHaveAtLeastOneType extends Malus {
     @Override
     public int getPriority(){ return this.priority; }
     @Override
-    public int count() {
+    public int count(ArrayList<Card> hand) {
 
         for(Card c: BoardController.player.hand){
             if(types.contains(c.type)){
