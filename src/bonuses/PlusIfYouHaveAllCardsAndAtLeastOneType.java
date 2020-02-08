@@ -7,6 +7,7 @@ import sample.Type;
 import java.util.ArrayList;
 
 public class PlusIfYouHaveAllCardsAndAtLeastOneType extends Bonus  {
+    public long serialVersionUID = 20;
     public String text;
     private int howMuch;
     private ArrayList<Integer> idCardsNeeded;

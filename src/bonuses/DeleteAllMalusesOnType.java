@@ -8,6 +8,7 @@ import sample.Type;
 import java.util.ArrayList;
 
 public class DeleteAllMalusesOnType extends Bonus  {
+    public long serialVersionUID = 4;
     public int priority = 1;
     public String text;
     private Type deleteMalusesOnThisType;

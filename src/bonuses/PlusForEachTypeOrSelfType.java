@@ -8,6 +8,7 @@ import sample.Type;
 import java.util.ArrayList;
 
 public class PlusForEachTypeOrSelfType extends Bonus  {
+    public long serialVersionUID = 13;
     public String text;
     public int howMuch;
     public ArrayList<Type> types;

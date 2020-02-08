@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlusForSameColorCards extends Bonus  {
+    public long serialVersionUID = 14;
     public String text;
 
     public PlusForSameColorCards() {

@@ -21,6 +21,7 @@ import java.io.*;
 import java.net.*;
 
 
+
 public class Client implements Runnable
 {
     final static int ServerPort = 1234;
@@ -28,9 +29,13 @@ public class Client implements Runnable
     InetAddress ip;
     String name;
     int maxPlayers;
-    public Client(String name, int maxPlayers){
+    ObjectInputStream dis;
+    ObjectOutputStream dos;
+    BoardController board;
+    public Client(String name, int maxPlayers, BoardController board){
         this.name = name;
         this.maxPlayers = maxPlayers;
+        this.board = board;
         System.out.println("In client constructor");
     }
 @Override
@@ -42,8 +47,8 @@ public class Client implements Runnable
             // establish the connection
             Socket s = new Socket(ip, ServerPort);
             // obtaining input and out streams
-            ObjectOutputStream dos = new ObjectOutputStream(s.getOutputStream());
-            ObjectInputStream dis = new ObjectInputStream(s.getInputStream());
+            dos = new ObjectOutputStream(s.getOutputStream());
+            dis = new ObjectInputStream(s.getInputStream());
             System.out.println("after client dis,dos,ois init");
 
             // sendMessage thread
@@ -70,27 +75,64 @@ public class Client implements Runnable
             Thread readCards = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    int receivedCount = 0;
                     while (true) {
                         try {
                             String received = dis.readUTF();
-                            if (received.equals("CARD_TO_HAND")) {
+                            //System.out.println("Received string from Server: " + received);
+                            if (received.startsWith("INIT_CARD_TO_HAND")) {
                                 // read the message sent to this client
-                                try {
-                                    Card card = (Card) dis.readObject();
-                                    System.out.println(card.name);
-                                    BoardController.player.hand.add(card);
-                                } catch (EOFException eof) {
-                                    break;
-                                }
+                                    //System.out.println("CARD_TO_HAND command:");
+                                    String[] message = received.split("#");
+                                    SimplifiedCard card = new SimplifiedCard(Integer.parseInt(message[1]),message[2],
+                                            Integer.parseInt(message[3]),message[4],message[5]);
+                                    //System.out.println("Card name received: " + card.name);
+                                    if(card == null){
+                                        System.out.println("CARD IS NULL!!");
+                                    }
+                                    BoardController.player.simhand.add(card);
+                                    receivedCount++;
+                                    //System.out.println("Added card to hand. The end of CARD_TO_HAND command");
 
                             }
-                        }catch (EOFException eof){
-                            break;
-                        } catch (IOException | ClassNotFoundException e) {
+                            if (received.startsWith("CARD_TO_HAND")) {
 
+                                String[] message = received.split("#");
+                                SimplifiedCard card = new SimplifiedCard(Integer.parseInt(message[1]),message[2],
+                                        Integer.parseInt(message[3]),message[4],message[5]);
+
+                                if(card == null){
+                                    System.out.println("CARD IS NULL!!");
+                                }
+                                BoardController.player.simhand.add(card);
+                                board.putCardToHand(card);
+                            }
+
+                            if (received.startsWith("CARD_TO_TABLE")) {
+                                String[] message = received.split("#");
+                                SimplifiedCard card = new SimplifiedCard(Integer.parseInt(message[1]),message[2],
+                                        Integer.parseInt(message[3]),message[4],message[5]);
+                                board.putCardOnTable(card);
+                            }
+
+                            if (received.startsWith("REMOVE_CARD_FROM_TABLE")) {
+                                String[] message = received.split("#");
+                                int id = Integer.parseInt(message[1]);
+                                board.removeCardFromTable(id);
+                            }
+
+                        } catch (EOFException eof){
+                            break;
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        BoardController.gotAllCards = true;
+                        System.out.println("Got all cards");
+                        if(receivedCount == 7){
+                            System.out.println("Got them all 7. Starting init method for hand images.");
+                            BoardController.gotAllCards = true;
+                            //break;
+                        }
+
 
                     }
                 }
@@ -107,6 +149,14 @@ public class Client implements Runnable
 }
 
     }
+public void sendMessage(String msg){
+    try {
+        dos.writeUTF(msg);
+        dos.flush();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 
+}
 
 }

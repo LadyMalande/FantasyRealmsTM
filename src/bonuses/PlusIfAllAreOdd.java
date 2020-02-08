@@ -6,6 +6,7 @@ import sample.Card;
 import java.util.ArrayList;
 
 public class PlusIfAllAreOdd extends Bonus  {
+    public long serialVersionUID = 16;
     public String text;
     public int how_much;
 

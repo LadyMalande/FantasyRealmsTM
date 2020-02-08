@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlusStrengthOfAnyCardOfType extends Bonus  {
+    public long serialVersionUID = 24;
     public String text;
     public List<Type> types;
 

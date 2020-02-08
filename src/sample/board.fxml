@@ -3,12 +3,12 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?scenebuilder-stylesheet style.css?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.StackPane?>
 
-<VBox spacing="20" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@style.css" fx:controller="sample.BoardController" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BoardController">
       <HBox spacing="20">
          <Label layoutX="14.0" layoutY="14.0" text="Fantasy Realms TM">
          <font>
@@ -17,74 +17,83 @@
          </Label>
          <Label layoutX="219.0" layoutY="20.0" text="x players in-game" />
          <Button layoutX="496.0" layoutY="222.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="71.0" text="End round" />
-          <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="71.0" onAction="#evaluateHand" text="Evaluate" />
-          <Label fx:id="label_score" text="Score"></Label>
+          <Button mnemonicParsing="false" onAction="#evaluateHand" prefHeight="50.0" prefWidth="71.0" text="Evaluate" />
+          <Label fx:id="label_score" text="Score" />
       </HBox>
-
-      <HBox spacing="20" alignment="CENTER">
-          <StackPane styleClass="hand_StackPane"  fx:id="stack_table1">
-            <Button styleClass="button_card_on_board" onAction="#getCardFromDeck" mnemonicParsing="false" />
+   <HBox prefHeight="420.0" prefWidth="1000.0">
+      <children>
+         <VBox prefHeight="420.0" prefWidth="900.0">
+            <children>
+            
+                        <HBox alignment="CENTER" maxWidth="900" spacing="20" styleClass="board_HBox">
+                      <StackPane fx:id="stack_table1" styleClass="hand_StackPane">
+                        <Button mnemonicParsing="false" onAction="#getCardFromDeck" styleClass="button_card_on_board" />
+                      </StackPane>
+                      <StackPane fx:id="stack_table2" styleClass="hand_StackPane">
+                        <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+                      <StackPane fx:id="stack_table3" styleClass="hand_StackPane">
+                        <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+                      <StackPane fx:id="stack_table4" styleClass="hand_StackPane">
+                        <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+                      <StackPane fx:id="stack_table5" styleClass="hand_StackPane">
+                        <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+            
+                        </HBox>
+                  <HBox alignment="CENTER" maxWidth="900" spacing="20" styleClass="board_HBox">
+                      <StackPane fx:id="stack_table6" styleClass="hand_StackPane">
+                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+                      <StackPane fx:id="stack_table7" styleClass="hand_StackPane">
+                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+                      <StackPane fx:id="stack_table8" styleClass="hand_StackPane">
+                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+                      <StackPane fx:id="stack_table9" styleClass="hand_StackPane">
+                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+                      <StackPane fx:id="stack_table90" styleClass="hand_StackPane">
+                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
+                      </StackPane>
+            
+            
+                  </HBox>
+            </children>
+         </VBox>
+          <StackPane fx:id="stack_deck" styleClass="hand_StackPane">
+              <Button fx:id="deck_Button" mnemonicParsing="false" styleClass="button_card_on_board" />
           </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table2">
-            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table3">
-            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table4">
-            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table5">
-            <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-
-      </HBox>
-      <HBox spacing="20" alignment="CENTER">
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table6">
-              <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table7">
-              <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table8">
-              <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table9">
-              <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_table90">
-              <Button styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-          <StackPane styleClass="hand_StackPane" fx:id="stack_deck">
-              <Button fx:id="deck_Button" styleClass="button_card_on_board" mnemonicParsing="false" />
-          </StackPane>
-
-      </HBox>
+      </children>
+   </HBox>
       <HBox fx:id="hand_HBox" spacing="10">
 
-               <StackPane styleClass="hand_StackPane"  fx:id="stack_hand1">
-
+               <StackPane fx:id="stack_hand1" styleClass="hand_StackPane">
+                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
-               <StackPane styleClass="hand_StackPane" fx:id="stack_hand2">
-
+               <StackPane fx:id="stack_hand2" styleClass="hand_StackPane">
+                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
-               <StackPane styleClass="hand_StackPane" fx:id="stack_hand3">
-
+               <StackPane fx:id="stack_hand3" styleClass="hand_StackPane">
+                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
-               <StackPane styleClass="hand_StackPane" fx:id="stack_hand4">
-
+               <StackPane fx:id="stack_hand4" styleClass="hand_StackPane">
+                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
-               <StackPane styleClass="hand_StackPane" fx:id="stack_hand5">
-
+               <StackPane fx:id="stack_hand5" styleClass="hand_StackPane">
+                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
-               <StackPane styleClass="hand_StackPane" fx:id="stack_hand6">
-
+               <StackPane fx:id="stack_hand6" styleClass="hand_StackPane">
+                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
-               <StackPane styleClass="hand_StackPane" fx:id="stack_hand7">
-
+               <StackPane fx:id="stack_hand7" styleClass="hand_StackPane">
+                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
-               <StackPane styleClass="hand_StackPane" fx:id="stack_hand8">
-
+               <StackPane fx:id="stack_hand8" styleClass="hand_StackPane">
+                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
 
       </HBox>

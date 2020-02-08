@@ -8,6 +8,7 @@ import sample.Type;
 import java.util.ArrayList;
 
 public class PlusForEachTypeIfYouHaveCard extends Bonus  {
+    public long serialVersionUID = 12;
     public String text;
     public int howMuch;
     public ArrayList<Type> types;

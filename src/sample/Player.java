@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player {
+    public ArrayList<SimplifiedCard> simhand;
     public ArrayList<Card> hand;
 
-    Player(ArrayList<Card> your_hand){
-        hand = your_hand;
-
+    Player(ArrayList<SimplifiedCard> your_hand){
+        simhand = your_hand;
+        System.out.println("Player created.");
     }
-
+/*
     Integer evaluateHand(){
         HashMap<Type, Malus> types_maluses = new HashMap<>();
         int sum = 0;
@@ -69,4 +70,6 @@ public class Player {
         }
         return sum;
     }
+
+ */
 }

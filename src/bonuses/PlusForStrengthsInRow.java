@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class PlusForStrengthsInRow extends Bonus  {
+    public long serialVersionUID = 15;
     public String text;
 
     public PlusForStrengthsInRow() {

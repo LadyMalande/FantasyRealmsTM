@@ -8,6 +8,7 @@ import sample.Type;
 import java.util.ArrayList;
 
 public class PlusSumOfStrengthsType extends Bonus  {
+    public long serialVersionUID = 25;
     public String text;
     public Type type;
 

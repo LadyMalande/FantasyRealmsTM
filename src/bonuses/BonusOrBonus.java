@@ -5,7 +5,7 @@ import sample.Card;
 import java.util.ArrayList;
 
 public class BonusOrBonus extends Bonus {
-
+    public long serialVersionUID = 2;
     private String text;
     private Bonus b1;
     private Bonus b2;

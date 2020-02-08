@@ -6,6 +6,7 @@ import sample.Card;
 import java.util.ArrayList;
 
 public class PlusForEachOdd extends Bonus  {
+    public long serialVersionUID = 8;
     public String text;
     public int how_much;
     private boolean odd;

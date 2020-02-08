@@ -10,6 +10,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PlusForEachTypeAndForEachCard extends Bonus  {
+    public long serialVersionUID = 11;
     public String text;
     private int how_Much;
     public ArrayList<Type> types;

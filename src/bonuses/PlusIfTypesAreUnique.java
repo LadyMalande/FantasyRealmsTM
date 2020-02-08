@@ -7,6 +7,7 @@ import sample.Type;
 import java.util.ArrayList;
 
 public class PlusIfTypesAreUnique extends Bonus  {
+    public long serialVersionUID = 17;
     public String text;
     public int howMuch;
 

@@ -191,7 +191,7 @@ public class BigSwitches {
     public static Type switchNameForType(String name){
         if (name == null) {
             System.out.println("Null pointer v switchNameForType");
-            return null;
+            return Type.WILD;
 
         }
         switch(name){
@@ -206,7 +206,7 @@ public class BigSwitches {
             case "Weather": return Type.WEATHER;
             case "Artifact": return Type.ARTIFACT;
             case "Wild": return Type.WILD;
-            default: return null;
+            default: return Type.WILD;
         }
     }
 

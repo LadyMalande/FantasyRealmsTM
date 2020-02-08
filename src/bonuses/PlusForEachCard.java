@@ -8,6 +8,7 @@ import sample.Card;
 import java.util.ArrayList;
 
 public class PlusForEachCard extends Bonus {
+    public long serialVersionUID = 7;
     private int how_much;
     private ArrayList<Integer> idsOfCardsNeeded;
     public String text;

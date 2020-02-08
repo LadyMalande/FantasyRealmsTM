@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Bonus implements ScoringInterface, Serializable {
+    public long serialVersionUID = 1;
     public int priority = 5;
     public String text;
     public String getText(){
