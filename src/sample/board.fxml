@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
@@ -16,87 +17,92 @@
          </font>
          </Label>
          <Label layoutX="219.0" layoutY="20.0" text="x players in-game" />
-         <Button layoutX="496.0" layoutY="222.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="71.0" text="End round" />
-          <Button mnemonicParsing="false" onAction="#evaluateHand" prefHeight="50.0" prefWidth="71.0" text="Evaluate" />
           <Label fx:id="label_score" text="Score" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="160.0" text="Players in game" textAlignment="CENTER" translateX="725.0" underline="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
       </HBox>
    <HBox prefHeight="420.0" prefWidth="1000.0">
       <children>
-         <VBox prefHeight="420.0" prefWidth="900.0">
+         <VBox prefHeight="420.0" prefWidth="900.0" styleClass="board_VBoxUpLabelBottom">
             <children>
             
                         <HBox alignment="CENTER" maxWidth="900" spacing="20" styleClass="board_HBox">
                       <StackPane fx:id="stack_table1" styleClass="hand_StackPane">
-                        <Button mnemonicParsing="false" onAction="#getCardFromDeck" styleClass="button_card_on_board" />
                       </StackPane>
                       <StackPane fx:id="stack_table2" styleClass="hand_StackPane">
-                        <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
                       <StackPane fx:id="stack_table3" styleClass="hand_StackPane">
-                        <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
                       <StackPane fx:id="stack_table4" styleClass="hand_StackPane">
-                        <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
                       <StackPane fx:id="stack_table5" styleClass="hand_StackPane">
-                        <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
             
                         </HBox>
+               <Label text="Board: When 10 cards are on desk, the game instantly ends. You can choose a card from here when it is your turn." />
                   <HBox alignment="CENTER" maxWidth="900" spacing="20" styleClass="board_HBox">
                       <StackPane fx:id="stack_table6" styleClass="hand_StackPane">
-                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
                       <StackPane fx:id="stack_table7" styleClass="hand_StackPane">
-                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
                       <StackPane fx:id="stack_table8" styleClass="hand_StackPane">
-                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
                       <StackPane fx:id="stack_table9" styleClass="hand_StackPane">
-                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
                       <StackPane fx:id="stack_table90" styleClass="hand_StackPane">
-                          <Button mnemonicParsing="false" styleClass="button_card_on_board" />
                       </StackPane>
             
             
                   </HBox>
             </children>
          </VBox>
-          <StackPane fx:id="stack_deck" styleClass="hand_StackPane">
-              <Button fx:id="deck_Button" mnemonicParsing="false" styleClass="button_card_on_board" />
+          <StackPane fx:id="stack_deck" styleClass="deck_StackPane" translateX="20.0">
+              <Button fx:id="deck_Button" mnemonicParsing="false" styleClass="button_card_on_board" StackPane.alignment="CENTER">
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin></Button>
+            <Label alignment="BASELINE_LEFT" prefHeight="51.0" prefWidth="150.0" text="Deck: You can draw a card from here when it is your turn." translateY="-60.0" wrapText="true" StackPane.alignment="BOTTOM_CENTER" />
           </StackPane>
+         <VBox prefHeight="200.0" prefWidth="160.0" translateX="45.0">
+            <children>
+               <Label fx:id="label_player1" styleClass="label_player" text="" />
+               <Label fx:id="label_player2" styleClass="label_player" text="" />
+               <Label fx:id="label_player3" styleClass="label_player" text="" />
+               <Label fx:id="label_player4" styleClass="label_player" text="" />
+               <Label fx:id="label_player5" styleClass="label_player" text="" />
+               <Label fx:id="label_player6" styleClass="label_player" text="" />
+            </children>
+         </VBox>
       </children>
    </HBox>
-      <HBox fx:id="hand_HBox" spacing="10">
+      <HBox fx:id="hand_HBox" spacing="5.0">
 
                <StackPane fx:id="stack_hand1" styleClass="hand_StackPane">
-                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
                <StackPane fx:id="stack_hand2" styleClass="hand_StackPane">
-                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
                <StackPane fx:id="stack_hand3" styleClass="hand_StackPane">
-                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
                <StackPane fx:id="stack_hand4" styleClass="hand_StackPane">
-                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
                <StackPane fx:id="stack_hand5" styleClass="hand_StackPane">
-                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
                <StackPane fx:id="stack_hand6" styleClass="hand_StackPane">
-                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
                <StackPane fx:id="stack_hand7" styleClass="hand_StackPane">
-                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
                <StackPane fx:id="stack_hand8" styleClass="hand_StackPane">
-                   <Button mnemonicParsing="false" onAction="#dropCard" styleClass="button_card_in_hand " />
                </StackPane>
 
       </HBox>
+   <HBox alignment="CENTER" prefWidth="200.0">
+      <children>
+         <Label alignment="CENTER" text="▲ This is your hand. After you draw a card from the deck or you take a card from the table, you must choose one card from your hand and put it on table by clicking on it. ▲ " />
+      </children>
+   </HBox>
 
 
 

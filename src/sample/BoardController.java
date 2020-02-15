@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.*;
@@ -37,6 +38,8 @@ public class BoardController implements Initializable{
     private List<Button> hand_Buttons;
     public  static List<StackPane> hand_StackPanes;
     public static List<StackPane> table_StackPanes;
+    public static List<Label> labels_players;
+    private ArrayList<SimplePlayer> players;
     Client client;
     private Random randomGenerator;
     public static Player player;
@@ -58,6 +61,9 @@ public class BoardController implements Initializable{
     private Button deck_Button;
 
     @FXML
+    private Label label_player1,label_player2, label_player3, label_player4, label_player5, label_player6;
+
+    @FXML
     private Label label_score;
 
     @FXML
@@ -66,6 +72,10 @@ public class BoardController implements Initializable{
     public static ArrayList<Card> cardsOnTable;
 
     public static Deck deck;
+
+    private String[] playerNames;
+
+    private String currentPlayer;
 
     // map having name of component where it resides and <Free?, If not what card it contains>
     private TreeMap<String, Tuple<Boolean,SimplifiedCard>> hand_StackPaneFree = new TreeMap<>();
@@ -139,13 +149,14 @@ public class BoardController implements Initializable{
         Label text = new Label(cardText);
         text.setWrapText(true);
         text.setTranslateY(50);
-        text.setTranslateX(10);
-        text.setMaxSize(110,150);
+        text.setTranslateX(5);
+        text.setMaxSize(115,150);
         text.setAlignment(Pos.CENTER);
         text.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
 
-        sp.getChildren().addAll(canvas_hand1,text, b);
-
+        sp.getChildren().addAll(canvas_hand1,text);
+        // disable the button
+        //sp.getChildren().get(2).setDisable(true);
     }
 
     private void play(){
@@ -189,6 +200,7 @@ public class BoardController implements Initializable{
             table_StackPaneFree.put(s.getId(), new Tuple<>(true,null));
         }
         deck_Button.setOnMouseClicked(e-> getCardFromDeck());
+        deck_Button.setDisable(true);
 
         while(!gotAllCards){
             System.out.println("Waiting for server to get us all cards...");
@@ -208,8 +220,13 @@ public class BoardController implements Initializable{
                 if (iter.hasNext()) {
                     SimplifiedCard card = iter.next();
                     create_card_from_text(sp, card);
-                    hand_StackPaneFree.put(sp.getId(), new Tuple<Boolean, SimplifiedCard>(false, card));
-                    System.out.println("Number of components in stack pane " + sp.getChildren().size());
+                    Button b = new Button();
+                    b.getStyleClass().add("button_card_in_hand");
+                    b.setOnMouseClicked(f-> dropCard(f));
+                    sp.getChildren().add(b);
+                    b.setDisable(true);
+                    hand_StackPaneFree.put(sp.getId(), new Tuple<>(false, card));
+                    //System.out.println("Number of components in stack pane " + sp.getChildren().size());
                 }
             }
         hand_StackPaneFree.put(stack_hand8.getId(),new Tuple<>(true,null));
@@ -223,6 +240,9 @@ public class BoardController implements Initializable{
 
     public void getCardFromDeck(){
         client.sendMessage("GIVE_CARD_FROM_DECK");
+
+        enableFirstActionButtons(false);
+        enableSecondActionButtons(true);
     }
 
     public void putCardOnTable(SimplifiedCard card){
@@ -256,9 +276,13 @@ public class BoardController implements Initializable{
         Button b = new Button();
         b.getStyleClass().add("button_card_on_board");
         b.setOnMouseClicked(f-> getCardFromTable(f));
+        b.setDisable(true);
 
         table_StackPaneFree.replace(table.getId(),new Tuple<>(false,card));
         assert table != null;
+
+        //Lets change current player on labels
+        setNextPlayer();
 
         Platform.runLater(()->{
             create_card_from_text(table, card);
@@ -332,6 +356,10 @@ public class BoardController implements Initializable{
 
             hand_StackPaneFree.replace(freeStackPaneInHand,new Tuple<>(false,card));
             client.sendMessage("GOT_CARD_FROM_TABLE#" + card.id);
+
+            enableFirstActionButtons(false);
+            enableSecondActionButtons(true);
+
             //table_StackPaneFree.replace(sp.getId(),new Tuple<>(true,null));
         }
     }
@@ -410,8 +438,9 @@ public class BoardController implements Initializable{
             default: sp = null;
                 break;
         }
+        System.out.println("Children on stack table: " + sp.getChildren().size());
         Platform.runLater(()->{
-            sp.getChildren().clear();
+            sp.getChildren().remove(0);
         });
 
         table_StackPaneFree.replace(whereToRemoveCard, new Tuple<>(true, null));
@@ -422,7 +451,7 @@ public class BoardController implements Initializable{
 
         Button source = (Button)e.getSource();
         StackPane parent = (StackPane) source.getParent();
-        source.setDisable(true);
+
         SimplifiedCard card = hand_StackPaneFree.get(parent.getId()).y;
         player.simhand.remove(card);
 
@@ -432,10 +461,12 @@ public class BoardController implements Initializable{
         hand_StackPaneFree.replace(parent.getId(),new Tuple<>(true,null));
 
         client.sendMessage("DROP_CARD#" + card.id);
+
+        enableSecondActionButtons(false);
     }
 
     private void show_dialog_HowManyPlayers(){
-        ArrayList<String> howManyPlayers = new ArrayList<>(){{add("2");add("3");add("4");add("5");add("6");}};
+        ArrayList<String> howManyPlayers = new ArrayList<>(){{add("1");add("2");add("3");add("4");add("5");add("6");}};
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(howManyPlayers.get(0), howManyPlayers);
         dialog.setTitle("Server setup");
@@ -459,5 +490,98 @@ public class BoardController implements Initializable{
             thisPlayername = result.get();
 
         }
+    }
+
+    public void buildPlayerLabels(String[] names){
+        System.out.println("build player names start");
+        playerNames = names;
+        players = new ArrayList<>();
+        if(names.length > 0){
+            Platform.runLater(()-> {
+                String name;
+                boolean starting;
+                System.out.println("build player names 0");
+                System.out.println(names[0]);
+
+                if(names[0].startsWith("$&$START$&$")){
+                    //TODO:
+                    name = names[0].substring(11);
+                    label_player1.getStyleClass().add("label_playerInGameActive");
+                    players.add(new SimplePlayer(name, true));
+                    label_player1.setText(name);
+                    yourTurn = true;
+                    //TODO : Zapnout karty a jedem
+                    deck_Button.setDisable(false);
+                }
+                else{
+                    name = names[0];
+                    label_player1.getStyleClass().add("label_playerInGame");
+                    label_player1.setText(name);
+                    players.add(new SimplePlayer(name, false));
+                    yourTurn = false;
+                }
+
+
+            });
+
+        }
+        if(names.length > 1){
+            Platform.runLater(()-> {
+                label_player2.setText(names[1]);
+                label_player2.getStyleClass().add("label_playerInGame");
+            });
+        }
+        if(names.length > 2){
+            Platform.runLater(()-> {
+                label_player3.setText(names[2]);
+                label_player3.getStyleClass().add("label_playerInGame");
+            });
+        }
+        if(names.length > 3){
+            Platform.runLater(()-> {
+                label_player4.setText(names[3]);
+                label_player4.getStyleClass().add("label_playerInGame");
+            });
+        }
+        if(names.length > 4){
+            Platform.runLater(()-> {
+                label_player5.setText(names[4]);
+                label_player5.getStyleClass().add("label_playerInGame");
+            });
+        }
+        if(names.length > 5){
+            Platform.runLater(()-> {
+                label_player6.setText(names[5]);
+                label_player6.getStyleClass().add("label_playerInGame");
+            });
+        }
+
+
+
+        System.out.println("Client got player names!!! SUCCESS");
+    }
+
+    public void enableFirstActionButtons(boolean enable){
+        deck_Button.setDisable(!enable);
+        table_StackPaneFree.entrySet().stream().filter(set->set.getValue().x == false).forEach(entrySet -> enableStackPaneString(entrySet.getKey(),enable));
+    }
+
+    private void enableStackPaneString(String stackPaneName, boolean enable){
+        table_StackPanes.stream().filter(pane -> pane.getId().equals(stackPaneName)).findFirst().get().getChildren().get(2).setDisable(!enable);
+    }
+
+    public void enableSecondActionButtons(boolean enable){
+        hand_StackPanes.forEach(pane -> {
+            int numberOfChildren = pane.getChildren().size();
+            System.out.println("This pane is being enabled: " + pane.getId());
+            Platform.runLater(()-> {
+                if(pane.getChildren().size() != 0)
+                    pane.getChildren().get(2).setDisable(!enable);
+            });
+            });
+    }
+
+    private void setNextPlayer(){
+
     }
 }

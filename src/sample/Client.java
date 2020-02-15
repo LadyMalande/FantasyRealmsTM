@@ -56,11 +56,9 @@ public class Client implements Runnable
                 @Override
                 public void run() {
                     // read the message to deliver.
-                    String msg = name + "#" + maxPlayers + "#" + "false";
+                    String msg = "INIT#" + name + "#" + maxPlayers + "#" + "false";
                     try {
                         // write on the output stream
-                        dos.writeUTF("INIT");
-                        dos.flush();
                         dos.writeUTF(msg);
                         dos.flush();
                         System.out.println("Posted lobby info");
@@ -93,7 +91,11 @@ public class Client implements Runnable
                                     BoardController.player.simhand.add(card);
                                     receivedCount++;
                                     //System.out.println("Added card to hand. The end of CARD_TO_HAND command");
+                                    if(receivedCount == 7){
+                                        System.out.println("Got them all 7. Starting init method for hand images.");
+                                        BoardController.gotAllCards = true;
 
+                                    }
                             }
                             if (received.startsWith("CARD_TO_HAND")) {
 
@@ -120,18 +122,22 @@ public class Client implements Runnable
                                 int id = Integer.parseInt(message[1]);
                                 board.removeCardFromTable(id);
                             }
+                            if (received.startsWith("NAMES")) {
+                                System.out.println(received);
+                                String[] message = received.split("#");
+                                int size = message.length - 1;
+
+                                String[] names = new String[size];
+                                System.arraycopy(message, 1, names, 0, size);
+                                board.buildPlayerLabels(names);
+                            }
 
                         } catch (EOFException eof){
                             break;
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("Got all cards");
-                        if(receivedCount == 7){
-                            System.out.println("Got them all 7. Starting init method for hand images.");
-                            BoardController.gotAllCards = true;
-                            //break;
-                        }
+
 
 
                     }
