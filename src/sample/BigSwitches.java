@@ -210,4 +210,58 @@ public class BigSwitches {
         }
     }
 
+/*
+    public static String switchCardNameForStringType(String name){
+        if (name == null) {
+            System.out.println("Null pointer v switchCardNameForStringType");
+            return "UNKNOWN";
+
+        }
+        switch(name){
+            case "": return "Army" ;
+            case "": return "Army" ;
+            case "": return "Army" ;
+            case "": return "Army" ;
+            case "": return "Army" ;
+
+            case "": return "Creature";
+            case "": return "Creature";
+            case "": return "Creature";
+            case "": return "Creature";
+            case "": return "Creature";
+
+            case "":  return "Leader";
+            case "":  return "Leader";
+            case "":  return "Leader";
+            case "":  return "Leader";
+            case "":  return "Leader";
+
+            case "": return "Wizard";
+            case "": return "Wizard";
+            case "": return "Wizard";
+            case "": return "Wizard";
+            case "": return "Wizard";
+
+            case "": return "Flood";
+            case "": return "Flood";
+            case "": return "Flood";
+            case "": return "Flood";
+            case "": return "Flood";
+
+            case "": return "Earth";
+            case "": return "Earth";
+            case "": return "Earth";
+            case "": return "Earth";
+            case "": return "Earth";
+
+            case "": return "Fire";
+            case "": return "Weapon";
+            case "": return "Weapon";
+            case "": return "Artifact";
+            case "": return "Wild";
+            default: return "UNKNOWN";
+        }
+    }
+
+ */
 }

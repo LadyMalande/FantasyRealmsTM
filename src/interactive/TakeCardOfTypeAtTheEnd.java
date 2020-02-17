@@ -1,5 +1,6 @@
 package interactive;
 
+import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import sample.*;
 
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public class TakeCardOfTypeAtTheEnd extends Interactive  {
     public int priority = 0;
-    public String text;
+    public final String text;
     public ArrayList<Type> types;
     private int thiscardid;
 
@@ -17,35 +18,26 @@ public class TakeCardOfTypeAtTheEnd extends Interactive  {
         this.text = "At the end of the game, you can take one card from the table which is of type " + giveListOfTypesWithSeparator(types, " or ") + " as your eighth card";
         this.types = types;
     }
-
-    @Override
-    public String getText(){
-        return this.text;
-    }
-    @Override
-    public int getPriority(){ return this.priority; }
-    @Override
-    public void askPlayer() {
-        ArrayList<Card> rightTypes = new ArrayList<>();
-        for(Card card: BoardController.cardsOnTable){
-            if(types.contains(card.type)){
-                rightTypes.add(card);
-            }
+    private static boolean dialogOpen = false;
+    public static void askPlayer(BoardController board, int thiscardid, String[] splitted) {
+        if (!dialogOpen) {
+        ArrayList<String> choices = new ArrayList<>();
+        for(String s: splitted){
+            choices.add(s);
         }
-        ArrayList<String> choices = new ArrayList<>(ArrayListCreator.createListOfNamesFromListOfCards(rightTypes));
+        Platform.runLater(()-> {
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
+            dialog.setTitle(BigSwitches.switchIdForName(thiscardid));
+            dialog.setHeaderText("Choose card name to get from table");
+            dialog.setContentText("Chosen name:");
 
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
-        dialog.setTitle(BigSwitches.switchIdForName(thiscardid));
-        dialog.setHeaderText("Choose card name to get from table");
-        dialog.setContentText("Chosen name:");
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
-            if(BoardController.cardsOnTable.stream().anyMatch(card -> card.name.equals(result.get()))) {
-                Card tocopy = BoardController.cardsOnTable.stream().filter(card -> card.name.equals(result.get())).findAny().orElse(null);
-                BoardController.player.hand.add(tocopy);
-                BoardController.cardsOnTable.remove(tocopy);
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                board.client.sendMessage("TakeCardOfType#" + result.get());
+
             }
-
+        });
+            dialogOpen = false;
         }
     }
 }

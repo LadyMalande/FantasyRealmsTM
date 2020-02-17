@@ -1,5 +1,6 @@
 package interactive;
 
+import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import sample.*;
 
@@ -9,8 +10,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CopyNameAndType extends Interactive {
-    public int priority = 2;
-    public String text;
+
+    public int priority = 3;
+    public final String text;
     public ArrayList<Type> types;
     private int thiscardid;
 
@@ -20,40 +22,41 @@ public class CopyNameAndType extends Interactive {
         this.thiscardid = id;
     }
 
-    @Override
-    public String getText(){
-        return this.text;
+    private static ArrayList<String> buildListOfNamesAndTypesFromNames(String[] names){
+        ArrayList<String> arr = new ArrayList<>();
+
+        for(String name: names){
+            StringBuilder str = new StringBuilder();
+            ArrayList<Card> deck = DeckInitializer.loadDeckFromFile();
+            if(deck == null){
+                System.out.println("Deck se vytvořil prázdný!!!");
+            }
+            Type type = deck.stream().filter(card -> card.name.equals(name)).findAny().get().type;
+            String typeString = BigSwitches.switchTypeForName(type);
+            str.append(name).append(" (").append(typeString).append(")");
+            arr.add(str.toString());
+        }
+
+        return arr;
     }
-
-    @Override
-    public void askPlayer() {
-        /*List<String> choices = new ArrayList<>();
-        choices.addAll(ArrayListCreator.createListOfStringsFromTypes(types));
-
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
-        dialog.setTitle(BigSwitches.switchIdForName(thiscardid));
-        dialog.setHeaderText("Choose Type to copy");
-        dialog.setContentText("Chosen type:");
-*/
-// Traditional way to get the response value.
-       // Optional<String> result = dialog.showAndWait();
-
+    private static boolean dialogOpen = false;
+    public static void askPlayer(BoardController board, int thiscardid, String[] names) {
+        // Traditional way to get the response value.
+        if (!dialogOpen) {
+        Platform.runLater(()-> {
             List<String> choices2 = new ArrayList<>();
-            choices2.addAll(ArrayListCreator.createListOfNamesFromTypes(types));
+            choices2.addAll(buildListOfNamesAndTypesFromNames(names));
 
             ChoiceDialog<String> dialog2 = new ChoiceDialog<>(choices2.get(0), choices2);
             dialog2.setTitle(BigSwitches.switchIdForName(thiscardid));
             dialog2.setHeaderText("Choose card name to copy");
             dialog2.setContentText("Chosen name:");
             Optional<String> result2 = dialog2.showAndWait();
-        if (result2.isPresent()){
-
-            BoardController.player.hand.stream().filter(card -> card.id == thiscardid).findAny().get().name = result2.get();
-            System.out.println(BoardController.player.hand.stream().filter(card -> card.id == thiscardid).findAny().get().name);
-            System.out.println(BigSwitches.switchTypeForName(DeckInitializer.loadDeckFromFile().stream().filter(card -> card.name.equals(result2.get())).findAny().get().type));
-            BoardController.player.hand.stream().filter(card -> card.id == thiscardid).findAny().get().id = DeckInitializer.loadDeckFromFile().stream().filter(card -> card.name.equals(result2.get())).findAny().get().id;
-
+            if (result2.isPresent()) {
+                board.client.sendMessage("CopyNameAndType#" + thiscardid + "#" + result2.get());
+            }
+        });
+            dialogOpen = false;
         }
-
     }
 }

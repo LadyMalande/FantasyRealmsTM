@@ -40,9 +40,11 @@ public class BoardController implements Initializable{
     public static List<StackPane> table_StackPanes;
     public static List<Label> labels_players;
     private ArrayList<SimplePlayer> players;
-    Client client;
+    public Client client;
+    private int round = 0;
     private Random randomGenerator;
     public static Player player;
+    private int numberOfCardsOnTable = 0;
 
     public Player getPlayer(){
         return player;
@@ -78,7 +80,7 @@ public class BoardController implements Initializable{
     private String currentPlayer;
 
     // map having name of component where it resides and <Free?, If not what card it contains>
-    private TreeMap<String, Tuple<Boolean,SimplifiedCard>> hand_StackPaneFree = new TreeMap<>();
+    public TreeMap<String, Tuple<Boolean, SimplifiedCard>> hand_StackPaneFree = new TreeMap<>();
     private TreeMap<String, Tuple<Boolean, SimplifiedCard>> table_StackPaneFree = new TreeMap<>();
 
     public Deck getDeck(){
@@ -159,21 +161,6 @@ public class BoardController implements Initializable{
         //sp.getChildren().get(2).setDisable(true);
     }
 
-    private void play(){
-        while(!gameOver){
-            if(yourTurn){
-                for(Button b: hand_Buttons){
-                    b.setDisable(false);
-                }
-
-            }
-            else{
-                for(Button b: hand_Buttons){
-                    b.setDisable(true);
-                }
-            }
-        }
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -281,12 +268,14 @@ public class BoardController implements Initializable{
         table_StackPaneFree.replace(table.getId(),new Tuple<>(false,card));
         assert table != null;
 
-        //Lets change current player on labels
-        setNextPlayer();
+        numberOfCardsOnTable++;
+
 
         Platform.runLater(()->{
             create_card_from_text(table, card);
             table.getChildren().add(b);
+            //Lets change current player on labels
+            setNextPlayer();
         });
     }
 
@@ -440,9 +429,9 @@ public class BoardController implements Initializable{
         }
         System.out.println("Children on stack table: " + sp.getChildren().size());
         Platform.runLater(()->{
-            sp.getChildren().remove(0);
+            sp.getChildren().clear();
         });
-
+        numberOfCardsOnTable--;
         table_StackPaneFree.replace(whereToRemoveCard, new Tuple<>(true, null));
     }
 
@@ -492,10 +481,29 @@ public class BoardController implements Initializable{
         }
     }
 
+    public void buildPlayerScores(String[] names){
+        System.out.println("Building player scores");
+        if(names.length > 0){
+            Platform.runLater(()-> {
+                String oldText = label_player1.getText();
+                label_player1.setText(oldText + "\n" + names[0]);
+                if(names[0].startsWith("1")){
+
+                } else if(names[0].startsWith("2")){
+
+                } else if(names[0].startsWith("3")){
+
+                }
+            });
+        }
+    }
+
+
     public void buildPlayerLabels(String[] names){
         System.out.println("build player names start");
         playerNames = names;
         players = new ArrayList<>();
+        System.out.println("players array number of elements: " + players.size());
         if(names.length > 0){
             Platform.runLater(()-> {
                 String name;
@@ -512,15 +520,14 @@ public class BoardController implements Initializable{
                     yourTurn = true;
                     //TODO : Zapnout karty a jedem
                     deck_Button.setDisable(false);
-                }
-                else{
+                } else{
                     name = names[0];
                     label_player1.getStyleClass().add("label_playerInGame");
                     label_player1.setText(name);
                     players.add(new SimplePlayer(name, false));
                     yourTurn = false;
                 }
-
+                System.out.println("players array number of elements after loading elements to it: " + players.size());
 
             });
 
@@ -567,7 +574,12 @@ public class BoardController implements Initializable{
     }
 
     private void enableStackPaneString(String stackPaneName, boolean enable){
-        table_StackPanes.stream().filter(pane -> pane.getId().equals(stackPaneName)).findFirst().get().getChildren().get(2).setDisable(!enable);
+
+        StackPane thePane =  table_StackPanes.stream().filter(pane -> pane.getId().equals(stackPaneName)).findFirst().get();
+        System.out.println("StackPane enabling: Name: " + stackPaneName + " and number of children: " + thePane.getChildren().size() + " and we should disable index 2");
+        if(thePane.getChildren().size() != 0 && thePane.getChildren().size() != 1){
+            thePane.getChildren().get(2).setDisable(!enable);
+        }
     }
 
     public void enableSecondActionButtons(boolean enable){
@@ -582,6 +594,36 @@ public class BoardController implements Initializable{
     }
 
     private void setNextPlayer(){
+        if(numberOfCardsOnTable < 10) {
+            int numberOfPlayers = players.size();
+            int maxIndex = numberOfPlayers - 1;
+            SimplePlayer activePlayer = players.stream().filter(player -> player.getPlaying() == true).findAny().get();
+            int activeIndex = players.indexOf(activePlayer);
+            System.out.println("Active index: " + activeIndex + " , max index: " + maxIndex + "active++: " + activeIndex++ + " NUMBER OF PLAYERS ELEMENTS: " + numberOfPlayers);
+            int newActiveIndex = 0;
+            if (activeIndex + 1 <= maxIndex) {
+                newActiveIndex = activeIndex + 1;
+            }
+            SimplePlayer newActivePlayer = players.get(newActiveIndex);
+            activePlayer.setPlaying(false);
+            newActivePlayer.setPlaying(true);
+            round++;
+            System.out.println("ROUND: " + round + " , Next Active player is: " + newActivePlayer.getName() + "Index of next player: " + newActiveIndex);
+            // newActivePlayer is this client (in players array its index 0
+            if (newActiveIndex == 0) {
+                Platform.runLater(() -> {
+                    enableFirstActionButtons(true);
+                    System.out.println("After enabling buttons, cuz Im new active player");
+                });
+            }
+        }
+    }
 
+    public void putEndGameTextOnLabel(){
+        Platform.runLater(()-> {
+            label_score.setText("10 cards are on the table! The score of all players will now be counted. When the counting is finished, you will see the score on the panel on the right!");
+            enableSecondActionButtons(false);
+            enableFirstActionButtons(false);
+        });
     }
 }

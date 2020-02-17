@@ -1,3 +1,13 @@
+/*
+COLOR SCHEME
+
+#22121F - Dark Dark Blue
+#500759 - Pleasant purple pink
+#0E59AC - Proper Blue
+#16B3E6 - Light Blue
+#54DEE1 - Pastel Light Green
+#1D6C67 - Dark Green
+*/
 #card_canvas {
   width: 100;
   height: 150;
@@ -11,7 +21,6 @@
   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
   -fx-background-color: linear-gradient(#1A1B59, #090A3B);
 }
-
 
 #rectangle_type_fire{
   width: 20;
@@ -27,14 +36,12 @@
   -fx-background-color: linear-gradient(#806C15, #554600);
 }
 
-
 #rectangle_type_weather {
   width: 20;
   height: 150;
   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
   -fx-background-color: linear-gradient(#0D4E4A, #003430);
 }
-
 
 #rectangle_type_weapon {
   width: 20;
@@ -43,14 +50,12 @@
   -fx-background-color: linear-gradient(#9A9A98, #71706B);
 }
 
-
 #rectangle_type_army {
   width: 20;
   height: 150;
   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
   -fx-background-color: linear-gradient(#383838, #040403);
 }
-
 
 #rectangle_type_leader {
   width: 20;
@@ -73,14 +78,12 @@
   -fx-background-color: linear-gradient(#D4D4D4, #A7A7A6);
 }
 
-
 #rectangle_type_creature{
   width: 20;
   height: 150;
   -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 0,0,3,3 );
   -fx-background-color: linear-gradient(#3C7113, #214B00);
 }
-
 
 #rectangle_type_artifact{
   width: 20;
@@ -131,19 +134,19 @@
 }
 
 #vistaHolder {
-    -fx-background-color: FFAAAA;
+    -fx-background-color: #16B3E6;
 }
 
 .menu_button {
     -fx-pref-width: 150 ;
     -fx-pref-height: 100;
-    -fx-background-color: F08825;
+    -fx-background-color: #0E59AC;
     -fx-font-family: 'Impact', Arial, sans-serif;
     -fx-font-size: 24px;
 }
 
 .menu_button:hover {
-    -fx-background-color: white;
+    -fx-background-color: #500759;
 }
 
 .main_VBox{
@@ -152,7 +155,7 @@
 }
 
 .board_HBox{
-    -fx-background-color: brown;
+    -fx-background-color: #500759;
 }
 
 .StackPane {
@@ -166,7 +169,7 @@
     -fx-border-style: solid;
     -fx-pref-width: 150;
     -fx-pref-height: 200;
-    color:#00A5D1;
+    color: #00A5D1;
 
 }
 
@@ -177,7 +180,7 @@
 }
 
 .board_VBoxUpLabelBottom{
-    -fx-border-color: sienna;
+    -fx-border-color: #22121F;
     -fx-border-width: 3;
     -fx-border-style: solid;
 }
@@ -188,13 +191,13 @@
 }
 
 .board_StackPane{
-    -fx-border-color: sienna;
+    -fx-border-color: #22121F;
     -fx-border-width: 2;
     -fx-border-style: solid;
 }
 
 #hand_HBox {
-    -fx-background-color: white;
+    -fx-background-color: #1D6C67;
     -fx-pref-width: 1280;
     -fx-max-height: 200;
 }

@@ -15,4 +15,8 @@ public class SimplifiedCard {
         this.type = type;
         this.allText = allText;
     }
+
+    public String getName(){
+        return this.name;
+    }
 }

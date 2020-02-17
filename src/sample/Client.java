@@ -17,6 +17,8 @@ INTERACTIVE - sends info about interactive dialogue
 
  */
 
+import interactive.*;
+
 import java.io.*;
 import java.net.*;
 
@@ -122,6 +124,11 @@ public class Client implements Runnable
                                 int id = Integer.parseInt(message[1]);
                                 board.removeCardFromTable(id);
                             }
+                            if (received.startsWith("END")) {
+                                board.enableFirstActionButtons(false);
+                                board.enableSecondActionButtons(false);
+                                board.putEndGameTextOnLabel();
+                            }
                             if (received.startsWith("NAMES")) {
                                 System.out.println(received);
                                 String[] message = received.split("#");
@@ -130,6 +137,46 @@ public class Client implements Runnable
                                 String[] names = new String[size];
                                 System.arraycopy(message, 1, names, 0, size);
                                 board.buildPlayerLabels(names);
+                            }
+                            if (received.startsWith("SCORES")) {
+                                System.out.println(received);
+                                String[] message = received.split("#");
+                                int size = message.length - 1;
+
+                                String[] scores = new String[size];
+                                System.arraycopy(message, 1, scores, 0, size);
+                                board.buildPlayerScores(scores);
+                            }
+
+                            if (received.startsWith("ChangeColor")) {
+                                ChangeColor.askPlayer(board);
+                            }
+
+                            if (received.startsWith("CopyNameAndType")) {
+                                String[] message = received.split("#");
+                                int id = Integer.parseInt(message[1]);
+                                String[] splitted = message[2].split(",");
+                                CopyNameAndType.askPlayer(board, id, splitted);
+                            }
+
+                            if (received.startsWith("CopyCardFromHand")) {
+                                String[] message = received.split("#");
+                                int id = Integer.parseInt(message[1]);
+                                CopyNameColorStrengthMalusFromHand.askPlayer(board,id);
+                            }
+
+                            if (received.startsWith("DeleteOneMalusOnType")) {
+                                String[] message = received.split("#");
+                                int id = Integer.parseInt(message[1]);
+                                String[] splitted = message[2].split(",");
+                                DeleteOneMalusOnType.askPlayer(board, id, splitted);
+                            }
+
+                            if (received.startsWith("TakeCardOfType")) {
+                                String[] message = received.split("#");
+                                int id = Integer.parseInt(message[1]);
+                                String[] splitted = message[2].split(",");
+                                TakeCardOfTypeAtTheEnd.askPlayer(board, id, splitted);
                             }
 
                         } catch (EOFException eof){
