@@ -10,29 +10,29 @@ public class BigSwitches {
             case 1: return "graphics/1.jpg";
             case 2: return "graphics/icon.jpg";
             case 3: return "graphics/icon.jpg";
-            case 4: return "graphics/icon.jpg";
-            case 5: return "graphics/icon.jpg";
-            case 6: return "graphics/icon.jpg";
+            case 4: return "graphics/4.jpg";
+            case 5: return "graphics/5.jpg";
+            case 6: return "graphics/6.jpg";
             case 7: return "graphics/icon.jpg";
             case 8: return "graphics/icon.jpg";
             case 9: return "graphics/icon.jpg";
             case 10: return "graphics/icon.jpg";
-            case 11: return "graphics/icon.jpg";
-            case 12: return "graphics/icon.jpg";
-            case 13: return "graphics/icon.jpg";
+            case 11: return "graphics/11.jpg";
+            case 12: return "graphics/12.jpg";
+            case 13: return "graphics/13.jpg";
             case 14: return "graphics/icon.jpg";
-            case 15: return "graphics/icon.jpg";
+            case 15: return "graphics/15.jpg";
             case 16: return "graphics/icon.jpg";
-            case 17: return "graphics/icon.jpg";
+            case 17: return "graphics/17.jpg";
             case 18: return "graphics/icon.jpg";
-            case 19: return "graphics/icon.jpg";
+            case 19: return "graphics/19.jpg";
             case 20: return "graphics/icon.jpg";
             case 21: return "graphics/icon.jpg";
             case 22: return "graphics/icon.jpg";
             case 23: return "graphics/icon.jpg";
-            case 24: return "graphics/icon.jpg";
+            case 24: return "graphics/24.jpg";
             case 25: return "graphics/icon.jpg";
-            case 26: return "graphics/icon.jpg";
+            case 26: return "graphics/26.jpg";
             case 27: return "graphics/icon.jpg";
             case 28: return "graphics/icon.jpg";
             case 29: return "graphics/icon.jpg";
@@ -43,15 +43,15 @@ public class BigSwitches {
             case 34: return "graphics/icon.jpg";
             case 35: return "graphics/icon.jpg";
             case 36: return "graphics/icon.jpg";
-            case 37: return "graphics/icon.jpg";
+            case 37: return "graphics/37.jpg";
             case 38: return "graphics/icon.jpg";
             case 39: return "graphics/icon.jpg";
             case 40: return "graphics/icon.jpg";
-            case 41: return "graphics/icon.jpg";
+            case 41: return "graphics/41.jpg";
             case 42: return "graphics/icon.jpg";
             case 43: return "graphics/icon.jpg";
-            case 44: return "graphics/icon.jpg";
-            case 45: return "graphics/icon.jpg";
+            case 44: return "graphics/44.jpg";
+            case 45: return "graphics/45.jpg";
             case 46: return "graphics/icon.jpg";
             case 47: return "graphics/icon.jpg";
             case 48: return "graphics/icon.jpg";
@@ -210,7 +210,6 @@ public class BigSwitches {
         }
     }
 
-/*
     public static String switchCardNameForStringType(String name){
         if (name == null) {
             System.out.println("Null pointer v switchCardNameForStringType");
@@ -218,50 +217,73 @@ public class BigSwitches {
 
         }
         switch(name){
-            case "": return "Army" ;
-            case "": return "Army" ;
-            case "": return "Army" ;
-            case "": return "Army" ;
-            case "": return "Army" ;
+            case "Swordswomen": return "Army" ;
+            case "Striders": return "Army" ;
+            case "Dwarf Infantry": return "Army" ;
+            case "Elven Bowmen": return "Army" ;
+            case "Cavalry": return "Army" ;
 
-            case "": return "Creature";
-            case "": return "Creature";
-            case "": return "Creature";
-            case "": return "Creature";
-            case "": return "Creature";
+            case "Unicorn": return "Creature";
+            case "Basilisk": return "Creature";
+            case "Dragon": return "Creature";
+            case "Warhorse": return "Creature";
+            case "Hydra": return "Creature";
 
-            case "":  return "Leader";
-            case "":  return "Leader";
-            case "":  return "Leader";
-            case "":  return "Leader";
-            case "":  return "Leader";
+            case "Princess":  return "Leader";
+            case "Commander":  return "Leader";
+            case "Queen":  return "Leader";
+            case "Empress":  return "Leader";
+            case "King":  return "Leader";
 
-            case "": return "Wizard";
-            case "": return "Wizard";
-            case "": return "Wizard";
-            case "": return "Wizard";
-            case "": return "Wizard";
+            case "Lord of Beasts": return "Wizard";
+            case "Collector": return "Wizard";
+            case "Jester": return "Wizard";
+            case "Archmage": return "Wizard";
+            case "Witch": return "Wizard";
+            case "Necromant": return "Wizard";
 
-            case "": return "Flood";
-            case "": return "Flood";
-            case "": return "Flood";
-            case "": return "Flood";
-            case "": return "Flood";
+            case "Fountain of Life": return "Flood";
+            case "Great Flood": return "Flood";
+            case "Swamp": return "Flood";
+            case "Island": return "Flood";
+            case "Elemental of Water": return "Flood";
 
-            case "": return "Earth";
-            case "": return "Earth";
-            case "": return "Earth";
-            case "": return "Earth";
-            case "": return "Earth";
+            case "Belfry": return "Earth";
+            case "Elemental of Earth": return "Earth";
+            case "Mountain": return "Earth";
+            case "Cave": return "Earth";
+            case "Forest": return "Earth";
 
-            case "": return "Fire";
-            case "": return "Weapon";
-            case "": return "Weapon";
-            case "": return "Artifact";
-            case "": return "Wild";
+            case "Elemental of Fire": return "Fire";
+            case "Conflagration": return "Fire";
+            case "Forge": return "Fire";
+            case "Candle": return "Fire";
+            case "Lightning": return "Fire";
+
+            case "Magic Staff": return "Weapon";
+            case "Zeppelin": return "Weapon";
+            case "Warship": return "Weapon";
+            case "Bow": return "Weapon";
+            case "Keth Sword": return "Weapon";
+
+            case "Keth Shield": return "Artifact";
+            case "Guard Rune": return "Artifact";
+            case "Crystal of Order": return "Artifact";
+            case "World Tree": return "Artifact";
+            case "Book of Spells": return "Artifact";
+
+            case "Elemental of Air": return "Weather";
+            case "Smoke": return "Weather";
+            case "Blizzard": return "Weather";
+            case "Storm": return "Weather";
+            case "Tornado": return "Weather";
+
+            case "Skinchanger": return "Wild";
+            case "Doppleganger": return "Wild";
+            case "Mirage": return "Wild";
             default: return "UNKNOWN";
         }
     }
 
- */
+
 }

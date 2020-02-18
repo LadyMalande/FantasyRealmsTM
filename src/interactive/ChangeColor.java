@@ -61,7 +61,8 @@ public class ChangeColor extends Interactive {
             Optional<String> whichCardToChange = dialog1.showAndWait();
             Optional<String> typeForChange = dialog2.showAndWait();
             if (whichCardToChange.isPresent() && typeForChange.isPresent()) {
-                board.client.sendMessage("ChangeColor#" + whichCardToChange.toString() + "#" + typeForChange.toString());
+                board.client.sendMessage("ChangeColor#" + whichCardToChange.get() + "#" + typeForChange.get());
+                System.out.println("Sent: " + "ChangeColor#" + whichCardToChange.get() + "#" + typeForChange.get());
             }
         });
         dialogOpen = false;

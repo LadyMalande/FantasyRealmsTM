@@ -37,7 +37,8 @@ public class DeleteOneMalusOnType extends Interactive {
             dialog.setContentText("Chosen card:");
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
-                board.client.sendMessage("DelereOneMalusOnType#" + result.get());
+                board.client.sendMessage("DeleteOneMalusOnType#" + result.get());
+                System.out.println("Sent: " + "DeleteOneMalusOnType#" + result.get());
             }
         });
             dialogOpen = false;

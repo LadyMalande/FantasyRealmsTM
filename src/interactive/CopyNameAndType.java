@@ -27,12 +27,8 @@ public class CopyNameAndType extends Interactive {
 
         for(String name: names){
             StringBuilder str = new StringBuilder();
-            ArrayList<Card> deck = DeckInitializer.loadDeckFromFile();
-            if(deck == null){
-                System.out.println("Deck se vytvořil prázdný!!!");
-            }
-            Type type = deck.stream().filter(card -> card.name.equals(name)).findAny().get().type;
-            String typeString = BigSwitches.switchTypeForName(type);
+
+            String typeString = BigSwitches.switchCardNameForStringType(name);
             str.append(name).append(" (").append(typeString).append(")");
             arr.add(str.toString());
         }
@@ -54,6 +50,7 @@ public class CopyNameAndType extends Interactive {
             Optional<String> result2 = dialog2.showAndWait();
             if (result2.isPresent()) {
                 board.client.sendMessage("CopyNameAndType#" + thiscardid + "#" + result2.get());
+                System.out.println("Sent: " + "CopyNameAndType#" + thiscardid + "#" + result2.get());
             }
         });
             dialogOpen = false;

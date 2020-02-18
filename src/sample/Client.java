@@ -168,8 +168,10 @@ public class Client implements Runnable
                             if (received.startsWith("DeleteOneMalusOnType")) {
                                 String[] message = received.split("#");
                                 int id = Integer.parseInt(message[1]);
-                                String[] splitted = message[2].split(",");
-                                DeleteOneMalusOnType.askPlayer(board, id, splitted);
+                                if(message.length > 2){
+                                    String[] splitted = message[2].split(",");
+                                    DeleteOneMalusOnType.askPlayer(board, id, splitted);
+                                }
                             }
 
                             if (received.startsWith("TakeCardOfType")) {

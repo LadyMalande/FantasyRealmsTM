@@ -34,7 +34,7 @@ public class TakeCardOfTypeAtTheEnd extends Interactive  {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
                 board.client.sendMessage("TakeCardOfType#" + result.get());
-
+                System.out.println("Sent: " + "TakeCardOfType#" + result.get());
             }
         });
             dialogOpen = false;

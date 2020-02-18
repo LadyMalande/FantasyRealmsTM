@@ -36,7 +36,7 @@ public class CopyNameColorStrengthMalusFromHand extends Interactive  {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
                 board.client.sendMessage("CopyCardFromHand#" + result.get());
-
+                System.out.println("Sent: " + "CopyCardFromHand#" + result.get());
             }
         });
             dialogOpen = false;
