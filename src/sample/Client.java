@@ -125,8 +125,6 @@ public class Client implements Runnable
                                 board.removeCardFromTable(id);
                             }
                             if (received.startsWith("END")) {
-                                board.enableFirstActionButtons(false);
-                                board.enableSecondActionButtons(false);
                                 board.putEndGameTextOnLabel();
                             }
                             if (received.startsWith("NAMES")) {
@@ -169,7 +167,7 @@ public class Client implements Runnable
                                 String[] message = received.split("#");
                                 int id = Integer.parseInt(message[1]);
                                 if(message.length > 2){
-                                    String[] splitted = message[2].split(",");
+                                    String[] splitted = message[2].split("%");
                                     DeleteOneMalusOnType.askPlayer(board, id, splitted);
                                 }
                             }

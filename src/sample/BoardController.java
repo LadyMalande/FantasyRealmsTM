@@ -477,24 +477,43 @@ public class BoardController implements Initializable{
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             thisPlayername = result.get();
-
+            Platform.runLater(()-> {label_score.setText("Your name is: " + thisPlayername);});
         }
+    }
+
+    public void changeLabel(Label label, String toAdd){
+        Platform.runLater(()-> {
+            String oldText = label.getText();
+            label.setText(oldText + "\n" + toAdd);
+            if(toAdd.startsWith("1")){
+                label.getStyleClass().add("label_playerInGameGold");
+            } else if(toAdd.startsWith("2")){
+                label.getStyleClass().add("label_playerInGameSilver");
+            } else if(toAdd.startsWith("3")){
+                label.getStyleClass().add("label_playerInGameBronze");
+            }
+        });
     }
 
     public void buildPlayerScores(String[] names){
         System.out.println("Building player scores");
         if(names.length > 0){
-            Platform.runLater(()-> {
-                String oldText = label_player1.getText();
-                label_player1.setText(oldText + "\n" + names[0]);
-                if(names[0].startsWith("1")){
-
-                } else if(names[0].startsWith("2")){
-
-                } else if(names[0].startsWith("3")){
-
-                }
-            });
+            changeLabel(label_player1,names[0]);
+        }
+        if(names.length > 1){
+            changeLabel(label_player2, names[1]);
+        }
+        if(names.length > 2){
+            changeLabel(label_player3, names[2]);
+        }
+        if(names.length > 3){
+            changeLabel(label_player4, names[3]);
+        }
+        if(names.length > 4){
+            changeLabel(label_player5, names[4]);
+        }
+        if(names.length > 5){
+            changeLabel(label_player6, names[5]);
         }
     }
 
@@ -507,12 +526,9 @@ public class BoardController implements Initializable{
         if(names.length > 0){
             Platform.runLater(()-> {
                 String name;
-                boolean starting;
-                System.out.println("build player names 0");
-                System.out.println(names[0]);
+                System.out.println("build player names 0: " + names[0]);
 
                 if(names[0].startsWith("$&$START$&$")){
-                    //TODO:
                     name = names[0].substring(11);
                     label_player1.getStyleClass().add("label_playerInGameActive");
                     players.add(new SimplePlayer(name, true));
@@ -534,32 +550,102 @@ public class BoardController implements Initializable{
         }
         if(names.length > 1){
             Platform.runLater(()-> {
-                label_player2.setText(names[1]);
-                label_player2.getStyleClass().add("label_playerInGame");
+                String name;
+                System.out.println("build player names 1: " + names[1]);
+
+                if(names[1].startsWith("$&$START$&$")){
+                    name = names[1].substring(11);
+                    label_player2.getStyleClass().add("label_playerInGameActive");
+                    players.add(new SimplePlayer(name, true));
+                    label_player2.setText(name);
+                } else{
+                    name = names[1];
+                    label_player2.getStyleClass().add("label_playerInGame");
+                    label_player2.setText(name);
+                    players.add(new SimplePlayer(name, false));
+                }
+                System.out.println("players array number of elements after loading elements to it: " + players.size());
+
             });
         }
         if(names.length > 2){
             Platform.runLater(()-> {
-                label_player3.setText(names[2]);
-                label_player3.getStyleClass().add("label_playerInGame");
+                String name;
+                System.out.println("build player names 2: " + names[2]);
+
+                if(names[2].startsWith("$&$START$&$")){
+                    name = names[2].substring(11);
+                    label_player3.getStyleClass().add("label_playerInGameActive");
+                    players.add(new SimplePlayer(name, true));
+                    label_player3.setText(name);
+                } else{
+                    name = names[2];
+                    label_player3.getStyleClass().add("label_playerInGame");
+                    label_player3.setText(name);
+                    players.add(new SimplePlayer(name, false));
+                }
+                System.out.println("players array number of elements after loading elements to it: " + players.size());
+
             });
         }
         if(names.length > 3){
             Platform.runLater(()-> {
-                label_player4.setText(names[3]);
-                label_player4.getStyleClass().add("label_playerInGame");
+                String name;
+                System.out.println("build player names 3: " + names[3]);
+
+                if(names[3].startsWith("$&$START$&$")){
+                    name = names[3].substring(11);
+                    label_player4.getStyleClass().add("label_playerInGameActive");
+                    players.add(new SimplePlayer(name, true));
+                    label_player4.setText(name);
+                } else{
+                    name = names[3];
+                    label_player4.getStyleClass().add("label_playerInGame");
+                    label_player4.setText(name);
+                    players.add(new SimplePlayer(name, false));
+                }
+                System.out.println("players array number of elements after loading elements to it: " + players.size());
+
             });
         }
         if(names.length > 4){
             Platform.runLater(()-> {
-                label_player5.setText(names[4]);
-                label_player5.getStyleClass().add("label_playerInGame");
+                String name;
+                System.out.println("build player names 4: " + names[4]);
+
+                if(names[4].startsWith("$&$START$&$")){
+                    name = names[4].substring(11);
+                    label_player5.getStyleClass().add("label_playerInGameActive");
+                    players.add(new SimplePlayer(name, true));
+                    label_player5.setText(name);
+                } else{
+                    name = names[4];
+                    label_player5.getStyleClass().add("label_playerInGame");
+                    label_player5.setText(name);
+                    players.add(new SimplePlayer(name, false));
+                }
+                System.out.println("players array number of elements after loading elements to it: " + players.size());
+
             });
         }
         if(names.length > 5){
             Platform.runLater(()-> {
-                label_player6.setText(names[5]);
-                label_player6.getStyleClass().add("label_playerInGame");
+                String name;
+                System.out.println("build player names 5: " + names[5]);
+
+                if(names[5].startsWith("$&$START$&$")){
+                    name = names[5].substring(11);
+                    label_player6.getStyleClass().add("label_playerInGameActive");
+                    players.add(new SimplePlayer(name, true));
+                    label_player6.setText(name);
+                } else{
+                    name = names[5];
+                    label_player6.getStyleClass().add("label_playerInGame");
+                    label_player6.setText(name);
+                    players.add(new SimplePlayer(name, false));
+                }
+                System.out.println("players array number of elements after loading elements to it: " + players.size());
+
             });
         }
 
@@ -599,7 +685,7 @@ public class BoardController implements Initializable{
             int maxIndex = numberOfPlayers - 1;
             SimplePlayer activePlayer = players.stream().filter(player -> player.getPlaying() == true).findAny().get();
             int activeIndex = players.indexOf(activePlayer);
-            System.out.println("Active index: " + activeIndex + " , max index: " + maxIndex + "active++: " + activeIndex++ + " NUMBER OF PLAYERS ELEMENTS: " + numberOfPlayers);
+            System.out.println("Active index: " + activeIndex + " , max index: " + maxIndex + " active++: " + (activeIndex +1)  + " NUMBER OF PLAYERS ELEMENTS: " + numberOfPlayers);
             int newActiveIndex = 0;
             if (activeIndex + 1 <= maxIndex) {
                 newActiveIndex = activeIndex + 1;
@@ -614,6 +700,13 @@ public class BoardController implements Initializable{
                 Platform.runLater(() -> {
                     enableFirstActionButtons(true);
                     System.out.println("After enabling buttons, cuz Im new active player");
+                });
+            }
+            if(activeIndex == 0){
+                Platform.runLater(() -> {
+                    enableFirstActionButtons(false);
+                    enableSecondActionButtons(false);
+                    System.out.println("After disabling my buttons, cuz I was active player");
                 });
             }
         }
