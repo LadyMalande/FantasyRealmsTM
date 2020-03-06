@@ -3,6 +3,7 @@ package interactive;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.StackPane;
 import sample.*;
 
 import java.util.ArrayList;
@@ -39,6 +40,35 @@ public class DeleteOneMalusOnType extends Interactive {
             if (result.isPresent()) {
                 board.client.sendMessage("DeleteOneMalusOnType#" + result.get());
                 System.out.println("Sent: " + "DeleteOneMalusOnType#" + result.get());
+                String[] option = result.get().split(": ");
+                String cardName = option[0];
+                System.out.println("Name: " + option[0]);
+
+
+                System.out.println(board.hand_StackPaneFree.get("stack_hand1").y);
+                System.out.println(board.hand_StackPaneFree.get("stack_hand2").y);
+                System.out.println(board.hand_StackPaneFree.get("stack_hand3").y);
+                System.out.println(board.hand_StackPaneFree.get("stack_hand4").y);
+                System.out.println(board.hand_StackPaneFree.get("stack_hand5").y);
+                System.out.println(board.hand_StackPaneFree.get("stack_hand6").y);
+                System.out.println(board.hand_StackPaneFree.get("stack_hand7").y);
+                System.out.println(board.hand_StackPaneFree.get("stack_hand8").y);
+
+
+                SimplifiedCard cardfromHand = board.hand_StackPaneFree.entrySet().stream().filter(set -> Objects.nonNull(set.getValue().y)).filter(set -> set.getValue().y.name.equals(cardName)).findAny().get().getValue().y;
+                String textOnCard = cardfromHand.allText;
+                textOnCard = textOnCard.replace(option[1], "");
+                cardfromHand.allText = textOnCard;
+
+                String handPane = board.hand_StackPaneFree.entrySet().stream().filter(set -> Objects.nonNull(set.getValue().y)).filter(set -> set.getValue().y.id == cardfromHand.id).findAny().get().getKey();
+                StackPane handPaneForCard;
+                handPaneForCard = board.switchNameForStackPane(handPane);
+
+
+                board.create_card_from_text(handPaneForCard, cardfromHand);
+
+
+
             }
         });
             dialogOpen = false;

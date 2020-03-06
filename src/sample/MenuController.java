@@ -30,7 +30,13 @@ public class MenuController extends Main implements Initializable {
 
     @FXML
     void start_game() {
+        BoardController.randomDeck = false;
+        SceneNavigator.loadVista(SceneNavigator.BOARD);
+    }
 
+    @FXML
+    void start_gameRandom() {
+        BoardController.randomDeck = true;
         SceneNavigator.loadVista(SceneNavigator.BOARD);
     }
 

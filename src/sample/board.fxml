@@ -16,18 +16,17 @@
             <Font name="Impact" size="24.0" />
          </font>
          </Label>
-         <Label layoutX="219.0" layoutY="20.0" text="x players in-game" />
-          <Label fx:id="label_score" text="Score" />
-      <Label alignment="CENTER" prefHeight="30.0" prefWidth="160.0" text="Players in game" textAlignment="CENTER" translateX="725.0" underline="true">
+          <Label fx:id="label_score" prefHeight="42.0" prefWidth="692.0" wrapText="true" />
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="160.0" text="Players in game" textAlignment="CENTER" translateX="120.0" translateY="15.0" underline="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
       </HBox>
-   <HBox prefHeight="420.0" prefWidth="1000.0">
-      <children>
-         <VBox prefHeight="420.0" prefWidth="900.0" styleClass="board_VBoxUpLabelBottom">
-            <children>
+   <HBox prefHeight="420.0" prefWidth="1100.0">
+
+         <VBox prefHeight="420.0"  styleClass="board_VBoxUpLabelBottom">
+
             
                         <HBox alignment="CENTER" maxWidth="900" spacing="20" styleClass="board_HBox">
                       <StackPane fx:id="stack_table1" styleClass="hand_StackPane">
@@ -57,28 +56,32 @@
             
             
                   </HBox>
-            </children>
+
          </VBox>
           <StackPane fx:id="stack_deck" styleClass="deck_StackPane" translateX="20.0">
+            <Label text="Actions in turn" translateY="-200.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
               <Button fx:id="deck_Button" mnemonicParsing="false" styleClass="button_card_on_board" StackPane.alignment="CENTER">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin></Button>
             <Label alignment="BASELINE_LEFT" prefHeight="51.0" prefWidth="150.0" text="Deck: You can draw a card from here when it is your turn." translateY="-60.0" wrapText="true" StackPane.alignment="BOTTOM_CENTER" />
+            <Label fx:id="label_turnRules" prefHeight="74.0" prefWidth="150.0" translateY="-150.0" wrapText="true" />
+            <Button fx:id="button_backToMenu" mnemonicParsing="false" text="Back to Menu" translateY="190.0" />
           </StackPane>
          <VBox prefHeight="200.0" prefWidth="160.0" translateX="45.0">
-            <children>
-               <Label fx:id="label_player1" styleClass="label_player" text="" />
-               <Label fx:id="label_player2" styleClass="label_player" text="" />
-               <Label fx:id="label_player3" styleClass="label_player" text="" />
-               <Label fx:id="label_player4" styleClass="label_player" text="" />
-               <Label fx:id="label_player5" styleClass="label_player" text="" />
-               <Label fx:id="label_player6" styleClass="label_player" text="" />
-            </children>
+               <Label fx:id="label_player1" styleClass="label_player" />
+               <Label fx:id="label_player2" styleClass="label_player"  />
+               <Label fx:id="label_player3" styleClass="label_player"  />
+               <Label fx:id="label_player4" styleClass="label_player" />
+               <Label fx:id="label_player5" styleClass="label_player"  />
+               <Label fx:id="label_player6" styleClass="label_player"  />
          </VBox>
-      </children>
    </HBox>
-      <HBox fx:id="hand_HBox" spacing="5.0">
+      <HBox  spacing="5.0">
 
                <StackPane fx:id="stack_hand1" styleClass="hand_StackPane">
                </StackPane>
@@ -99,9 +102,7 @@
 
       </HBox>
    <HBox alignment="CENTER" prefWidth="200.0">
-      <children>
          <Label alignment="CENTER" text="▲ This is your hand. After you draw a card from the deck or you take a card from the table, you must choose one card from your hand and put it on table by clicking on it. ▲ " />
-      </children>
    </HBox>
 
 

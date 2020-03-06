@@ -4,29 +4,24 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import maluses.Malus;
-import interactive.Interactive;
+import javafx.scene.text.Text;
 
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+
+import static com.sun.javafx.scene.control.skin.Utils.computeClippedText;
 
 /**
  * Controller class for the second vista.
@@ -35,14 +30,11 @@ public class BoardController implements Initializable{
 
     private String thisPlayername;
     private int thisPlayerMaxPlayers;
-    private List<Button> hand_Buttons;
     public  static List<StackPane> hand_StackPanes;
     public static List<StackPane> table_StackPanes;
-    public static List<Label> labels_players;
     private ArrayList<SimplePlayer> players;
     public Client client;
     private int round = 0;
-    private Random randomGenerator;
     public static Player player;
     private int numberOfCardsOnTable = 0;
 
@@ -50,7 +42,6 @@ public class BoardController implements Initializable{
         return player;
     }
 
-    public boolean gameOver = false;
     public boolean yourTurn = true;
     public static boolean gotAllCards = false;
     @FXML
@@ -60,32 +51,28 @@ public class BoardController implements Initializable{
     public StackPane stack_table1, stack_table2, stack_table3, stack_table4, stack_table5, stack_table6, stack_table7, stack_table8, stack_table9, stack_table90, stack_deck;
 
     @FXML
-    private Button deck_Button;
+    private Button deck_Button, button_backToMenu;
 
     @FXML
     private Label label_player1,label_player2, label_player3, label_player4, label_player5, label_player6;
 
     @FXML
-    private Label label_score;
+    private Label label_score, label_turnRules;
 
-    @FXML
-    private HBox hand_HBox;
+    //maximum width of the text/label
+    private final double MAX_TEXT_WIDTH = 115;
+    //default (nonscaled) font size of the text/label
+    private final double defaultFontSize = 12;
+    private final Font defaultFont = Font.font(defaultFontSize);
+
+    public static boolean randomDeck;
 
     public static ArrayList<Card> cardsOnTable;
 
-    public static Deck deck;
-
-    private String[] playerNames;
-
-    private String currentPlayer;
-
     // map having name of component where it resides and <Free?, If not what card it contains>
     public TreeMap<String, Tuple<Boolean, SimplifiedCard>> hand_StackPaneFree = new TreeMap<>();
-    private TreeMap<String, Tuple<Boolean, SimplifiedCard>> table_StackPaneFree = new TreeMap<>();
+    public TreeMap<String, Tuple<Boolean, SimplifiedCard>> table_StackPaneFree = new TreeMap<>();
 
-    public Deck getDeck(){
-        return deck;
-    }
     /**
      * Event handler fired when the user requests a previous vista.
      *
@@ -96,9 +83,10 @@ public class BoardController implements Initializable{
         SceneNavigator.loadVista(SceneNavigator.MENU);
     }
 
-    private void create_card_from_text(StackPane sp, SimplifiedCard card){
 
-        Bounds bounds = sp.localToScene(sp.getBoundsInLocal());
+
+    public void create_card_from_text(StackPane sp, SimplifiedCard card){
+
         String id = String.valueOf(card.id);
         String name = card.name;
         String type = card.type;
@@ -129,12 +117,11 @@ public class BoardController implements Initializable{
         gc.setFill(Color.LIGHTGREY);
         gc.fillRect(0 ,0,150,20);
         gc.setFill(Color.IVORY);
-        gc.fillOval(0 - 10 ,0- 10,40,40);
+        gc.fillOval(- 10 ,- 10,40,40);
         gc.setFill(Color.BLACK);
 
         gc.fillText(name, 35, 15);
-        gc.fillText(strength, 5
-                , 15);
+        gc.fillText(strength, 5, 15);
 
         //Set button over the canvas and style it
         Button b = new Button();
@@ -147,18 +134,45 @@ public class BoardController implements Initializable{
         gc.fillText(type_name, -80, 14);
         gc.restore();
 
+        cardText = cardText.replace("MALUS\n", "");
+        final Label text = new Label( cardText);
 
-        Label text = new Label(cardText);
-        text.setWrapText(true);
+        Platform.runLater( () ->
+        {
+            Double fontSize = text.getFont().getSize();
+            //String clippedText = computeClippedText( text.getFont(), text.getText(), text.getWidth(), text.getTextOverrun(), text.getEllipsisString() );
+            Font newFont = text.getFont();
+            text.setWrapText(true);
+
+            while ( text.getHeight() > 100)
+            {
+
+                fontSize = fontSize - 0.05;
+                newFont = Font.font( text.getFont().getFamily(), fontSize );
+
+            }
+
+            text.setFont( newFont );
+        } );
+
+
+
+       // Label text = new Label(cardText);
+
         text.setTranslateY(50);
         text.setTranslateX(5);
-        text.setMaxSize(115,150);
+        text.setMaxSize(115,100);
         text.setAlignment(Pos.CENTER);
         text.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
 
         sp.getChildren().addAll(canvas_hand1,text);
-        // disable the button
-        //sp.getChildren().get(2).setDisable(true);
+/*
+        label.setWrapText(true);
+        label.setTranslateY(50);
+        label.setTranslateX(5);
+        label.setMaxSize(115,100);
+        label.setAlignment(Pos.CENTER);
+        sp.getChildren().addAll(canvas_hand1,label); */
     }
 
     @Override
@@ -194,13 +208,16 @@ public class BoardController implements Initializable{
         }
         System.out.println("after stack panes free");
         crate_hand_SimplifiedCards();
-
+        label_turnRules.setText("1) Take card from the table or the deck \n2) Drop one card from your hand");
+        button_backToMenu.setVisible(false);
+        button_backToMenu.setOnAction(this::backToMenu);
         //hand_Buttons.forEach(button -> button.setOnMouseClicked(click -> dropCard(click)));
         //play();
     }
 
     private void crate_hand_SimplifiedCards(){
         System.out.println("In create_hand:Simplified cards");
+        Collections.sort(player.simhand);
             Iterator<SimplifiedCard> iter = player.simhand.iterator();
             for (StackPane sp : hand_StackPanes) {
 
@@ -218,12 +235,6 @@ public class BoardController implements Initializable{
             }
         hand_StackPaneFree.put(stack_hand8.getId(),new Tuple<>(true,null));
     }
-
-    public void evaluateHand(){
-        //label_score.setText(Integer.toString(player.evaluateHand()));
-        // You must send the score to server to make table of winners!!!!
-    }
-
 
     public void getCardFromDeck(){
         client.sendMessage("GIVE_CARD_FROM_DECK");
@@ -343,7 +354,9 @@ public class BoardController implements Initializable{
             SimplifiedCard card = table_StackPaneFree.get(sp.getId()).y;
             player.simhand.add(card);
 
-            hand_StackPaneFree.replace(freeStackPaneInHand,new Tuple<>(false,card));
+            repaintAllCards();
+
+            //hand_StackPaneFree.replace(freeStackPaneInHand,new Tuple<>(false,card));
             client.sendMessage("GOT_CARD_FROM_TABLE#" + card.id);
 
             enableFirstActionButtons(false);
@@ -351,6 +364,60 @@ public class BoardController implements Initializable{
 
             //table_StackPaneFree.replace(sp.getId(),new Tuple<>(true,null));
         }
+    }
+
+    private void repaintAllCards(){
+        System.out.println("Deleting canvases from hand StackPanes...");
+        Platform.runLater(()-> {
+            for (StackPane sp : hand_StackPanes) {
+                sp.getChildren().clear();
+            }
+            Collections.sort(player.simhand);
+            Iterator<SimplifiedCard> iter = player.simhand.iterator();
+            System.out.println("Repainting cards...");
+            for (StackPane sp : hand_StackPanes) {
+
+                if (iter.hasNext()) {
+                    SimplifiedCard card = iter.next();
+                    create_card_from_text(sp, card);
+                    Button b = new Button();
+                    b.getStyleClass().add("button_card_in_hand");
+                    b.setOnMouseClicked(f -> dropCard(f));
+                    sp.getChildren().add(b);
+                    b.setDisable(true);
+                    hand_StackPaneFree.put(sp.getId(), new Tuple<>(false, card));
+                    //System.out.println("Number of components in stack pane " + sp.getChildren().size());
+                } else {
+                    hand_StackPaneFree.put(sp.getId(), new Tuple<>(true, null));
+                }
+            }
+        });
+
+    }
+
+    public StackPane switchNameForStackPane(String name){
+        StackPane freeStackPane;
+        switch(name){
+            case "stack_hand1": freeStackPane = stack_hand1;
+                break;
+            case "stack_hand2": freeStackPane = stack_hand2;
+                break;
+            case "stack_hand3": freeStackPane = stack_hand3;
+                break;
+            case "stack_hand4": freeStackPane = stack_hand4;
+                break;
+            case "stack_hand5": freeStackPane = stack_hand5;
+                break;
+            case "stack_hand6": freeStackPane = stack_hand6;
+                break;
+            case "stack_hand7": freeStackPane = stack_hand7;
+                break;
+            case "stack_hand8": freeStackPane = stack_hand8;
+                break;
+            default: freeStackPane = null;
+                break;
+        }
+        return freeStackPane;
     }
 
     public void putCardToHand(SimplifiedCard c) {
@@ -389,14 +456,19 @@ public class BoardController implements Initializable{
 
             Button b = new Button();
             b.getStyleClass().add("button_card_in_hand");
-            b.setOnMouseClicked(f -> dropCard(f));
-
-            hand_StackPaneFree.put(hand.getId(), new Tuple<>(false, c));
-
+            b.setOnMouseClicked(this::dropCard);
+            repaintAllCards();
+            enableFirstActionButtons(false);
+            enableSecondActionButtons(true);
+            assert hand != null;
+            //hand_StackPaneFree.put(hand.getId(), new Tuple<>(false, c));
+/*
             Platform.runLater(()->{
                 create_card_from_text(hand, c);
                 hand.getChildren().add(b);
             });
+
+ */
         }
     }
 
@@ -447,7 +519,8 @@ public class BoardController implements Initializable{
         parent.getChildren().remove(0);
         parent.getChildren().remove(0);
         parent.getChildren().remove(0);
-        hand_StackPaneFree.replace(parent.getId(),new Tuple<>(true,null));
+        repaintAllCards();
+        //hand_StackPaneFree.replace(parent.getId(),new Tuple<>(true,null));
 
         client.sendMessage("DROP_CARD#" + card.id);
 
@@ -464,6 +537,8 @@ public class BoardController implements Initializable{
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             thisPlayerMaxPlayers = Integer.parseInt(result.get());
+        } else{
+            SceneNavigator.loadVista(SceneNavigator.MENU);
         }
     }
 
@@ -477,7 +552,10 @@ public class BoardController implements Initializable{
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             thisPlayername = result.get();
-            Platform.runLater(()-> {label_score.setText("Your name is: " + thisPlayername);});
+            Platform.runLater(()-> label_score.setText("Your name is: " + thisPlayername));
+        }
+        else{
+            SceneNavigator.loadVista(SceneNavigator.MENU);
         }
     }
 
@@ -491,36 +569,84 @@ public class BoardController implements Initializable{
                 label.getStyleClass().add("label_playerInGameSilver");
             } else if(toAdd.startsWith("3")){
                 label.getStyleClass().add("label_playerInGameBronze");
+            } else{
+                label.getStyleClass().clear();
+                label.getStyleClass().add("label_playerInGame");
             }
         });
     }
 
     public void buildPlayerScores(String[] names){
+        String scoreTable = names[0];
         System.out.println("Building player scores");
-        if(names.length > 0){
-            changeLabel(label_player1,names[0]);
-        }
         if(names.length > 1){
-            changeLabel(label_player2, names[1]);
+            changeLabel(label_player1,names[1]);
         }
         if(names.length > 2){
-            changeLabel(label_player3, names[2]);
+            changeLabel(label_player2, names[2]);
         }
         if(names.length > 3){
-            changeLabel(label_player4, names[3]);
+            changeLabel(label_player3, names[3]);
         }
         if(names.length > 4){
-            changeLabel(label_player5, names[4]);
+            changeLabel(label_player4, names[4]);
         }
         if(names.length > 5){
-            changeLabel(label_player6, names[5]);
+            changeLabel(label_player5, names[5]);
         }
+        if(names.length > 6){
+            changeLabel(label_player6, names[6]);
+        }
+        int rank = Integer.parseInt(names[1].split("\\)")[0]);
+        String position;
+        switch(rank){
+            case 1: position = "won the game";
+            break;
+            case 2: position = "are second";
+            break;
+            case 3: position = "are third";
+            break;
+            case 4: position = "are fourth";
+            break;
+            case 5: position = "are fifth";
+            break;
+            default: position = "are sixth";
+        }
+        int score = Integer.parseInt(names[1].split("(\\) )")[1]);
+        Platform.runLater(()-> {
+            button_backToMenu.setVisible(true);
+            button_backToMenu.setDisable(false);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Final score");
+            alert.setHeaderText("Congratulations, " + thisPlayername + "! You " + position + " with the score of " + score + " points!\n\n" + scoreTable);
+            alert.setContentText("You can compare your score to the score of fellow players in the table on the right!");
+            alert.setGraphic(new ImageView(this.getClass().getResource("graphics/medal.png").toString()));
+
+            alert.showAndWait();
+        });
+    }
+
+    public void disconnectedFromServer(){
+        Platform.runLater(()-> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Connection error");
+            alert.setHeaderText("Ooops, it seems like we are having problem with our server, " + thisPlayername + "!\n\n We apologize for any inconvenience caused by this interruption.");
+            alert.setContentText("After clicking on \"OK\", your game will be closed.");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent()){
+                Platform.exit();
+                System.exit(1);
+            } else{
+                Platform.exit();
+                System.exit(1);
+            }
+        });
     }
 
 
     public void buildPlayerLabels(String[] names){
         System.out.println("build player names start");
-        playerNames = names;
         players = new ArrayList<>();
         System.out.println("players array number of elements: " + players.size());
         if(names.length > 0){
@@ -662,7 +788,7 @@ public class BoardController implements Initializable{
     private void enableStackPaneString(String stackPaneName, boolean enable){
 
         StackPane thePane =  table_StackPanes.stream().filter(pane -> pane.getId().equals(stackPaneName)).findFirst().get();
-        System.out.println("StackPane enabling: Name: " + stackPaneName + " and number of children: " + thePane.getChildren().size() + " and we should disable index 2");
+        //System.out.println("StackPane enabling: Name: " + stackPaneName + " and number of children: " + thePane.getChildren().size() + " and we should disable index 2");
         if(thePane.getChildren().size() != 0 && thePane.getChildren().size() != 1){
             thePane.getChildren().get(2).setDisable(!enable);
         }
@@ -671,7 +797,7 @@ public class BoardController implements Initializable{
     public void enableSecondActionButtons(boolean enable){
         hand_StackPanes.forEach(pane -> {
             int numberOfChildren = pane.getChildren().size();
-            System.out.println("This pane is being enabled: " + pane.getId());
+            //System.out.println("This pane is being enabled: " + pane.getId());
             Platform.runLater(()-> {
                 if(pane.getChildren().size() != 0)
                     pane.getChildren().get(2).setDisable(!enable);
@@ -693,15 +819,11 @@ public class BoardController implements Initializable{
             SimplePlayer newActivePlayer = players.get(newActiveIndex);
             activePlayer.setPlaying(false);
             newActivePlayer.setPlaying(true);
+            changeActiveLabel(newActiveIndex);
             round++;
             System.out.println("ROUND: " + round + " , Next Active player is: " + newActivePlayer.getName() + "Index of next player: " + newActiveIndex);
             // newActivePlayer is this client (in players array its index 0
-            if (newActiveIndex == 0) {
-                Platform.runLater(() -> {
-                    enableFirstActionButtons(true);
-                    System.out.println("After enabling buttons, cuz Im new active player");
-                });
-            }
+
             if(activeIndex == 0){
                 Platform.runLater(() -> {
                     enableFirstActionButtons(false);
@@ -709,7 +831,55 @@ public class BoardController implements Initializable{
                     System.out.println("After disabling my buttons, cuz I was active player");
                 });
             }
+            if (newActiveIndex == 0) {
+                Platform.runLater(() -> {
+                    enableFirstActionButtons(true);
+                    System.out.println("After enabling buttons, cuz Im new active player");
+                });
+            }
         }
+    }
+
+    private void changeActiveLabel(int indexOfPlayerNew){
+        Label oldIndex, newIndex;
+        switch(indexOfPlayerNew){
+            case 0: newIndex = label_player1;
+                    switch(players.size()){
+                        case 2: oldIndex = label_player2;
+                            break;
+                        case 3: oldIndex = label_player3;
+                            break;
+                        case 4: oldIndex = label_player4;
+                            break;
+                        case 5: oldIndex = label_player5;
+                            break;
+                        case 6: oldIndex = label_player6;
+                            break;
+                        default: oldIndex = newIndex;
+                    }
+                break;
+            case 1: newIndex = label_player2;
+                    oldIndex = label_player1;
+                break;
+            case 2: newIndex = label_player3;
+                    oldIndex = label_player2;
+                break;
+            case 3: newIndex = label_player4;
+                    oldIndex = label_player3;
+                break;
+            case 4: newIndex = label_player5;
+                    oldIndex = label_player4;
+                break;
+            case 5: newIndex = label_player6;
+                    oldIndex = label_player5;
+                break;
+            default:    newIndex = label_player1;
+                        oldIndex = label_player1;
+        }
+        oldIndex.getStyleClass().clear();
+        oldIndex.getStyleClass().add("label_playerInGame");
+        newIndex.getStyleClass().clear();
+        newIndex.getStyleClass().add("label_playerInGameActive");
     }
 
     public void putEndGameTextOnLabel(){

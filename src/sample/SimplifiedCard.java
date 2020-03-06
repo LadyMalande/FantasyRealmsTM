@@ -1,6 +1,8 @@
 package sample;
 
-public class SimplifiedCard {
+import java.util.Comparator;
+
+public class SimplifiedCard implements Comparable<SimplifiedCard>{
     public long serialVersionUID = 11;
     public int id;
     public String name;
@@ -18,5 +20,15 @@ public class SimplifiedCard {
 
     public String getName(){
         return this.name;
+    }
+    public String getType(){return this.type;}
+    public int getStrength(){ return this.strength;    }
+
+    @Override
+    public int compareTo(SimplifiedCard card){
+        return Comparator.comparing(SimplifiedCard::getType)
+                .thenComparingInt(SimplifiedCard::getStrength)
+                .thenComparing(SimplifiedCard::getName)
+                .compare(this, card);
     }
 }

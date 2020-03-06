@@ -2,10 +2,12 @@ package interactive;
 
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.StackPane;
 import sample.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -51,6 +53,18 @@ public class CopyNameAndType extends Interactive {
             if (result2.isPresent()) {
                 board.client.sendMessage("CopyNameAndType#" + thiscardid + "#" + result2.get());
                 System.out.println("Sent: " + "CopyNameAndType#" + thiscardid + "#" + result2.get());
+
+                SimplifiedCard cardToDraw = board.getPlayer().simhand.stream().filter(card -> card.id == thiscardid).findAny().get();
+                System.out.println("cardToDraw: " + thiscardid + " Name: " + cardToDraw.id);
+                String handPane = board.hand_StackPaneFree.entrySet().stream().filter(set -> Objects.nonNull(set.getValue().y)).filter(set -> set.getValue().y.id == thiscardid).findAny().get().getKey();
+                StackPane handPaneForCard;
+                handPaneForCard = board.switchNameForStackPane(handPane);
+
+                String[] splitted = result2.get().split("( \\()");
+                String name = splitted[0];
+                cardToDraw.type = BigSwitches.switchCardNameForStringType(name);
+                cardToDraw.name = name;
+                board.create_card_from_text(handPaneForCard, cardToDraw);
             }
         });
             dialogOpen = false;

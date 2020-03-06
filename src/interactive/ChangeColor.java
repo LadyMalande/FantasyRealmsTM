@@ -5,10 +5,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.StackPane;
 import sample.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,7 @@ public class ChangeColor extends Interactive {
         this.thiscardid = id;
     }
     private static boolean dialogOpen = false;
-    public static void askPlayer(BoardController board) {
+    public static void askPlayer(BoardController board, int id) {
         //Choose card in hand
         if (!dialogOpen) {
         List<String> choices = new ArrayList<>();
@@ -32,7 +34,7 @@ public class ChangeColor extends Interactive {
 
         Platform.runLater(()-> {
         ChoiceDialog<String> dialog1 = new ChoiceDialog<>(choices.get(0), choices);
-        dialog1.setTitle(BigSwitches.switchIdForName(31));
+        dialog1.setTitle(BigSwitches.switchIdForName(id));
         dialog1.setHeaderText("Choose card");
         dialog1.setContentText("This card will change color:");
 
@@ -52,7 +54,7 @@ public class ChangeColor extends Interactive {
 
 
         ChoiceDialog<String> dialog2 = new ChoiceDialog<>(choices2.get(0), choices2);
-        dialog2.setTitle(BigSwitches.switchIdForName(31));
+        dialog2.setTitle(BigSwitches.switchIdForName(id));
         dialog2.setHeaderText("Choose into which type you want to change your selected card");
         dialog2.setContentText("This type will be given to chosen card:");
 
@@ -63,6 +65,15 @@ public class ChangeColor extends Interactive {
             if (whichCardToChange.isPresent() && typeForChange.isPresent()) {
                 board.client.sendMessage("ChangeColor#" + whichCardToChange.get() + "#" + typeForChange.get());
                 System.out.println("Sent: " + "ChangeColor#" + whichCardToChange.get() + "#" + typeForChange.get());
+
+                SimplifiedCard cardToDraw = board.getPlayer().simhand.stream().filter(card -> card.name.equals(whichCardToChange.get())).findAny().get();
+                String handPane = board.hand_StackPaneFree.entrySet().stream().filter(set -> Objects.nonNull(set.getValue().y)).filter(set -> set.getValue().y.id == cardToDraw.id).findAny().get().getKey();
+                StackPane handPaneForCard;
+                handPaneForCard = board.switchNameForStackPane(handPane);
+
+                cardToDraw.type = typeForChange.get();
+
+                board.create_card_from_text(handPaneForCard, cardToDraw);
             }
         });
         dialogOpen = false;

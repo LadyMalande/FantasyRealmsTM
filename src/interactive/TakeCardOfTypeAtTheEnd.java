@@ -35,6 +35,12 @@ public class TakeCardOfTypeAtTheEnd extends Interactive  {
             if (result.isPresent()) {
                 board.client.sendMessage("TakeCardOfType#" + result.get());
                 System.out.println("Sent: " + "TakeCardOfType#" + result.get());
+                SimplifiedCard cardfromTable = board.table_StackPaneFree.entrySet().stream().filter(set -> set.getValue().y.name.equals(result.get())).findAny().get().getValue().y;
+                int id = cardfromTable.id;
+                board.getPlayer().simhand.add(cardfromTable);
+                board.putCardToHand(cardfromTable);
+                board.enableSecondActionButtons(false);
+                //board.client.sendMessage("GOT_CARD_FROM_TABLE#" + id);
             }
         });
             dialogOpen = false;
