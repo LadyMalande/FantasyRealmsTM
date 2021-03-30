@@ -5,10 +5,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.StackPane;
 import sample.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CopyNameColorStrengthMalusFromHand extends Interactive  {
@@ -25,7 +22,7 @@ public class CopyNameColorStrengthMalusFromHand extends Interactive  {
     }
 
     private static boolean dialogOpen = false;
-    public static void askPlayer(BoardController board, int thiscardid) {
+    public static void askPlayer(BoardController board, int thiscardid, Locale locale) {
         if (!dialogOpen) {
         List<String> choices = new ArrayList<>();
         choices.addAll(board.hand_StackPaneFree.entrySet().stream().filter(set -> !set.getValue().x).map(simcard -> simcard.getValue().y.name).collect(Collectors.toList()));
@@ -33,8 +30,9 @@ public class CopyNameColorStrengthMalusFromHand extends Interactive  {
         Platform.runLater(()-> {
             ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
             dialog.setTitle(BigSwitches.switchIdForName(thiscardid));
-            dialog.setHeaderText("Choose card name to copy");
-            dialog.setContentText("Chosen name:");
+            ResourceBundle rb = ResourceBundle.getBundle("sample.UITexts", locale);
+            dialog.setHeaderText(rb.getString("interactives_cardnametocopy"));
+            dialog.setContentText(rb.getString("interactives_chosenname"));
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
 
@@ -48,7 +46,7 @@ public class CopyNameColorStrengthMalusFromHand extends Interactive  {
 
                 String name = result.get();
                 SimplifiedCard original = board.hand_StackPaneFree.entrySet().stream().filter(set -> Objects.nonNull(set.getValue().y)).filter(set -> set.getValue().y.name.equals(name)).findAny().get().getValue().y;
-                cardToDraw.type = BigSwitches.switchCardNameForStringType(name);
+                cardToDraw.type = original.type;
                 cardToDraw.name = name;
                 cardToDraw.strength = original.strength;
                 String[] alltext = original.allText.split("MALUS\n");
@@ -59,8 +57,12 @@ public class CopyNameColorStrengthMalusFromHand extends Interactive  {
                 }
                 board.create_card_from_text(handPaneForCard, cardToDraw);
 
-                board.client.sendMessage("CopyCardFromHand#" + result.get() + "#" + thiscardid);
-                System.out.println("Sent: " + "CopyCardFromHand#" + result.get() + "#" + thiscardid);
+                board.client.sendMessage("CopyCardFromHand#" + original.id + "#" + thiscardid);
+                System.out.println("Sent: " + "CopyCardFromHand#" + original.id + "#" + thiscardid);
+            } else {
+                // Result is not present - Client pressed Cancel or X
+                board.client.sendMessage("CopyCardFromHand#" + -1 + "#" + thiscardid);
+                System.out.println("Sent: " + "CopyCardFromHand#" + -1 + "#" + thiscardid);
             }
         });
             dialogOpen = false;

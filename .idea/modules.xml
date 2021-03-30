@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FantasyRealmsTM.iml" filepath="$PROJECT_DIR$/FantasyRealmsTM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FantasyRealmsTMMaven/FantasyRealmsTMMaven.iml" filepath="$PROJECT_DIR$/FantasyRealmsTMMaven/FantasyRealmsTMMaven.iml" />
     </modules>
   </component>
 </project>

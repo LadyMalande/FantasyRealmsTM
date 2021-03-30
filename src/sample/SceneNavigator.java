@@ -2,7 +2,13 @@ package sample;
 
 import javafx.fxml.FXMLLoader;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 
 /**
@@ -52,16 +58,31 @@ class SceneNavigator {
      */
     static void loadVista(String fxml) {
         try {
+
+            ResourceBundle resource = ResourceBundle.getBundle("sample.UITexts", getLocaleFromConfig());
             mainController.setVista(
-                    FXMLLoader.load(
-                            SceneNavigator.class.getResource(
-                                    fxml
-                            )
-                    )
-            );
+                    FXMLLoader.load(SceneNavigator.class.getResource(fxml), resource));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static Locale getLocaleFromConfig(){
+        Properties props = new Properties();
+        File configFile = new File("config.properties");
+        Locale locale = new Locale("en");
+        try {
+            FileReader reader = new FileReader(configFile);
+            // load the properties file:
+            props.load(reader);
+
+            locale = new Locale(props.getProperty("locale"));
+
+            reader.close();
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return locale;
     }
 
 }

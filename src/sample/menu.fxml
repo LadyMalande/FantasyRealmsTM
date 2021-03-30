@@ -6,13 +6,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="VBox_Background" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MenuController">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox id="VBox_Background" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="sample.MenuController">
 
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20">
       <!-- <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
           <Image url="@graphics/The_Witcher_Driad_1.jpg"/>
        </ImageView> -->
-       <Label text="Fantasy Realms TM">
+       <Label text="%appname">
           <font>
              <Font name="Century Gothic Bold" size="24.0" />
           </font>
@@ -21,10 +23,30 @@
          <Image url="@graphics/The_Witcher_Geralt_5.jpg"/>
       </ImageView> -->
    </HBox>
+   <HBox id="VBox_LOCALIZATION" alignment="CENTER" prefHeight="50.0" prefWidth="100.0" spacing="20" style="-fx-padding: 20;">
+      <Button fx:id="button_locale_en" mnemonicParsing="false" onAction="#change_localization_en" styleClass="menu_buttonLocalize" >
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@graphics/us.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="button_locale_cs" mnemonicParsing="false" onAction="#change_localization_cs" styleClass="menu_buttonLocalize" >
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@graphics/cz.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </HBox>
    <VBox id="VBox_MENU" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20" style="-fx-padding: 20;">
-      <Button mnemonicParsing="false" onAction="#start_game" styleClass="menu_button" text=" Play original" />
-      <Button mnemonicParsing="false" onAction="#start_gameRandom" styleClass="menu_button" text="Play with random deck" />
-      <Button mnemonicParsing="false" onAction="#show_rules" styleClass="menu_button" text="Rules" />
-      <Button mnemonicParsing="false" onAction="#exit" styleClass="menu_button" text="Exit" />
+      <Button mnemonicParsing="false" onAction="#start_game" styleClass="menu_button" text="%menu_original" />
+      <Button mnemonicParsing="false" onAction="#start_gameRandom" styleClass="menu_button" text="%menu_random" />
+      <Button mnemonicParsing="false" onAction="#show_rules" styleClass="menu_button" text="%menu_rules" />
+      <Button mnemonicParsing="false" onAction="#exit" styleClass="menu_button" text="%menu_exit" />
    </VBox>
 </VBox>

@@ -21,7 +21,7 @@ import interactive.*;
 
 import java.io.*;
 import java.net.*;
-
+import java.util.Locale;
 
 
 public class Client implements Runnable
@@ -34,11 +34,13 @@ public class Client implements Runnable
     ObjectInputStream dis;
     ObjectOutputStream dos;
     BoardController board;
-    public Client(String name, int maxPlayers, BoardController board){
+    Locale locale;
+    public Client(String name, int maxPlayers, BoardController board, String locale){
         this.name = name;
         this.maxPlayers = maxPlayers;
         this.board = board;
-        System.out.println("In client constructor");
+        this.locale = new Locale(locale);
+        System.out.println("In client constructor Locale " + this.locale.getLanguage());
     }
 @Override
     public void run() {
@@ -63,12 +65,12 @@ public class Client implements Runnable
                 else{
                     IWantRandomDeck = "false";
                 }
-                String msg = "INIT#" + name + "#" + maxPlayers + "#" + IWantRandomDeck ;
+                String msg = "INIT#" + name + "#" + maxPlayers + "#" + IWantRandomDeck + "#" + locale.getLanguage() + "#" + board.numberOfAI;
                 try {
                     // write on the output stream
                     dos.writeUTF(msg);
                     dos.flush();
-                    System.out.println("Posted lobby info");
+                    System.out.println("Posted lobby info: " + msg);
                     sentLobbyInfo = true;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -133,32 +135,32 @@ public class Client implements Runnable
                             board.buildPlayerLabels(names);
                         }
                         if (received.startsWith("SCORES")) {
-                            System.out.println(received);
+                            System.out.println(received + "\n");
                             String[] message = received.split("#");
-                            int size = message.length - 1;
+                            int size = message.length - 2;
 
                             String[] scores = new String[size];
-                            System.arraycopy(message, 1, scores, 0, size);
+                            System.arraycopy(message, 2, scores, 0, size);
                             board.buildPlayerScores(scores);
                         }
 
                         if (received.startsWith("ChangeColor")) {
                             String[] message = received.split("#");
                             int id = Integer.parseInt(message[1]);
-                            ChangeColor.askPlayer(board, id);
+                            ChangeColor.askPlayer(board, id, locale);
                         }
 
                         if (received.startsWith("CopyNameAndType")) {
                             String[] message = received.split("#");
                             int id = Integer.parseInt(message[1]);
                             String[] splitted = message[2].split(",");
-                            CopyNameAndType.askPlayer(board, id, splitted);
+                            CopyNameAndType.askPlayer(board, id, splitted, locale);
                         }
 
                         if (received.startsWith("CopyCardFromHand")) {
                             String[] message = received.split("#");
                             int id = Integer.parseInt(message[1]);
-                            CopyNameColorStrengthMalusFromHand.askPlayer(board, id);
+                            CopyNameColorStrengthMalusFromHand.askPlayer(board, id, locale);
                         }
 
                         if (received.startsWith("DeleteOneMalusOnType")) {
@@ -166,15 +168,21 @@ public class Client implements Runnable
                             int id = Integer.parseInt(message[1]);
                             if (message.length > 2) {
                                 String[] splitted = message[2].split("%");
-                                DeleteOneMalusOnType.askPlayer(board, id, splitted);
+                                DeleteOneMalusOnType.askPlayer(board, id, splitted, locale);
                             }
                         }
 
                         if (received.startsWith("TakeCardOfType")) {
                             String[] message = received.split("#");
                             int id = Integer.parseInt(message[1]);
-                            String[] splitted = message[2].split(",");
-                            TakeCardOfTypeAtTheEnd.askPlayer(board, id, splitted);
+                            String[] splitted;
+                            if(message.length > 2){
+                                splitted = message[2].split(",");
+                            } else{
+                                splitted = null;
+                            }
+
+                            TakeCardOfTypeAtTheEnd.askPlayer(board, id, splitted, locale);
                         }
 
                     } catch (SocketException se){

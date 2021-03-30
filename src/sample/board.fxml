@@ -9,15 +9,15 @@
 <?import javafx.scene.text.Font?>
 <?scenebuilder-stylesheet style.css?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BoardController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20" stylesheets="@style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="sample.BoardController">
       <HBox spacing="20">
-         <Label layoutX="14.0" layoutY="14.0" text="Fantasy Realms TM">
+         <Label layoutX="14.0" layoutY="14.0" text="%appname">
          <font>
             <Font name="Impact" size="24.0" />
          </font>
          </Label>
-          <Label fx:id="label_score" prefHeight="42.0" prefWidth="692.0" wrapText="true" />
-      <Label alignment="CENTER" prefHeight="30.0" prefWidth="160.0" text="Players in game" textAlignment="CENTER" translateX="120.0" translateY="15.0" underline="true">
+          <Label fx:id="label_score" prefHeight="42.0" prefWidth="692.0" wrapText="true" text="%board_labelscore"/>
+      <Label alignment="CENTER" prefHeight="30.0" prefWidth="160.0" text="%board_playersingame" textAlignment="CENTER" translateX="120.0" translateY="15.0" underline="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -41,7 +41,7 @@
                       </StackPane>
             
                         </HBox>
-               <Label text="Board: When 10 cards are on desk, the game instantly ends. You can choose a card from here when it is your turn." />
+               <Label text="%board_endgamecondition" />
                   <HBox alignment="CENTER" maxWidth="900" spacing="20" styleClass="board_HBox">
                       <StackPane fx:id="stack_table6" styleClass="hand_StackPane">
                       </StackPane>
@@ -59,7 +59,7 @@
 
          </VBox>
           <StackPane fx:id="stack_deck" styleClass="deck_StackPane" translateX="20.0">
-            <Label text="Actions in turn" translateY="-200.0">
+            <Label text="%board_actions" translateY="-200.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -68,9 +68,9 @@
                <StackPane.margin>
                   <Insets />
                </StackPane.margin></Button>
-            <Label alignment="BASELINE_LEFT" prefHeight="51.0" prefWidth="150.0" text="Deck: You can draw a card from here when it is your turn." translateY="-60.0" wrapText="true" StackPane.alignment="BOTTOM_CENTER" />
-            <Label fx:id="label_turnRules" prefHeight="74.0" prefWidth="150.0" translateY="-150.0" wrapText="true" />
-            <Button fx:id="button_backToMenu" mnemonicParsing="false" text="Back to Menu" translateY="190.0" />
+            <Label alignment="BASELINE_LEFT" prefHeight="51.0" prefWidth="150.0" text="%board_deck" translateY="-60.0" wrapText="true" StackPane.alignment="BOTTOM_CENTER" />
+            <Label fx:id="label_turnRules" prefHeight="74.0" prefWidth="150.0" translateY="-150.0" wrapText="true" text="%board_turnrules"/>
+            <Button fx:id="button_backToMenu" mnemonicParsing="false" text="%backtomenu" translateY="190.0" />
           </StackPane>
          <VBox prefHeight="200.0" prefWidth="160.0" translateX="45.0">
                <Label fx:id="label_player1" styleClass="label_player" />
@@ -102,7 +102,7 @@
 
       </HBox>
    <HBox alignment="CENTER" prefWidth="200.0">
-         <Label alignment="CENTER" text="▲ This is your hand. After you draw a card from the deck or you take a card from the table, you must choose one card from your hand and put it on table by clicking on it. ▲ " />
+         <Label alignment="CENTER" text="%board_hand" />
    </HBox>
 
 

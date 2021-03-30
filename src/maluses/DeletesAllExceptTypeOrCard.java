@@ -22,7 +22,7 @@ public class DeletesAllExceptTypeOrCard extends Malus {
     }
 
     private ArrayList<Type> getComplementOfTypes(ArrayList<Type> except) {
-        ArrayList<Type> complement_types = new ArrayList<>(){{add(Type.ARMY);add(Type.ARTIFACT); add(Type.WEAPON);add(Type.WEATHER);add(Type.CREATURE);add(Type.FLOOD);add(Type.LEADER);add(Type.EARTH);add(Type.WIZARD);add(Type.FIRE);add(Type.WILD);}};
+        ArrayList<Type> complement_types = new ArrayList<>(){{add(Type.ARMY);add(Type.ARTIFACT); add(Type.WEAPON);add(Type.WEATHER);add(Type.BEAST);add(Type.FLOOD);add(Type.LEADER);add(Type.LAND);add(Type.WIZARD);add(Type.FLAME);add(Type.WILD);}};
        complement_types.add(Type.ARTIFACT);
        complement_types.add(Type.ARMY);
        for(Type t: except){

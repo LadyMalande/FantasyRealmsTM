@@ -140,13 +140,52 @@ COLOR SCHEME
 .menu_button {
 
     -fx-pref-height: 100;
-    -fx-background-color: #0E59AC;
+    -fx-background-color: #3A72B1;
     -fx-font-family: 'Impact', Arial, sans-serif;
     -fx-font-size: 24px;
 }
 
 .menu_button:hover {
-    -fx-background-color: #500759;
+    -fx-background-color: #5588C1;
+}
+
+#off{
+-fx-pref-height: 50;
+    -fx-background-color: #3A72B1;
+}
+#on{
+-fx-pref-height: 50;
+    -fx-background-color: #FFD921;
+}
+.menu_buttonLocalizeOn{
+    -fx-pref-height: 50;
+    -fx-background-color: #FFD921;
+}
+
+.menu_buttonLocalizeOn:hover {
+    -fx-background-color: #5588C1;
+}
+
+.menu_buttonLocalizeOff{
+    -fx-pref-height: 50;
+    -fx-background-color: #3A72B1;
+}
+
+.menu_buttonLocalizeOff:hover {
+    -fx-background-color: #5588C1;
+}
+
+#mid{
+-fx-pref-height: 50;
+    -fx-background-color: #3A72B1;
+}
+.menu_buttonLocalize{
+    -fx-pref-height: 50;
+    -fx-background-color: #3A72B1;
+}
+
+.menu_buttonLocalize:hover{
+    -fx-background-color: #5588C1;
 }
 
 .main_VBox{
@@ -155,7 +194,7 @@ COLOR SCHEME
 }
 
 .board_HBox{
-    -fx-background-color: #500759;
+    -fx-background-color: #8F09A2;
 }
 
 .StackPane {
@@ -222,7 +261,7 @@ COLOR SCHEME
     -fx-pref-width: 160;
     -fx-pref-height: 120;
     -fx-border-color: pink;
-    -fx-background-color: #16B3E6;
+    -fx-background-color: #5588C1;
     -fx-border-width: 2;
     -fx-border-style: solid;
     -fx-text-alignment: center;

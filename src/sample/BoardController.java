@@ -11,17 +11,17 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-
-import static com.sun.javafx.scene.control.skin.Utils.computeClippedText;
 
 /**
  * Controller class for the second vista.
@@ -29,12 +29,14 @@ import static com.sun.javafx.scene.control.skin.Utils.computeClippedText;
 public class BoardController implements Initializable{
 
     private String thisPlayername;
-    private int thisPlayerMaxPlayers;
+    private String locale;
+    private int thisPlayerMaxPlayers = 0;
     public  static List<StackPane> hand_StackPanes;
     public static List<StackPane> table_StackPanes;
     private ArrayList<SimplePlayer> players;
     public Client client;
     private int round = 0;
+    public int numberOfAI = 0;
     public static Player player;
     private int numberOfCardsOnTable = 0;
 
@@ -103,7 +105,7 @@ public class BoardController implements Initializable{
         gc.drawImage(image1,0,20, 150.0,80.0);
 
         //Decide the color and String of type rectangle based on Type enum
-        ArrayList<String> typeColorAndName = BigSwitches.switchType(BigSwitches.switchNameForType(type));
+        ArrayList<String> typeColorAndName = BigSwitches.switchType(BigSwitches.switchNameForType(type), new Locale(locale));
         String color_hex = typeColorAndName.get(0);
         String type_name = typeColorAndName.get(1);
 
@@ -175,44 +177,65 @@ public class BoardController implements Initializable{
         sp.getChildren().addAll(canvas_hand1,label); */
     }
 
+    private void initializeFromConfigFile(){
+        Properties props = new Properties();
+        File configFile = new File("config.properties");
+        try{
+            FileReader reader = new FileReader(configFile);
+            // load the properties file:
+            props.load(reader);
+
+            thisPlayername = props.getProperty("name");
+            thisPlayerMaxPlayers = Integer.parseInt(props.getProperty("menu_numberofplayers"));
+            randomDeck = Boolean.parseBoolean(props.getProperty("randomdeck"));
+            locale = props.getProperty("locale");
+            numberOfAI = Integer.parseInt(props.getProperty("numberofai"));
+            FileWriter writer = new FileWriter(configFile);
+            props.store(writer, "client settings");
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Platform.runLater(()-> label_score.setText(label_score.getText() + thisPlayername));
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+            initializeFromConfigFile();
 
-        show_dialog_HowManyPlayers();
-        show_dialog_InsertYourName();
+            player = new Player(new ArrayList<>());
 
-
-        player = new Player(new ArrayList<>());
-        client = new Client(thisPlayername, thisPlayerMaxPlayers, this);
+        client = new Client(thisPlayername, thisPlayerMaxPlayers, this, locale);
         gotAllCards = false;
         System.out.println("After init client");
         Thread t = new Thread(client);
         t.start();
+            System.out.println("after client.communicate");
 
-        System.out.println("after client.communicate");
+            cardsOnTable = new ArrayList<>();
+            hand_StackPanes = new ArrayList<>();
+            hand_StackPanes.addAll(Arrays.asList(stack_hand1, stack_hand2, stack_hand3, stack_hand4, stack_hand5, stack_hand6, stack_hand7, stack_hand8));
+            table_StackPanes = new ArrayList<>();
+            table_StackPanes.addAll(Arrays.asList(stack_table1, stack_table2, stack_table3, stack_table4, stack_table5, stack_table6, stack_table7, stack_table8, stack_table9, stack_table90));
 
-        cardsOnTable = new ArrayList<>();
-        hand_StackPanes = new ArrayList<>();
-        hand_StackPanes.addAll(Arrays.asList(stack_hand1, stack_hand2, stack_hand3, stack_hand4, stack_hand5, stack_hand6, stack_hand7, stack_hand8));
-        table_StackPanes = new ArrayList<>();
-        table_StackPanes.addAll(Arrays.asList(stack_table1, stack_table2, stack_table3, stack_table4, stack_table5, stack_table6, stack_table7, stack_table8, stack_table9, stack_table90));
+            for (StackPane s : table_StackPanes) {
+                table_StackPaneFree.put(s.getId(), new Tuple<>(true, null));
+            }
+            deck_Button.setOnMouseClicked(e -> getCardFromDeck());
+            deck_Button.setDisable(true);
 
-        for(StackPane s: table_StackPanes){
-            table_StackPaneFree.put(s.getId(), new Tuple<>(true,null));
-        }
-        deck_Button.setOnMouseClicked(e-> getCardFromDeck());
-        deck_Button.setDisable(true);
+            while (!gotAllCards) {
+                System.out.println("Waiting for server to get us all cards...");
+            }
+            System.out.println("after stack panes free");
+            crate_hand_SimplifiedCards();
+            button_backToMenu.setVisible(false);
+            button_backToMenu.setOnAction(this::backToMenu);
 
-        while(!gotAllCards){
-            System.out.println("Waiting for server to get us all cards...");
-        }
-        System.out.println("after stack panes free");
-        crate_hand_SimplifiedCards();
-        label_turnRules.setText("1) Take card from the table or the deck \n2) Drop one card from your hand");
-        button_backToMenu.setVisible(false);
-        button_backToMenu.setOnAction(this::backToMenu);
-        //hand_Buttons.forEach(button -> button.setOnMouseClicked(click -> dropCard(click)));
-        //play();
+            //hand_Buttons.forEach(button -> button.setOnMouseClicked(click -> dropCard(click)));
+            //play();
     }
 
     private void crate_hand_SimplifiedCards(){
@@ -527,23 +550,60 @@ public class BoardController implements Initializable{
         enableSecondActionButtons(false);
     }
 
-    private void show_dialog_HowManyPlayers(){
+    private boolean show_dialog_HowManyPlayers(){
+        thisPlayerMaxPlayers = 0;
         ArrayList<String> howManyPlayers = new ArrayList<>(){{add("1");add("2");add("3");add("4");add("5");add("6");}};
+        boolean cancelPressed = false;
+
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.getItems().addAll(howManyPlayers);
+        dialog.setTitle("Server setup");
+        dialog.setHeaderText("Number of players");
+        dialog.setContentText("Choose number of players for your game:");
+
+        Optional<String> result = dialog.showAndWait();
+        int players;
+        try{
+            thisPlayerMaxPlayers = Integer.parseInt(result.get());
+        } catch (NumberFormatException  e) {
+            e.printStackTrace();
+        } catch(NoSuchElementException el){
+
+        }
+        if (thisPlayerMaxPlayers != 0){
+            System.out.println("Ok button is pressed2");
+            return true;
+        } else{
+            SceneNavigator.loadVista(SceneNavigator.MENU);
+            System.out.println("Cancel button was pressed2");
+
+            return false;
+        }
+    }
+/*
+    private boolean show_dialog_HowManyPlayers(){
+        ArrayList<String> howManyPlayers = new ArrayList<>(){{add("1");add("2");add("3");add("4");add("5");add("6");}};
+        boolean cancelPressed = false;
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(howManyPlayers.get(0), howManyPlayers);
         dialog.setTitle("Server setup");
         dialog.setHeaderText("Number of players");
         dialog.setContentText("Choose number of players for your game:");
-        Optional<String> result = dialog.showAndWait();
+
+        dialog.getSelectedItem();
         if (result.isPresent()){
             thisPlayerMaxPlayers = Integer.parseInt(result.get());
+            return true;
         } else{
             SceneNavigator.loadVista(SceneNavigator.MENU);
+            return false;
         }
     }
+    */
 
-    private void show_dialog_InsertYourName(){
-        TextInputDialog dialog = new TextInputDialog("your_name");
+    private boolean show_dialog_InsertYourName(){
+        Random r = new Random(5032);
+        TextInputDialog dialog = new TextInputDialog("your_name" + r.nextInt(1000));
         dialog.setTitle("Player setup");
         dialog.setHeaderText("Your name");
         dialog.setContentText("Please enter your name:");
@@ -553,15 +613,18 @@ public class BoardController implements Initializable{
         if (result.isPresent()){
             thisPlayername = result.get();
             Platform.runLater(()-> label_score.setText("Your name is: " + thisPlayername));
+            return true;
         }
         else{
             SceneNavigator.loadVista(SceneNavigator.MENU);
+            return false;
         }
     }
 
-    public void changeLabel(Label label, String toAdd){
+    public String changeLabel(Label label, String toAdd){
+        String oldText = label.getText();
         Platform.runLater(()-> {
-            String oldText = label.getText();
+
             label.setText(oldText + "\n" + toAdd);
             if(toAdd.startsWith("1")){
                 label.getStyleClass().add("label_playerInGameGold");
@@ -574,52 +637,67 @@ public class BoardController implements Initializable{
                 label.getStyleClass().add("label_playerInGame");
             }
         });
+        String retValue = new String();
+        retValue = toAdd.split("(\\) )")[0] + ") " + oldText + ", " + toAdd.split("(\\) )")[1];
+        return retValue;
     }
 
     public void buildPlayerScores(String[] names){
-        String scoreTable = names[0];
+        ArrayList<String> scoreTable = new ArrayList<>();
+        ResourceBundle rb = ResourceBundle.getBundle("sample.UITexts", new Locale(locale));
+        System.out.println("names[0]: " + names[0]);
         System.out.println("Building player scores");
+        if(names.length > 0){
+            scoreTable.add(changeLabel(label_player1,names[0]));
+        }
         if(names.length > 1){
-            changeLabel(label_player1,names[1]);
+            scoreTable.add(changeLabel(label_player2,names[1]));
         }
         if(names.length > 2){
-            changeLabel(label_player2, names[2]);
+            scoreTable.add(changeLabel(label_player3,names[2]));
         }
         if(names.length > 3){
-            changeLabel(label_player3, names[3]);
+            scoreTable.add(changeLabel(label_player4,names[3]));
         }
         if(names.length > 4){
-            changeLabel(label_player4, names[4]);
+            scoreTable.add(changeLabel(label_player5,names[4]));
         }
         if(names.length > 5){
-            changeLabel(label_player5, names[5]);
+            scoreTable.add(changeLabel(label_player6,names[5]));
         }
-        if(names.length > 6){
-            changeLabel(label_player6, names[6]);
-        }
-        int rank = Integer.parseInt(names[1].split("\\)")[0]);
+        int rank = Integer.parseInt(names[0].split("\\)")[0]);
+
+        System.out.println("names[0] se snazim splitnout : " + names[0]);
         String position;
         switch(rank){
-            case 1: position = "won the game";
+            case 1: position = rb.getString("board_won");
             break;
-            case 2: position = "are second";
+            case 2: position = rb.getString("board_second");
             break;
-            case 3: position = "are third";
+            case 3: position = rb.getString("board_third");
             break;
-            case 4: position = "are fourth";
+            case 4: position = rb.getString("board_fourth");
             break;
-            case 5: position = "are fifth";
+            case 5: position = rb.getString("board_fifth");
             break;
-            default: position = "are sixth";
+            default: position = rb.getString("board_sixth");
         }
-        int score = Integer.parseInt(names[1].split("(\\) )")[1]);
+        int score = Integer.parseInt(names[0].split("(\\) )")[1]);
+        scoreTable.forEach(System.out::println);
+
+        Collections.sort(scoreTable);
+        StringBuilder expandedScoreTable = new StringBuilder();
+        for (String s: scoreTable){
+                expandedScoreTable.append(s).append("\n");
+        }
         Platform.runLater(()-> {
             button_backToMenu.setVisible(true);
             button_backToMenu.setDisable(false);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Final score");
-            alert.setHeaderText("Congratulations, " + thisPlayername + "! You " + position + " with the score of " + score + " points!\n\n" + scoreTable);
-            alert.setContentText("You can compare your score to the score of fellow players in the table on the right!");
+            alert.setTitle(rb.getString("board_finalscore"));
+
+            alert.setHeaderText(rb.getString("board_gz") + thisPlayername + "! " + position + rb.getString("board_scoreof") + score + rb.getString("board_points") + "\n\n" + rb.getString("board_scoretable") + "\n" + expandedScoreTable);
+            alert.setContentText(rb.getString("board_compare"));
             alert.setGraphic(new ImageView(this.getClass().getResource("graphics/medal.png").toString()));
 
             alert.showAndWait();
@@ -627,11 +705,12 @@ public class BoardController implements Initializable{
     }
 
     public void disconnectedFromServer(){
+        ResourceBundle rb = ResourceBundle.getBundle("sample.UITexts", new Locale(locale));
         Platform.runLater(()-> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Connection error");
-            alert.setHeaderText("Ooops, it seems like we are having problem with our server, " + thisPlayername + "!\n\n We apologize for any inconvenience caused by this interruption.");
-            alert.setContentText("After clicking on \"OK\", your game will be closed.");
+            alert.setTitle(rb.getString("board_conerror"));
+            alert.setHeaderText(rb.getString("board_conerrortext1") + thisPlayername + "!\n\n" + rb.getString("board_conerrortext2") );
+            alert.setContentText(rb.getString("board_errordismiss"));
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent()){
@@ -648,7 +727,7 @@ public class BoardController implements Initializable{
     public void buildPlayerLabels(String[] names){
         System.out.println("build player names start");
         players = new ArrayList<>();
-        System.out.println("players array number of elements: " + players.size());
+        System.out.println("players array number of elements: " + players.size() + " names got from message length " + names.length);
         if(names.length > 0){
             Platform.runLater(()-> {
                 String name;
@@ -883,8 +962,9 @@ public class BoardController implements Initializable{
     }
 
     public void putEndGameTextOnLabel(){
+        ResourceBundle rb = ResourceBundle.getBundle("sample.UITexts", new Locale(locale));
         Platform.runLater(()-> {
-            label_score.setText("10 cards are on the table! The score of all players will now be counted. When the counting is finished, you will see the score on the panel on the right!");
+            label_score.setText(rb.getString("board_endgamealert"));
             enableSecondActionButtons(false);
             enableFirstActionButtons(false);
         });
