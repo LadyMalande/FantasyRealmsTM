@@ -3,7 +3,6 @@ package client;
 import java.util.Comparator;
 
 public class SimplifiedCard implements Comparable<SimplifiedCard>{
-    public long serialVersionUID = 11;
     public int id;
     public String name;
     public int strength;

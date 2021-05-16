@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class BoardController implements Initializable{
 
+    public Label label_turnRules;
     private String thisPlayername;
     private String locale;
     private int thisPlayerMaxPlayers = 0;

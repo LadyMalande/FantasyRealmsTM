@@ -1,69 +1,80 @@
 package client;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class BigSwitches {
     public static String switchImage(int id){
+        if(id <55 && id > 0) {
+            return "graphics/" + id + ".jpg";
+        } else return "graphics/1.jpg";
+    }
+
+    public static String switchIdForName(int id, Locale locale){
+        ResourceBundle rb = ResourceBundle.getBundle("client.CardNames", locale);
         switch(id){
-            case 1: return "graphics/1.jpg";
-            case 2: return "graphics/2.jpg";
-            case 3: return "graphics/3.jpg";
-            case 4: return "graphics/4.jpg";
-            case 5: return "graphics/5.jpg";
-            case 6: return "graphics/6.jpg";
-            case 7: return "graphics/7.jpg";
-            case 8: return "graphics/8.jpg";
-            case 9: return "graphics/9.jpg";
-            case 10: return "graphics/10.jpg";
-            case 11: return "graphics/11.jpg";
-            case 12: return "graphics/12.jpg";
-            case 13: return "graphics/13.jpg";
-            case 14: return "graphics/14.jpg";
-            case 15: return "graphics/15.jpg";
-            case 16: return "graphics/16.jpg";
-            case 17: return "graphics/17.jpg";
-            case 18: return "graphics/18.jpg";
-            case 19: return "graphics/19.jpg";
-            case 20: return "graphics/20.jpg";
-            case 21: return "graphics/21.jpg";
-            case 22: return "graphics/22.jpg";
-            case 23: return "graphics/23.jpg";
-            case 24: return "graphics/24.jpg";
-            case 25: return "graphics/25.jpg";
-            case 26: return "graphics/26.jpg";
-            case 27: return "graphics/27.jpg";
-            case 28: return "graphics/28.jpg";
-            case 29: return "graphics/29.jpg";
-            case 30: return "graphics/30.jpg";
-            case 31: return "graphics/31.jpg";
-            case 32: return "graphics/32.jpg";
-            case 33: return "graphics/33.jpg";
-            case 34: return "graphics/34.jpg";
-            case 35: return "graphics/35.jpg";
-            case 36: return "graphics/36.jpg";
-            case 37: return "graphics/37.jpg";
-            case 38: return "graphics/38.jpg";
-            case 39: return "graphics/39.jpg";
-            case 40: return "graphics/40.jpg";
-            case 41: return "graphics/41.jpg";
-            case 42: return "graphics/42.jpg";
-            case 43: return "graphics/43.jpg";
-            case 44: return "graphics/44.jpg";
-            case 45: return "graphics/45.jpg";
-            case 46: return "graphics/46.jpg";
-            case 47: return "graphics/47.jpg";
-            case 48: return "graphics/48.jpg";
-            case 49: return "graphics/49.jpg";
-            case 50: return "graphics/50.jpg";
-            case 51: return "graphics/51.jpg";
-            case 52: return "graphics/52.jpg";
-            case 53: return "graphics/53.jpg";
-            case 54: return "graphics/54.jpg";
-            default: return "graphics/icon.jpg";
+            case 1: return  rb.getString("unicorn");
+            case 2: return rb.getString("hydra");
+            case 3: return rb.getString("basilisk");
+            case 4: return rb.getString("warhorse");
+            case 5: return rb.getString("dragon");
+            case 6: return rb.getString("wand");
+            case 7: return rb.getString("dirigible");
+            case 8: return rb.getString("warship");
+            case 9: return rb.getString("bow");
+            case 10: return rb.getString("sword");
+            case 11: return rb.getString("beastmaster");
+            case 12: return rb.getString("collector");
+            case 13: return rb.getString("necromancer");
+            case 14: return rb.getString("jester");
+            case 15: return rb.getString("enchantress");
+            case 16: return rb.getString("warlock");
+            case 17: return rb.getString("princess");
+            case 18: return rb.getString("warlord");
+            case 19: return rb.getString("queen");
+            case 20: return rb.getString("king");
+            case 21: return rb.getString("empress");
+            case 22: return rb.getString("knights");
+            case 23: return rb.getString("rangers");
+            case 24: return rb.getString("dwarfs");
+            case 25: return rb.getString("archers");
+            case 26: return rb.getString("cavalry");
+            case 27: return rb.getString("shield");
+            case 28: return rb.getString("rune");
+            case 29: return rb.getString("gem");
+            case 30: return rb.getString("tree");
+            case 31: return rb.getString("book");
+            case 32: return rb.getString("fountain");
+            case 33: return rb.getString("greatflood");
+            case 34: return rb.getString("welemental");
+            case 35: return rb.getString("swamp");
+            case 36: return rb.getString("island");
+            case 37: return rb.getString("felemental");
+            case 38: return rb.getString("lightning");
+            case 39: return rb.getString("candle");
+            case 40: return rb.getString("forge");
+            case 41: return rb.getString("wildfire");
+            case 42: return rb.getString("belfry");
+            case 43: return rb.getString("eelemental");
+            case 44: return rb.getString("cavern");
+            case 45: return rb.getString("mountain");
+            case 46: return rb.getString("forest");
+            case 47: return rb.getString("blizzard");
+            case 48: return rb.getString("aelemental");
+            case 49: return rb.getString("tornado");
+            case 50: return rb.getString("storm");
+            case 51: return rb.getString("smoke");
+            case 52: return rb.getString("shapeshifter");
+            case 53: return rb.getString("mirage");
+            case 54: return rb.getString("doppleganger");
+
+            default: return "FAIL";
         }
     }
 
     public static String switchIdForName(int id){
+
         switch(id){
             case 1: return "Unicorn";
             case 2: return "Hydra";
@@ -124,42 +135,42 @@ public class BigSwitches {
     }
 
 
-
-    public static ArrayList<String> switchType(Type type){
+    public static ArrayList<String> switchType(Type type, Locale locale){
+        ResourceBundle rb = ResourceBundle.getBundle("client.CardTypes", locale);
         ArrayList<String> arr = new ArrayList<>();
         switch(type){
-            case CREATURE:  arr.add("35CA35");
-                arr.add("Creature");
+            case BEAST:  arr.add("35CA35");
+                arr.add(rb.getString("beast"));
                 break;
             case ARMY:      arr.add("19190E");
-                arr.add("Army");
+                arr.add(rb.getString("army"));
                 break;
             case WEAPON:    arr.add("FCF842");
-                arr.add("Weapon");
+                arr.add(rb.getString("weapon"));
                 break;
             case LEADER:    arr.add("B52F9B");
-                arr.add("Leader");
+                arr.add(rb.getString("leader"));
                 break;
             case WIZARD:    arr.add("DB3975");
-                arr.add("Wizard");
+                arr.add(rb.getString("wizard"));
                 break;
             case ARTIFACT:  arr.add("FC8F42");
-                arr.add("Artifact");
+                arr.add(rb.getString("artifact"));
                 break;
             case FLOOD:     arr.add("5D3BAD");
-                arr.add("Flood");
+                arr.add(rb.getString("flood"));
                 break;
-            case EARTH:     arr.add("4B2600");
-                arr.add("Earth");
+            case LAND:     arr.add("4B2600");
+                arr.add(rb.getString("land"));
                 break;
-            case FIRE:      arr.add("FC4242");
-                arr.add("Fire");
+            case FLAME:      arr.add("FC4242");
+                arr.add(rb.getString("flame"));
                 break;
             case WEATHER:   arr.add("2B8A9B");
-                arr.add("Weather");
+                arr.add(rb.getString("weather"));
                 break;
             case WILD:      arr.add("CBCBC0");
-                arr.add("Wild");
+                arr.add(rb.getString("wild"));
                 break;
             default:        arr.add("FFFFFF");
                 arr.add("fail");
@@ -175,12 +186,12 @@ public class BigSwitches {
         }
         switch(type){
             case ARMY: return "Army";
-            case CREATURE: return "Creature";
+            case BEAST: return "Creature";
             case LEADER: return "Leader";
             case WIZARD: return "Wizard";
             case FLOOD: return "Flood";
-            case EARTH: return "Earth";
-            case FIRE: return "Fire";
+            case LAND: return "Earth";
+            case FLAME: return "Fire";
             case WEAPON: return "Weapon";
             case WEATHER: return "Weather";
             case ARTIFACT: return "Artifact";
@@ -188,6 +199,30 @@ public class BigSwitches {
             default: return "FAIL";
         }
     }
+
+    public static String switchTypeForName(Type type , Locale locale){
+        if (type == null) {
+            System.out.println("Null pointer v switchTypeForName");
+            return null;
+
+        }
+        ResourceBundle rb = ResourceBundle.getBundle("client.CardTypes", locale);
+        switch(type){
+            case ARMY: return rb.getString("army");
+            case BEAST: return rb.getString("beast");
+            case LEADER: return rb.getString("leader");
+            case WIZARD: return rb.getString("wizard");
+            case FLOOD: return rb.getString("flood");
+            case LAND: return rb.getString("land");
+            case FLAME: return rb.getString("flame");
+            case WEAPON: return rb.getString("weapon");
+            case WEATHER: return rb.getString("weather");
+            case ARTIFACT: return rb.getString("artifact");
+            case WILD: return rb.getString("wild");
+            default: return "FAIL";
+        }
+    }
+
     public static Type switchNameForType(String name){
         if (name == null) {
             System.out.println("Null pointer v switchNameForType");
@@ -195,102 +230,170 @@ public class BigSwitches {
 
         }
         switch(name){
-            case "Army": return Type.ARMY ;
-            case "Creature": return Type.CREATURE;
-            case "Leader":  return Type.LEADER;
-            case "Wizard": return Type.WIZARD;
-            case "Flood": return Type.FLOOD;
-            case "Earth": return Type.EARTH;
-            case "Fire": return Type.FIRE;
-            case "Weapon": return Type.WEAPON;
-            case "Weather": return Type.WEATHER;
-            case "Artifact": return Type.ARTIFACT;
+            case "Army":
+            case "Armáda": return Type.ARMY ;
+            case "Beast":
+            case "Tvor":   return Type.BEAST;
+            case "Leader":
+            case "Vůdce":   return Type.LEADER;
+            case "Wizard":
+            case "Čaroděj":   return Type.WIZARD;
+            case "Flood":
+            case "Potopa":   return Type.FLOOD;
+            case "Land":
+            case "Země":   return Type.LAND;
+            case "Flame":
+            case "Oheň":   return Type.FLAME;
+            case "Weapon":
+            case "Zbraň":   return Type.WEAPON;
+            case "Weather":
+            case "Počasí":   return Type.WEATHER;
+            case "Artifact":
+            case "Artefakt":   return Type.ARTIFACT;
             default: return Type.WILD;
         }
     }
 
-    public static String switchCardNameForStringType(String name){
+    public static String switchCardNameForStringType(String name, Locale locale){
         if (name == null) {
-            System.out.println("Null pointer v switchCardNameForStringType");
+            System.out.println("Null pointer v switchCardNameForStringType(String name, Locale locale)");
             return "UNKNOWN";
 
         }
+        ResourceBundle rb = ResourceBundle.getBundle("client.CardTypes", locale);
         switch(name){
             case "Knights":
-            case "Striders":
+            case "Rangers":
             case "Dwarf Infantry":
-            case "Archers":
-            case "Cavalry":
-                return "Army" ;
+            case "Elven Archers":
+            case "Light Cavalry":
+            case "Rytíři":
+            case "Hraničáři":
+            case "Trpasličí pěchota":
+            case "Lučištníci":
+            case "Těžká jízda":
+                return rb.getString("army");
 
             case "Unicorn":
             case "Dragon":
             case "Basilisk":
             case "Warhorse":
             case "Hydra":
-                return "Creature";
+            case "Jednorožec":
+            case "Drak":
+            case "Bazilišek":
+            case "Válečný oř":
+                return rb.getString("beast");
 
             case "Princess":
-            case "Commander":
+            case "Warlord":
             case "Queen":
             case "Empress":
             case "King":
-                return "Leader";
+            case "Princezna":
+            case "Velitel":
+            case "Královna":
+            case "Král":
+            case "Císařovna":
+                return rb.getString("leader");
 
             case "Beastmaster":
             case "Collector":
             case "Jester":
-            case "Archmage":
-            case "Witch":
-            case "Necromant":
-                return "Wizard";
+            case "Warlock Lord":
+            case "Enchantress":
+            case "Necromancer":
+            case "Sběratel":
+            case "Pán šelem":
+            case "Šašek":
+            case "Nejvyšší mág":
+            case "Kouzelnice":
+            case "Nekromant":
+                return rb.getString("wizard");
 
             case "Fountain of Life":
             case "Great Flood":
             case "Swamp":
             case "Island":
             case "Water Elemental":
-                return "Flood";
+            case "Fontána života":
+            case "Stoletá voda":
+            case "Bažina":
+            case "Ostrov":
+            case "Elementál vody":
+                return rb.getString("flood");
 
-            case "Belfry":
+            case "Bell Tower":
             case "Earth Elemental":
             case "Mountain":
-            case "Cave":
-            case "Forest": return "Earth";
+            case "Cavern":
+            case "Forest":
+            case "Zvonice":
+            case "Elementál země":
+            case "Hora":
+            case "Jeskyně":
+            case "Les":
+                return rb.getString("land");
 
             case "Fire Elemental":
             case "Wildfire":
             case "Forge":
             case "Candle":
-            case "Lightning": return "Fire";
-
+            case "Lightning":
+            case "Elementál ohně":
+            case "Požár":
+            case "Kovárna":
+            case "Svíčka":
+            case "Blesk":
+                return rb.getString("flame");
             case "Magic Wand":
-            case "Zeppelin":
+            case "War Dirigible":
             case "Warship":
-            case "Bow":
+            case "Elven Longbow":
             case "Sword":
-                return "Weapon";
+            case "Magická hůl":
+            case "Vzducholoď":
+            case "Válečná loď":
+            case "Elfský luk":
+            case "Meč":
+                return rb.getString("weapon");
 
             case "Shield":
-            case "Guard Rune":
+            case "Protection Rune":
             case "Gem of Order":
             case "World Tree":
-            case "Spellbook": return "Artifact";
+            case "Book of Changes":
+            case "Štít":
+            case "Ochranná runa":
+            case "Krystal řádu":
+            case "Strom světa":
+            case "Kniha proměn":
+                return rb.getString("artifact");
 
             case "Air Elemental":
             case "Smoke":
             case "Blizzard":
             case "Storm":
-            case "Tornado":
-                return "Weather";
+            case "Whirlwind":
+            case "Elementál vzduchu":
+            case "Kouř":
+            case "Sněhová vánice":
+            case "Tornádo":
+            case "Bouře":
+                return rb.getString("weather");
 
-            case "Skinchanger":
-            case "Doppleganger":
+            case "Shapeshifter":
+            case "Dopplegänger":
             case "Mirage":
-                return "Wild";
+            case "Měňavec":
+            case "Dvojník":
+            case "Přelud":
+                return rb.getString("wild");
             default: return "UNKNOWN";
         }
     }
+
+
 
 
 }

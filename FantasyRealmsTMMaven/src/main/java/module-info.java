@@ -4,12 +4,9 @@ module FantasyRealmsTM {
     requires javafx.graphics;
     requires javafx.controls;
 
-    opens bonuses;
-    opens maluses;
     opens client;
 
-    exports bonuses;
-    exports maluses;
+    exports client;
     exports interactive;
         }
 

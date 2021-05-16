@@ -6,17 +6,16 @@ import client.Type;
 import java.util.ArrayList;
 
 public class Interactive{
-int priority;
     public String giveListOfTypesWithSeparator(ArrayList<Type> types, String separator){
-        String listtypes = "";
+        StringBuilder listtypes = new StringBuilder();
         boolean first = true;
         for(Type type: types){
             if(!first){
-                listtypes += separator;
+                listtypes.append(separator);
             }
-            listtypes += BigSwitches.switchTypeForName(type);
+            listtypes.append(BigSwitches.switchTypeForName(type));
             first = false;
         }
-        return listtypes;
+        return listtypes.toString();
     }
 }

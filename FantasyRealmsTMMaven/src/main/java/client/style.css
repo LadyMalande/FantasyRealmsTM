@@ -149,6 +149,45 @@ COLOR SCHEME
     -fx-background-color: #5588C1;
 }
 
+#off{
+-fx-pref-height: 50;
+    -fx-background-color: #3A72B1;
+}
+#on{
+-fx-pref-height: 50;
+    -fx-background-color: #FFD921;
+}
+.menu_buttonLocalizeOn{
+    -fx-pref-height: 50;
+    -fx-background-color: #FFD921;
+}
+
+.menu_buttonLocalizeOn:hover {
+    -fx-background-color: #5588C1;
+}
+
+.menu_buttonLocalizeOff{
+    -fx-pref-height: 50;
+    -fx-background-color: #3A72B1;
+}
+
+.menu_buttonLocalizeOff:hover {
+    -fx-background-color: #5588C1;
+}
+
+#mid{
+-fx-pref-height: 50;
+    -fx-background-color: #3A72B1;
+}
+.menu_buttonLocalize{
+    -fx-pref-height: 50;
+    -fx-background-color: #3A72B1;
+}
+
+.menu_buttonLocalize:hover{
+    -fx-background-color: #5588C1;
+}
+
 .main_VBox{
     -fx-pref-width: 1400;
     -fx-pref-height: 800;

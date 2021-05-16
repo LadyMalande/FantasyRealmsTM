@@ -5,8 +5,7 @@
 <?scenebuilder-stylesheet style.css?>
 <!--  xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" bylo ve Vbox misto xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
 -->
-<VBox alignment="TOP_CENTER" styleClass="main_VBox" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.MainController">
-    <children>
-        <StackPane fx:id="vistaHolder" alignment="TOP_CENTER" VBox.vgrow="ALWAYS" />
-    </children>
+<VBox alignment="TOP_CENTER" styleClass="main_VBox" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="client.MainController">
+    <StackPane fx:id="vistaHolder" alignment="TOP_CENTER" VBox.vgrow="ALWAYS"/>
 </VBox>
