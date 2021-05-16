@@ -3,31 +3,26 @@ package interactive;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.StackPane;
-import sample.*;
+import client.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ChangeColor extends Interactive {
 
-    public int priority = 2;
-    public final String text;
-    public int thiscardid;
-
-    public ChangeColor(int id) {
-        this.text = "Change type of one card in your hand";
-        this.thiscardid = id;
-    }
     private static boolean dialogOpen = false;
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public static void askPlayer(BoardController board, int id, Locale locale) {
         //Choose card in hand
         if (!dialogOpen) {
         List<String> choices = new ArrayList<>();
         //choices.addAll(board.hand_StackPaneFree.entrySet().stream().filter(set -> !set.getValue().x).map(simcard -> simcard.getValue().y.name).collect(Collectors.toList()));
         for(SimplifiedCard simcard : board.getPlayer().simhand){
-            choices.add(simcard.getName());
+            if(simcard.id != 31) {
+                // You cant change Book of Changes itself
+                choices.add(simcard.getName());
+            }
         }
-            ResourceBundle rb = ResourceBundle.getBundle("sample.UITexts", locale);
+            ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", locale);
         Platform.runLater(()-> {
         ChoiceDialog<String> dialog1 = new ChoiceDialog<>(choices.get(0), choices);
         dialog1.setTitle(BigSwitches.switchIdForName(id, locale));

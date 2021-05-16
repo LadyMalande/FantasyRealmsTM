@@ -4,8 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.image.ImageView;
-import sample.*;
+import client.*;
 
 import java.util.ArrayList;
 import java.util.Optional;

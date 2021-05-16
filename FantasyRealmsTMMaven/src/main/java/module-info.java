@@ -6,7 +6,7 @@ module FantasyRealmsTM {
 
     opens bonuses;
     opens maluses;
-    opens sample;
+    opens client;
 
     exports bonuses;
     exports maluses;

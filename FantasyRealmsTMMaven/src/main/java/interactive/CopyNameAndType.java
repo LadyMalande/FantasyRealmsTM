@@ -3,13 +3,12 @@ package interactive;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.StackPane;
-import sample.*;
+import client.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CopyNameAndType extends Interactive {
 

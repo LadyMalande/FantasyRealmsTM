@@ -1,9 +1,8 @@
 package interactive;
 
-import sample.BigSwitches;
-import sample.Type;
+import client.BigSwitches;
+import client.Type;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Interactive{

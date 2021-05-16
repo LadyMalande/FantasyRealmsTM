@@ -1,10 +1,9 @@
 package interactive;
 
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.StackPane;
-import sample.*;
+import client.*;
 
 import java.util.ArrayList;
 import java.util.List;
