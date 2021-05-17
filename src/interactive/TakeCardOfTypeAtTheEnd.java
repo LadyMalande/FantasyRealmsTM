@@ -7,9 +7,25 @@ import client.*;
 
 import java.util.*;
 
-public class TakeCardOfTypeAtTheEnd extends Interactive  {
+/**
+ * Class for handling the Necromancer bonus counterpart from the server.
+ * @author Tereza Miklóšová
+ */
+public class TakeCardOfTypeAtTheEnd{
 
+    /**
+     * If the same dialog is not open already, it shows a new one.
+     */
     private static boolean dialogOpen = false;
+
+
+    /**
+     * Shows a dialog to ask the player how he wants to treat the card in question.
+     * @param board Board for communication with the changed cards.
+     * @param thiscardid Id of the card that invoked this bonus.
+     * @param splitted Strings in the fashion of: "Name" which are cards that can be taken from the table to hand..
+     * @param locale Locale in which to show the UI texts.
+     */
     public static void askPlayer(BoardController board, int thiscardid, String[] splitted, Locale locale) {
         if (!dialogOpen) {
             ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", locale);
@@ -24,7 +40,7 @@ public class TakeCardOfTypeAtTheEnd extends Interactive  {
                 alert.setHeaderText(rb.getString("interactives_necromancer_alert"));
                 alert.setContentText(rb.getString("interactives_necromancer_alertok"));
 
-                board.client.sendMessage("TakeCardOfType#");
+                board.getClient().sendMessage("TakeCardOfType#");
             });
         } else{
             ArrayList<String> choices = new ArrayList<>(Arrays.asList(splitted));
@@ -37,16 +53,16 @@ public class TakeCardOfTypeAtTheEnd extends Interactive  {
                 Optional<String> result = dialog.showAndWait();
                 if (result.isPresent()) {
 
-                    SimplifiedCard cardfromTable = Objects.requireNonNull(board.table_StackPaneFree.entrySet().stream().filter(set -> set.getValue().y.name.equals(result.get())).findAny().orElse(null)).getValue().y;
-                    int id = cardfromTable.id;
-                    board.client.sendMessage("TakeCardOfType#" + id);
-                    board.getPlayer().simhand.add(cardfromTable);
+                    SimplifiedCard cardfromTable = Objects.requireNonNull(board.getTableStackPanes().entrySet().stream().filter(set -> set.getValue().y.getName().equals(result.get())).findAny().orElse(null)).getValue().y;
+                    int id = cardfromTable.getId();
+                    board.getClient().sendMessage("TakeCardOfType#" + id);
+                    BoardController.getPlayer().simhand.add(cardfromTable);
                     board.putCardToHand();
                     board.enableSecondActionButtons(false);
                 }
                 else {
                     // Result is not present - Client pressed Cancel or X
-                    board.client.sendMessage("TakeCardOfType#" + -1 + "#" );
+                    board.getClient().sendMessage("TakeCardOfType#" + -1 + "#" );
                 }
             });
         }

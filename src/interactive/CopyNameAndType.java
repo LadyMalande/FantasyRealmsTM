@@ -7,16 +7,23 @@ import client.*;
 
 import java.util.*;
 
-public class CopyNameAndType extends Interactive {
+/**
+ * Class for handling the copy name and type bonus counterpart from the server.
+ * @author Tereza Miklóšová
+ */
+public class CopyNameAndType{
 
-    public final String text;
-    public ArrayList<Type> types;
+    /**
+     * If the same dialog is not open already, it shows a new one.
+     */
+    private static boolean dialogOpen = false;
 
-    public CopyNameAndType( ArrayList<Type> types) {
-        this.text = "Copy name and type of any card of these types: " + giveListOfTypesWithSeparator(types, " or ");
-        this.types = types;
-    }
-
+    /**
+     * Builds an ArrayList of strings in fashion of: Name (Type).
+     * @param names Names which we want to enrich by type.
+     * @param locale Locale for the language we want the list in.
+     * @return List of options for player to choose from. Element is: "Name (Type)".
+     */
     private static ArrayList<String> buildListOfNamesAndTypesFromNames(String[] names, Locale locale){
         ArrayList<String> arr = new ArrayList<>();
 
@@ -30,7 +37,14 @@ public class CopyNameAndType extends Interactive {
 
         return arr;
     }
-    private static boolean dialogOpen = false;
+
+    /**
+     * Shows a dialog to ask the player how he wants to treat the card in question.
+     * @param board Board for communication with the changed cards.
+     * @param thiscardid Id of the card that invoked this bonus.
+     * @param names Names given by the server that are possible to change this card to.
+     * @param locale Locale in which to show the UI texts.
+     */
     public static void askPlayer(BoardController board, int thiscardid, String[] names, Locale locale) {
         // Traditional way to get the response value.
         if (!dialogOpen) {
@@ -44,23 +58,23 @@ public class CopyNameAndType extends Interactive {
             dialog2.setContentText(rb.getString("interactives_chosenname"));
             Optional<String> result2 = dialog2.showAndWait();
             if (result2.isPresent()) {
-                board.client.sendMessage("CopyNameAndType#" + thiscardid + "#" + result2.get());
+                board.getClient().sendMessage("CopyNameAndType#" + thiscardid + "#" + result2.get());
 
-                SimplifiedCard cardToDraw = board.getPlayer().simhand.stream().filter(card -> card.id == thiscardid).findAny().orElse(null);
-                String handPane = Objects.requireNonNull(board.hand_StackPaneFree.entrySet().stream().filter(set -> Objects.nonNull(set.getValue().y)).filter(set -> set.getValue().y.id == thiscardid).findAny().orElse(null)).getKey();
+                SimplifiedCard cardToDraw = BoardController.getPlayer().simhand.stream().filter(card -> card.getId() == thiscardid).findAny().orElse(null);
+                String handPane = Objects.requireNonNull(board.getHandStackPanes().entrySet().stream().filter(set -> Objects.nonNull(set.getValue().y)).filter(set -> set.getValue().y.getId() == thiscardid).findAny().orElse(null)).getKey();
                 StackPane handPaneForCard;
                 handPaneForCard = board.switchNameForStackPane(handPane);
 
                 String[] splitted = result2.get().split("( \\()");
                 String name = splitted[0];
                 assert cardToDraw != null;
-                cardToDraw.type = BigSwitches.switchCardNameForStringType(name, locale);
-                cardToDraw.name = name;
+                cardToDraw.setType(BigSwitches.switchCardNameForStringType(name, locale));
+                cardToDraw.setName(name);
                 board.create_card_from_text(handPaneForCard, cardToDraw);
             }
             else {
                 // Result is not present - Client pressed Cancel or X
-                board.client.sendMessage("CopyNameAndType#" + -1 + "#" );
+                board.getClient().sendMessage("CopyNameAndType#" + -1 + "#" );
             }
         });
             dialogOpen = false;

@@ -10,8 +10,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
+/**
+ * Main controller class for the entering point of the entire layout.
+ * Made by the design on the page https://gist.github.com/jewelsea/6460130.
+ * Edited to serve the purpose for our application.
+ * @author jewelsea
+ * @see <a href="https://gist.github.com/jewelsea/6460130">https://gist.github.com/jewelsea/6460130</a>
+ */
 public class MainForApplication extends Application {
 
+    /**
+     * Starts the main window for the application.
+     * @param stage Stage to show.
+     * @throws Exception Thrown when some classes are missing or other problem occurs.
+     */
     @Override
     public void start(Stage stage) throws Exception{
         stage.setTitle("Fantasy Realms TM");
@@ -73,6 +85,10 @@ public class MainForApplication extends Application {
         return scene;
     }
 
+    /**
+     * Starts the graphic part of the application.
+     * @param args Arguments passed to the UI.
+     */
     public static void main(String[] args) {
         launch(args);
     }

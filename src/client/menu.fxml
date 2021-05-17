@@ -8,8 +8,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
+<!-- VBox that holds all menu components. -->
 <VBox id="VBox_Background" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.MenuController">
 
+   <!-- Application name holder. -->
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20">
        <Label text="%appname">
           <font>
@@ -17,7 +19,9 @@
           </font>
        </Label>
    </HBox>
+   <!-- HBox for holding 2 images of flags as buttons to change Locale. -->
    <HBox id="VBox_LOCALIZATION" alignment="CENTER" prefHeight="50.0" prefWidth="100.0" spacing="20" style="-fx-padding: 20;">
+      <!-- English Locale button. -->
       <Button fx:id="button_locale_en" mnemonicParsing="false" onAction="#change_localization_en" styleClass="menu_buttonLocalize" >
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -25,6 +29,7 @@
             </ImageView>
          </graphic>
       </Button>
+      <!-- Czech Locale button. -->
       <Button fx:id="button_locale_cs" mnemonicParsing="false" onAction="#change_localization_cs" styleClass="menu_buttonLocalize" >
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -33,6 +38,7 @@
          </graphic>
       </Button>
    </HBox>
+   <!-- Menu oriantation buttons. Play the game in 2 modes, See the rules and Exit. -->
    <VBox id="VBox_MENU" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20" style="-fx-padding: 20;">
       <Button mnemonicParsing="false" onAction="#start_game" styleClass="menu_button" text="%menu_original" />
       <Button mnemonicParsing="false" onAction="#start_gameRandom" styleClass="menu_button" text="%menu_random" />

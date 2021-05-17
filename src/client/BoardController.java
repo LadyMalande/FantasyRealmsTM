@@ -19,59 +19,155 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Controller class for the second vista.
+ * Controller class for the the board vista. Holds all object necessary for drawing the board.
+ * @author Tereza Miklóšová
  */
 public class BoardController implements Initializable{
 
+    /**
+     * List containing all hand stack panes. This List represents the hand.
+     */
+    private  static List<StackPane> hand_StackPanes;
+
+    /**
+     * List containing all table stack panes. This List represents the table.
+     */
+    private static List<StackPane> table_StackPanes;
+
+    /**
+     * Label for turn rules shown above the deck image.
+     */
+    @FXML
     public Label label_turnRules;
-    private String thisPlayername;
-    private String locale;
-    private int thisPlayerMaxPlayers = 0;
-    public  static List<StackPane> hand_StackPanes;
-    public static List<StackPane> table_StackPanes;
+
+    /**
+     * Contains all players to draw their data on the labels. Used to iterate through to decide who is playing.
+     */
     private ArrayList<SimplePlayer> players;
-    public Client client;
-    public int numberOfAI = 0;
-    public static Player player;
+
+    /**
+     * Client for communicating with the server.
+     */
+    private Client client;
+
+    /**
+     * Contains data about the player using this application.
+     */
+    private static Player player;
+
+    /**
+     * Checks the number of cards on the table.
+     */
     private int numberOfCardsOnTable = 0;
 
-    public Player getPlayer(){
-        return player;
-    }
 
-    public boolean yourTurn = true;
+    /**
+     * Checks if the player got all the beginning 7 cards from the server. Until this is true,
+     * the window wont be drawn.
+     */
     public static AtomicBoolean gotAllCards = new AtomicBoolean(false);
+
+    /**
+     * Stack panes for hand holding image of the card and the button to put the card to table.
+     * Together the 8 stack panes represent the hand of the player.
+     * The hand is automatically sorted by the type of the card.
+     */
     @FXML
     public StackPane stack_hand1, stack_hand2, stack_hand3, stack_hand4, stack_hand5, stack_hand6, stack_hand7, stack_hand8;
 
+    /**
+     * Stack panes holding card images and buttons for taking the card from the table to hand.
+     * Together the 10 stack panes represent the table.
+     * Cards are going to the panes from left to the right. First free gets filled.
+     */
     @FXML
     public StackPane stack_table1, stack_table2, stack_table3, stack_table4, stack_table5, stack_table6, stack_table7, stack_table8, stack_table9, stack_table90, stack_deck;
 
+    /**
+     * Deck button covers the image of the card back and sends info to the server that the player wants to draw a card
+     * from the deck.
+     */
     @FXML
-    private Button deck_Button, button_backToMenu;
+    private Button deck_Button;
 
+    /**
+     * Button back to menu appears only after the end of the game.
+     */
+    @FXML
+    private Button button_backToMenu;
+
+    /**
+     * Labels for all possible players joining the game. They contain player's name and at the end of the game
+     * also his score. The labels change background color depending on who is the current playing player.
+     */
     @FXML
     private Label label_player1,label_player2, label_player3, label_player4, label_player5, label_player6;
 
+    /**
+     * A label with player's name. At the end of the game, the label holds text informing about the end of the game.
+     */
     @FXML
     private Label label_score;
 
+    /**
+     * The maximum height of card text area for bonuses and penalties.
+     */
     private final double MAX_TEXT_HEIGHT = 100.0;
 
-    public static boolean randomDeck;
-
     // map having name of component where it resides and <Free?, If not what card it contains>
-    public TreeMap<String, Tuple<Boolean, SimplifiedCard>> hand_StackPaneFree = new TreeMap<>();
-    public TreeMap<String, Tuple<Boolean, SimplifiedCard>> table_StackPaneFree = new TreeMap<>();
+    /**
+     * Map of hand elements. Key is the name of the stack pane, value is a tuple where the first value is whether
+     * the stack pane is free or not. The second value holds a simplified card object if the pane is not free.
+     * Null otherwise.
+     */
+    private TreeMap<String, Tuple<Boolean, SimplifiedCard>> hand_StackPaneFree = new TreeMap<>();
+
+    /**
+     * Map of table elements. Key is the name of the stack pane, value is a tuple where the first value is whether
+     * the stack pane is free or not. The second value holds a simplified card object if the pane is not free.
+     * Null otherwise.
+     */
+    private TreeMap<String, Tuple<Boolean, SimplifiedCard>> table_StackPaneFree = new TreeMap<>();
+
+    /**
+     * @return {@link BoardController#hand_StackPaneFree}
+     */
+    public TreeMap<String, Tuple<Boolean, SimplifiedCard>> getHandStackPanes(){
+        return this.hand_StackPaneFree;
+    }
+
+    /**
+     * @return {@link BoardController#table_StackPaneFree}
+     */
+    public TreeMap<String, Tuple<Boolean, SimplifiedCard>> getTableStackPanes(){
+        return this.table_StackPaneFree;
+    }
+
+    /**
+     * @return {@link BoardController#client}
+     */
+    public Client getClient() {
+        return client;
+    }
+
+    /**
+     * @return {@link Player#getNumberOfAI()}
+     */
+    public int getNumberOfAI() {
+        return player.getNumberOfAI();
+    }
+
+    /**
+     * @return {@link BoardController#player}
+     */
+    public static Player getPlayer(){
+        return player;
+    }
 
     /**
      * Event handler fired when the user requests a previous vista.
@@ -84,32 +180,41 @@ public class BoardController implements Initializable{
     }
 
 
-
+    /**
+     * Method draws the card on the given StackPane by the information contained in SimplifiedCard object.
+     * @param sp StackPane to put the drawn card into.
+     * @param card Contains information about the data needed for drawing the card.
+     */
     public void create_card_from_text(StackPane sp, SimplifiedCard card){
 
-        String id = String.valueOf(card.id);
-        String name = card.name;
-        String type = card.type;
-        String strength = String.valueOf(card.strength);
-        String cardText = card.allText;
+        // Getting the data for the card
+        String id = String.valueOf(card.getId());
+        String name = card.getName();
+        String type = card.getType();
+        String strength = String.valueOf(card.getStrength());
+        String cardText = card.getAllText();
+
+        // Creating the basic shape and holders for the graphics
         Canvas canvas_hand1 = new Canvas(150,200);
         GraphicsContext gc = canvas_hand1.getGraphicsContext2D();
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, 150,200);
+
         //Decide the image address based on name of the card and draw it on the canvas
         String img_addr = BigSwitches.switchImage(Integer.parseInt(id));
-
         Image image1 = new Image(getClass().getResourceAsStream(img_addr));
         gc.drawImage(image1,0,20, 150.0,80.0);
 
         //Decide the color and String of type rectangle based on Type enum
-        ArrayList<String> typeColorAndName = BigSwitches.switchType(BigSwitches.switchNameForType(type), new Locale(locale));
+        ArrayList<String> typeColorAndName = BigSwitches.switchType(BigSwitches.switchNameForType(type),
+                player.getLocale());
         String color_hex = typeColorAndName.get(0);
         String type_name = typeColorAndName.get(1);
 
 
         //Make the type rectangle with LinearGradient fill
-        Stop[] stops = new Stop[] { new Stop(0, Color.web(color_hex)), new Stop(0.5, Color.web("FFFFFF")), new Stop(1, Color.web(color_hex))};
+        Stop[] stops = new Stop[] { new Stop(0, Color.web(color_hex)), new Stop(0.5, Color.web("FFFFFF")),
+                new Stop(1, Color.web(color_hex))};
         LinearGradient lg1 = new LinearGradient(0, 0, 1,0, true, CycleMethod.REFLECT, stops);
         gc.setFill(lg1);
         gc.fillRect(0 ,0,20,200);
@@ -135,9 +240,10 @@ public class BoardController implements Initializable{
         typeText.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         gc.fillText(type_name, -80, 14);
 
-
+        // Restores the original orientation
         gc.restore();
 
+        // Fit the text of the bonuses/penalties.
         final Label text = new Label();
         final double defaulFontSize = 10;
         text.setText(cardText);
@@ -151,10 +257,10 @@ public class BoardController implements Initializable{
         tempLabel.setWrapText(true);
         tempLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
 
+        // If the text is too big (exceedes the MAX_TEXT_HEIGHT), the font size is made smaller.
         ObjectProperty<Font> fontTracking = new SimpleObjectProperty<>(Font.font("Verdana", FontWeight.BOLD, defaulFontSize));
         text.fontProperty().bind(fontTracking);
         tempLabel.heightProperty().addListener((observableValue, number, newHeight) -> {
-            System.out.println(newHeight);
             double height = (double) newHeight;
             if (height > MAX_TEXT_HEIGHT) {
                 double newFontSize = defaulFontSize * MAX_TEXT_HEIGHT / (height + 10);
@@ -164,52 +270,31 @@ public class BoardController implements Initializable{
 
         });
 
+        // Position the text to be in the right place.
         text.setWrapText(true);
         text.setTranslateY(50);
         text.setTranslateX(5);
         text.setMaxSize(MAX_TEXT_WIDTH,MAX_TEXT_HEIGHT);
         text.setAlignment(Pos.CENTER);
 
+        // Add new components on the stack pane
         sp.getChildren().addAll(tempLabel,canvas_hand1,text);
     }
 
-    private void initializeFromConfigFile(){
-        Properties props = new Properties();
-        File configFile = new File("config.properties");
-        try{
-            FileReader reader = new FileReader(configFile);
-            // load the properties file:
-            props.load(reader);
-
-            thisPlayername = props.getProperty("name");
-            thisPlayerMaxPlayers = Integer.parseInt(props.getProperty("menu_numberofplayers"));
-            randomDeck = Boolean.parseBoolean(props.getProperty("randomdeck"));
-            locale = props.getProperty("locale");
-            numberOfAI = Integer.parseInt(props.getProperty("numberofai"));
-            FileWriter writer = new FileWriter(configFile);
-            props.store(writer, "client settings");
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Platform.runLater(()-> label_score.setText(label_score.getText() + " " + thisPlayername));
-
-    }
-
+    /**
+     * Method for initializing the board. Contains all necessary preparations of the board and all its components.
+     * @param url Url for initialization.
+     * @param resourceBundle Resource bundle for UI texts.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            initializeFromConfigFile();
-
-            player = new Player(new ArrayList<>());
-
-        client = new Client(thisPlayername, thisPlayerMaxPlayers, this, locale);
-        //gotAllCards = false;
-        System.out.println("After init client");
+        // Creation of player and client. Starts clients thread to listen commands and to send messages to server.
+        player = new Player();
+        client = new Client(player,this);
         Thread t = new Thread(client);
         t.start();
-            System.out.println("after client.communicate");
 
+        // Loads collections for handling stack panes for hand and table
             hand_StackPanes = new ArrayList<>();
             hand_StackPanes.addAll(Arrays.asList(stack_hand1, stack_hand2, stack_hand3, stack_hand4, stack_hand5, stack_hand6, stack_hand7, stack_hand8));
             table_StackPanes = new ArrayList<>();
@@ -221,25 +306,26 @@ public class BoardController implements Initializable{
             deck_Button.setOnMouseClicked(e -> getCardFromDeck());
             deck_Button.setDisable(true);
 
+            // Waits till the client gets 7 cards. Then the cards in hand are possible to create.
             boolean first = true;
             while (!gotAllCards.get()) {
                 if(first){
                     System.out.println("Waiting for server to get us all cards...");
                 }
                 first = false;
-
             }
-            System.out.println("after stack panes free");
             crate_hand_SimplifiedCards();
+            // Unsee this button as we dont want to let people to the main menu during the game.
             button_backToMenu.setVisible(false);
             button_backToMenu.setOnAction(this::backToMenu);
-
-            //hand_Buttons.forEach(button -> button.setOnMouseClicked(click -> dropCard(click)));
-            //play();
+            //Set the players name at the top of the screen.
+        Platform.runLater(()-> label_score.setText(label_score.getText() + " " + player.getName()));
     }
 
+    /**
+     * Method for creating all cards in player's hand to stack panes.
+     */
     private void crate_hand_SimplifiedCards(){
-        System.out.println("In create_hand:Simplified cards");
         Collections.sort(player.simhand);
             Iterator<SimplifiedCard> iter = player.simhand.iterator();
             for (StackPane sp : hand_StackPanes) {
@@ -253,12 +339,16 @@ public class BoardController implements Initializable{
                     sp.getChildren().add(b);
                     b.setDisable(true);
                     hand_StackPaneFree.put(sp.getId(), new Tuple<>(false, card));
-                    //System.out.println("Number of components in stack pane " + sp.getChildren().size());
                 }
             }
         hand_StackPaneFree.put(stack_hand8.getId(),new Tuple<>(true,null));
     }
 
+    /**
+     * Sends message to server to give the player the first card from deck.
+     * Disables the first action buttons and enables the second action buttons
+     * as we already used our first action (draw from deck or take card from table).
+     */
     public void getCardFromDeck(){
         client.sendMessage("GIVE_CARD_FROM_DECK");
 
@@ -266,8 +356,13 @@ public class BoardController implements Initializable{
         enableSecondActionButtons(true);
     }
 
+    /**
+     * Puts a card to the table. Doing that based on the messages received from the server.
+     * @param card Card to draw to the table.
+     */
     public void putCardOnTable(SimplifiedCard card){
         StackPane table;
+        // Find the first free stack pane on table and draw the card to it.
         String freeStackPaneOnTable = Objects.requireNonNull(table_StackPaneFree.entrySet().stream().filter(set -> set.getValue().x).findFirst().orElse(null)).getKey();
         switch(freeStackPaneOnTable){
             case "stack_table1": table = stack_table1;
@@ -294,6 +389,7 @@ public class BoardController implements Initializable{
                 break;
         }
 
+        // puts a button to the card so it can be taken from the table
         Button b = new Button();
         b.getStyleClass().add("button_card_on_board");
         b.setOnMouseClicked(this::getCardFromTable);
@@ -304,7 +400,7 @@ public class BoardController implements Initializable{
 
         numberOfCardsOnTable++;
 
-
+        // Create the card and display the changes.
         Platform.runLater(()->{
             create_card_from_text(table, card);
             table.getChildren().add(b);
@@ -313,6 +409,10 @@ public class BoardController implements Initializable{
         });
     }
 
+    /**
+     * Get the card under the button to the hand.
+     * @param e The event from the button click.
+     */
     private void getCardFromTable(MouseEvent e){
 
         StackPane sp;
@@ -343,6 +443,7 @@ public class BoardController implements Initializable{
                 break;
         }
 
+        // Choose the stack pane in hand where the card should belong
         StackPane hand;
         if(hand_StackPaneFree.entrySet().stream().anyMatch(set-> set.getValue().x)) {
             String freeStackPaneInHand = Objects.requireNonNull(hand_StackPaneFree.entrySet().stream().filter(set -> set.getValue().x).findFirst().orElse(null)).getKey();
@@ -376,28 +477,33 @@ public class BoardController implements Initializable{
             hand.getChildren().addAll(sp.getChildren().filtered(child->child instanceof Canvas || child instanceof Label));
             hand.getChildren().add(b);
 
+            // Add the card to your hand
             SimplifiedCard card = table_StackPaneFree.get(sp.getId()).y;
             player.simhand.add(card);
 
+            // Repaint cards so they are sorted in the hand
             repaintAllCards();
 
-            client.sendMessage("GOT_CARD_FROM_TABLE#" + card.id);
+            // Send message to server that you got the card form table
+            client.sendMessage("GOT_CARD_FROM_TABLE#" + card.getId());
 
+            // Enable second action buttons and disable the first action buttons as we already made first action
             enableFirstActionButtons(false);
             enableSecondActionButtons(true);
 
         }
     }
 
+    /**
+     *     Repaints all cards in hand after some action that changes it. Before painting the cards are sorted by type.
+     */
     private void repaintAllCards(){
-        System.out.println("Deleting canvases from hand StackPanes...");
         Platform.runLater(()-> {
             for (StackPane sp : hand_StackPanes) {
                 sp.getChildren().clear();
             }
             Collections.sort(player.simhand);
             Iterator<SimplifiedCard> iter = player.simhand.iterator();
-            System.out.println("Repainting cards...");
             for (StackPane sp : hand_StackPanes) {
 
                 if (iter.hasNext()) {
@@ -409,7 +515,6 @@ public class BoardController implements Initializable{
                     sp.getChildren().add(b);
                     b.setDisable(true);
                     hand_StackPaneFree.put(sp.getId(), new Tuple<>(false, card));
-                    //System.out.println("Number of components in stack pane " + sp.getChildren().size());
                 } else {
                     hand_StackPaneFree.put(sp.getId(), new Tuple<>(true, null));
                 }
@@ -418,6 +523,11 @@ public class BoardController implements Initializable{
 
     }
 
+    /**
+     * Get the stack pane by its name.
+     * @param name Name of the stack pane.
+     * @return Object of the named stack pane.
+     */
     public StackPane switchNameForStackPane(String name){
         StackPane freeStackPane;
         switch(name){
@@ -443,6 +553,9 @@ public class BoardController implements Initializable{
         return freeStackPane;
     }
 
+    /**
+     * Puts a new card in hand.
+     */
     public void putCardToHand() {
         StackPane hand;
         if (hand_StackPaneFree.entrySet().stream().anyMatch(set -> set.getValue().x)) {
@@ -487,9 +600,13 @@ public class BoardController implements Initializable{
         }
     }
 
+    /**
+     * Removes a card from the table to be the same as the server has the table filled.
+     * @param id The id of the card that should be removed from the table.
+     */
     public void removeCardFromTable(int id){
         StackPane sp;
-        String whereToRemoveCard = Objects.requireNonNull(table_StackPaneFree.entrySet().stream().filter(entry -> entry.getValue().y.id == id).findAny().orElse(null)).getKey();
+        String whereToRemoveCard = Objects.requireNonNull(table_StackPaneFree.entrySet().stream().filter(entry -> entry.getValue().y.getId() == id).findAny().orElse(null)).getKey();
         switch(whereToRemoveCard){
             case "stack_table1": sp = stack_table1;
                 break;
@@ -515,12 +632,15 @@ public class BoardController implements Initializable{
                 break;
         }
         assert sp != null;
-        System.out.println("Children on stack table: " + sp.getChildren().size());
         Platform.runLater(()-> sp.getChildren().clear());
         numberOfCardsOnTable--;
         table_StackPaneFree.replace(whereToRemoveCard, new Tuple<>(true, null));
     }
 
+    /**
+     * Drops card from hand. Repaints all cards to reflect the change.
+     * @param e The button event from clicking on it.
+     */
     @FXML
     private void dropCard(MouseEvent e){
 
@@ -535,11 +655,17 @@ public class BoardController implements Initializable{
         parent.getChildren().remove(0);
         repaintAllCards();
 
-        client.sendMessage("DROP_CARD#" + card.id);
+        client.sendMessage("DROP_CARD#" + card.getId());
 
         enableSecondActionButtons(false);
     }
 
+    /**
+     * At the end of the game changes the colors of the labels and its text to fit the winning statistics.
+     * @param label Which label should be repainted.
+     * @param toAdd Text of the score to add to the label.
+     * @return String with the name and score of the player on the label.
+     */
     public String changeLabel(Label label, String toAdd){
         String oldText = label.getText();
         Platform.runLater(()-> {
@@ -561,9 +687,14 @@ public class BoardController implements Initializable{
         return retValue;
     }
 
+    /**
+     * Processes the information from the server about scores of the players. Prints a dialogue
+     * window about the statistics. Changes the texts and colors of the labels in the process.
+     * @param names Names of the players that should have their scores changed.
+     */
     public void buildPlayerScores(String[] names){
         ArrayList<String> scoreTable = new ArrayList<>();
-        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", new Locale(locale));
+        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", player.getLocale());
         if(names.length > 0){
             scoreTable.add(changeLabel(label_player1,names[0]));
         }
@@ -606,13 +737,14 @@ public class BoardController implements Initializable{
         for (String s: scoreTable){
                 expandedScoreTable.append(s).append("\n");
         }
+        // Print an alert window with the final statistics.
         Platform.runLater(()-> {
             button_backToMenu.setVisible(true);
             button_backToMenu.setDisable(false);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(rb.getString("board_finalscore"));
 
-            alert.setHeaderText(rb.getString("board_gz") + " " + thisPlayername + "! " + position + " " + rb.getString("board_scoreof") + " " + score + " " + rb.getString("board_points") + "\n\n" + rb.getString("board_scoretable") + "\n" + expandedScoreTable);
+            alert.setHeaderText(rb.getString("board_gz") + " " + player.getName() + "! " + position + " " + rb.getString("board_scoreof") + " " + score + " " + rb.getString("board_points") + "\n\n" + rb.getString("board_scoretable") + "\n" + expandedScoreTable);
             alert.setContentText(rb.getString("board_compare"));
             alert.setGraphic(new ImageView(this.getClass().getResource("graphics/medal.png").toString()));
 
@@ -620,12 +752,15 @@ public class BoardController implements Initializable{
         });
     }
 
+    /**
+     * When a connection error happens, this method prints an alert.
+     */
     public void disconnectedFromServer(){
-        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", new Locale(locale));
+        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", player.getLocale());
         Platform.runLater(()-> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(rb.getString("board_conerror"));
-            alert.setHeaderText(rb.getString("board_conerrortext1")  + " " + thisPlayername + "!\n\n" + rb.getString("board_conerrortext2") );
+            alert.setHeaderText(rb.getString("board_conerrortext1")  + " " + player.getName() + "!\n\n" + rb.getString("board_conerrortext2") );
             alert.setContentText(rb.getString("board_errordismiss"));
 
             Platform.exit();
@@ -633,40 +768,33 @@ public class BoardController implements Initializable{
         });
     }
 
-
+    /**
+     * Method builds player labels by the information biven by the server to the client.
+     * Method build the exact number of labels needed and fills them with player names.
+     * @param names Player names in order from this player. Starting player has a special tag before its name.
+     */
     public void buildPlayerLabels(String[] names){
-        System.out.println("build player names start");
         players = new ArrayList<>();
-        System.out.println("players array number of elements: " + players.size() + " names got from message length " + names.length);
         if(names.length > 0){
             Platform.runLater(()-> {
                 String name;
-                System.out.println("build player names 0: " + names[0]);
-
                 if(names[0].startsWith("$&$START$&$")){
                     name = names[0].substring(11);
                     label_player1.getStyleClass().add("label_playerInGameActive");
                     players.add(new SimplePlayer(name, true));
                     label_player1.setText(name);
-                    yourTurn = true;
                     deck_Button.setDisable(false);
                 } else{
                     name = names[0];
                     label_player1.getStyleClass().add("label_playerInGame");
                     label_player1.setText(name);
                     players.add(new SimplePlayer(name, false));
-                    yourTurn = false;
                 }
-                System.out.println("players array number of elements after loading elements to it: " + players.size());
-
             });
-
         }
         if(names.length > 1){
             Platform.runLater(()-> {
                 String name;
-                System.out.println("build player names 1: " + names[1]);
-
                 if(names[1].startsWith("$&$START$&$")){
                     name = names[1].substring(11);
                     label_player2.getStyleClass().add("label_playerInGameActive");
@@ -678,15 +806,11 @@ public class BoardController implements Initializable{
                     label_player2.setText(name);
                     players.add(new SimplePlayer(name, false));
                 }
-                System.out.println("players array number of elements after loading elements to it: " + players.size());
-
             });
         }
         if(names.length > 2){
             Platform.runLater(()-> {
                 String name;
-                System.out.println("build player names 2: " + names[2]);
-
                 if(names[2].startsWith("$&$START$&$")){
                     name = names[2].substring(11);
                     label_player3.getStyleClass().add("label_playerInGameActive");
@@ -698,15 +822,11 @@ public class BoardController implements Initializable{
                     label_player3.setText(name);
                     players.add(new SimplePlayer(name, false));
                 }
-                System.out.println("players array number of elements after loading elements to it: " + players.size());
-
             });
         }
         if(names.length > 3){
             Platform.runLater(()-> {
                 String name;
-                System.out.println("build player names 3: " + names[3]);
-
                 if(names[3].startsWith("$&$START$&$")){
                     name = names[3].substring(11);
                     label_player4.getStyleClass().add("label_playerInGameActive");
@@ -718,15 +838,11 @@ public class BoardController implements Initializable{
                     label_player4.setText(name);
                     players.add(new SimplePlayer(name, false));
                 }
-                System.out.println("players array number of elements after loading elements to it: " + players.size());
-
             });
         }
         if(names.length > 4){
             Platform.runLater(()-> {
                 String name;
-                System.out.println("build player names 4: " + names[4]);
-
                 if(names[4].startsWith("$&$START$&$")){
                     name = names[4].substring(11);
                     label_player5.getStyleClass().add("label_playerInGameActive");
@@ -738,15 +854,11 @@ public class BoardController implements Initializable{
                     label_player5.setText(name);
                     players.add(new SimplePlayer(name, false));
                 }
-                System.out.println("players array number of elements after loading elements to it: " + players.size());
-
             });
         }
         if(names.length > 5){
             Platform.runLater(()-> {
                 String name;
-                System.out.println("build player names 5: " + names[5]);
-
                 if(names[5].startsWith("$&$START$&$")){
                     name = names[5].substring(11);
                     label_player6.getStyleClass().add("label_playerInGameActive");
@@ -758,18 +870,26 @@ public class BoardController implements Initializable{
                     label_player6.setText(name);
                     players.add(new SimplePlayer(name, false));
                 }
-                System.out.println("players array number of elements after loading elements to it: " + players.size());
-
             });
         }
         System.out.println("Client got player names!");
     }
 
+
+    /**
+     * This method enables or disables the buttons for first action in the round. (Cards on the table or the deck).
+     * @param enable True if to enable. False if to disable.
+     */
     public void enableFirstActionButtons(boolean enable){
         deck_Button.setDisable(!enable);
         table_StackPaneFree.entrySet().stream().filter(set-> !set.getValue().x).forEach(entrySet -> enableStackPaneString(entrySet.getKey(),enable));
     }
 
+    /**
+     * Changes the appearance of the stack pane string.
+     * @param stackPaneName Stack pane in which to change the appearance.
+     * @param enable True if enable the text to full opacity. False if the text should be less visible.
+     */
     private void enableStackPaneString(String stackPaneName, boolean enable){
         StackPane thePane =  table_StackPanes.stream().filter(pane -> pane.getId().equals(stackPaneName)).findFirst().orElse(null);
         assert thePane != null;
@@ -778,6 +898,10 @@ public class BoardController implements Initializable{
         }
     }
 
+    /**
+     * Enables or disables the buttons for cards in hand.
+     * @param enable True if to enable. False if to disable.
+     */
     public void enableSecondActionButtons(boolean enable){
         hand_StackPanes.forEach(pane -> Platform.runLater(()-> {
             if(pane.getChildren().size() != 0)
@@ -785,6 +909,9 @@ public class BoardController implements Initializable{
         }));
     }
 
+    /**
+     * Changes the active player label. If the active player is the first one (us), enables the first action buttons.
+     */
     private void setNextPlayer(){
         if(numberOfCardsOnTable < 10) {
             int numberOfPlayers = players.size();
@@ -806,18 +933,18 @@ public class BoardController implements Initializable{
                 Platform.runLater(() -> {
                     enableFirstActionButtons(false);
                     enableSecondActionButtons(false);
-                    System.out.println("After disabling my buttons, cuz I was active player");
                 });
             }
             if (newActiveIndex == 0) {
-                Platform.runLater(() -> {
-                    enableFirstActionButtons(true);
-                    System.out.println("After enabling buttons, cuz Im new active player");
-                });
+                Platform.runLater(() -> enableFirstActionButtons(true));
             }
         }
     }
 
+    /**
+     * Changes the active label from one to another. Repaints the labels.
+     * @param indexOfPlayerNew The index of new active player.
+     */
     private void changeActiveLabel(int indexOfPlayerNew){
         Label oldIndex, newIndex;
         switch(indexOfPlayerNew){
@@ -860,8 +987,11 @@ public class BoardController implements Initializable{
         newIndex.getStyleClass().add("label_playerInGameActive");
     }
 
+    /**
+     * Puts an informative text on a label that the game has already ended.
+     */
     public void putEndGameTextOnLabel(){
-        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", new Locale(locale));
+        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", player.getLocale());
         Platform.runLater(()-> {
             label_score.setText(rb.getString("board_endgamealert"));
             enableSecondActionButtons(false);

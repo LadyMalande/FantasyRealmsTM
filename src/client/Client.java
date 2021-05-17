@@ -1,9 +1,6 @@
 package client;
 
-
 // Java implementation for multithreaded chat client
-// Save file as Client.java
-
 /*
 Client -> Server message first tokens:
 GIVE - request to server to give card from deck
@@ -14,8 +11,7 @@ Server -> Client message first tokens:
 YOUR_TURN - enable clicking on buttons
 CARD_TO_HAND - sends info about card to hand (Creates simplified Card object)
 INTERACTIVE - sends info about interactive dialogue
-
- */
+*/
 
 import interactive.*;
 
@@ -23,26 +19,63 @@ import java.io.*;
 import java.net.*;
 import java.util.Locale;
 
-
+/**
+ * Client thread for listening to server messages and to sending messages to attached server.
+ * @author Tereza Miklóšová
+ */
 public class Client implements Runnable
 {
+    /**
+     * Set server port to listen on.
+     */
     final static int ServerPort = 1234;
-    boolean sentLobbyInfo = false;
+
+    /**
+     * IP address of the server.
+     */
     InetAddress ip;
-    String name;
-    int maxPlayers;
+
+    /**
+     * Player object for getting information about him.
+     */
+    Player player;
+
+    /**
+     * Input stream for listening to messages.
+     */
     ObjectInputStream dis;
+
+    /**
+     * Object output stream for sending messages.
+     */
     ObjectOutputStream dos;
+
+    /**
+     * Board to operate on with changes sent by the server.
+     */
     BoardController board;
+
+    /**
+     * Locale to do everything in the right localization for the client.
+     */
     Locale locale;
-    public Client(String name, int maxPlayers, BoardController board, String locale){
-        this.name = name;
-        this.maxPlayers = maxPlayers;
+
+    /**
+     * Constructor for Client.
+     * @param player Player information necessary for operating with player.
+     * @param board Board information necessary for operating on the board.
+     */
+    public Client(Player player, BoardController board){
+        this.player = player;
         this.board = board;
-        this.locale = new Locale(locale);
-        System.out.println("In client constructor Locale " + this.locale.getLanguage());
+        this.locale = player.getLocale();
     }
-@Override
+
+    /**
+     * Runs the client thread to listen to the messages the server wants to convey.
+     * Given the message it does different actions regarding the board.
+     */
+    @Override
     public void run() {
         // getting localhost ip
         ip = null;
@@ -53,25 +86,23 @@ public class Client implements Runnable
             // obtaining input and out streams
             dos = new ObjectOutputStream(s.getOutputStream());
             dis = new ObjectInputStream(s.getInputStream());
-            System.out.println("after client dis,dos,ois init");
 
             // sendMessage thread
             Thread sendMessage = new Thread(() -> {
                 // read the message to deliver.
                 String IWantRandomDeck;
-                if(BoardController.randomDeck){
+                if(player.isRandomDeck()){
                     IWantRandomDeck = "true";
                 }
                 else{
                     IWantRandomDeck = "false";
                 }
-                String msg = "INIT#" + name + "#" + maxPlayers + "#" + IWantRandomDeck + "#" + locale.getLanguage() + "#" + board.numberOfAI;
+                String msg = "INIT#" + player.getName() + "#" + player.getMaxPlayers() + "#" + IWantRandomDeck + "#" + locale.getLanguage() + "#" + board.getNumberOfAI();
                 try {
                     // write on the output stream
                     dos.writeUTF(msg);
                     dos.flush();
                     System.out.println("Posted lobby info: " + msg);
-                    sentLobbyInfo = true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -86,14 +117,11 @@ public class Client implements Runnable
                         System.out.println("Received string from Server: " + received);
                         if (received.startsWith("INIT_CARD_TO_HAND")) {
                             // read the message sent to this client
-                            //System.out.println("CARD_TO_HAND command:");
                             String[] message = received.split("#");
                             SimplifiedCard card = new SimplifiedCard(Integer.parseInt(message[1]), message[2],
                                     Integer.parseInt(message[3]), message[4], message[5]);
-                            //System.out.println("Card name received: " + card.name);
-                            BoardController.player.simhand.add(card);
+                            BoardController.getPlayer().simhand.add(card);
                             receivedCount++;
-                            //System.out.println("Added card to hand. The end of CARD_TO_HAND command");
                             if (receivedCount == 7) {
                                 System.out.println("Got them all 7. Starting init method for hand images.");
                                 BoardController.gotAllCards.set(true);
@@ -106,7 +134,7 @@ public class Client implements Runnable
                             SimplifiedCard card = new SimplifiedCard(Integer.parseInt(message[1]), message[2],
                                     Integer.parseInt(message[3]), message[4], message[5]);
 
-                            BoardController.player.simhand.add(card);
+                            BoardController.getPlayer().simhand.add(card);
                             board.putCardToHand();
                         }
 
@@ -187,37 +215,34 @@ public class Client implements Runnable
 
                     } catch (SocketException se){
                         board.disconnectedFromServer();
-
                     } catch (EOFException eof){
                         break;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
-
                 }
             });
-
             sendMessage.start();
             System.out.println("Before readCards.start()");
             readCards.start();
         }catch(EOFException eof){
             System.out.println("EOF");
-    }catch (IOException   e) {
-
-    e.printStackTrace();
-}
-
-    }
-public void sendMessage(String msg){
-    try {
-        dos.writeUTF(msg);
-        dos.flush();
-    } catch (IOException e) {
-        e.printStackTrace();
+        }catch (IOException   e) {
+            e.printStackTrace();
+        }
     }
 
-}
+    /**
+     * Sends a String message to the connected server.
+     * @param msg The message to send.
+     */
+    public void sendMessage(String msg){
+        try {
+            dos.writeUTF(msg);
+            dos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+    }
 }

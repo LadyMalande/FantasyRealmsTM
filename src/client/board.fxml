@@ -10,11 +10,10 @@
 <?scenebuilder-stylesheet style.css?>
 
 <?import javafx.scene.layout.AnchorPane?>
+<!-- FXML for main board for the player to play the game on. -->
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             stylesheets="@style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="client.BoardController">
-    <!--<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20" stylesheets="@style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="client.BoardController">
-    -->
     <!-- Upper HBox for appname, name of the player and number of players ingame -->
     <HBox spacing="20" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <Label layoutX="14.0" layoutY="14.0" text="%appname">
@@ -66,6 +65,7 @@
             </HBox>
 
         </VBox>
+        <!-- The pane for deck and informative texts around and a button for the end game return to menu. -->
         <StackPane fx:id="stack_deck" styleClass="deck_StackPane" translateX="20.0">
              <Label text="%board_actions" translateY="-200.0">
                  <font>
@@ -94,7 +94,7 @@
             <Label fx:id="label_player6" styleClass="label_player"/>
         </VBox>
     </HBox>
-    <!-- HBox for hand  -->
+    <!-- HBox for hand Panes to hold cards in hand. -->
     <HBox spacing="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="20.0"
           AnchorPane.topAnchor="472.0">
 
@@ -116,12 +116,9 @@
         </StackPane>
 
     </HBox>
+    <!-- Label for hand purpose and manipulation. -->
     <HBox alignment="CENTER" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0"
           AnchorPane.leftAnchor="0.0">
         <Label alignment="CENTER" text="%board_hand"/>
     </HBox>
-
-
-    <!--</VBox>
-    -->
 </AnchorPane>

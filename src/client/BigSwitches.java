@@ -4,13 +4,28 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Utility class for getting static data in exchange for other static data
+ * @author Tereza Miklóšová
+ */
 public class BigSwitches {
+    /**
+     * Method for getting suitable image for its id card.
+     * @param id The id of the card that demands image.
+     * @return Address for loading the image from sources.
+     */
     public static String switchImage(int id){
         if(id <55 && id > 0) {
             return "graphics/" + id + ".jpg";
         } else return "graphics/1.jpg";
     }
 
+    /**
+     * Method returns name given for selected locale and id of the card.
+     * @param id Id of the card in question.
+     * @param locale Locale for the language in which we need the name.
+     * @return Localized name for the card with given id.
+     */
     public static String switchIdForName(int id, Locale locale){
         ResourceBundle rb = ResourceBundle.getBundle("client.CardNames", locale);
         switch(id){
@@ -73,6 +88,11 @@ public class BigSwitches {
         }
     }
 
+    /**
+     * Method returning name of the card in English for given id.
+     * @param id Id if the card in question.
+     * @return English name for the card with given id.
+     */
     public static String switchIdForName(int id){
 
         switch(id){
@@ -135,6 +155,13 @@ public class BigSwitches {
     }
 
 
+    /**
+     * Method that returns array with color code and localized name of the color for
+     * building the card graphics.
+     * @param type Type that we want the color and localized name for.
+     * @param locale Locale for wanted language of the type name.
+     * @return ArrayList with string of the color code and localized name of type of the card.
+     */
     public static ArrayList<String> switchType(Type type, Locale locale){
         ResourceBundle rb = ResourceBundle.getBundle("client.CardTypes", locale);
         ArrayList<String> arr = new ArrayList<>();
@@ -178,6 +205,12 @@ public class BigSwitches {
         return arr;
     }
 
+
+    /**
+     * Method that returns English version of string of the demanded type.
+     * @param type Type we want to translate to string in English.
+     * @return English name of the type.
+     */
     public static String switchTypeForName(Type type){
         if (type == null) {
             System.out.println("Null pointer v switchTypeForName");
@@ -200,6 +233,12 @@ public class BigSwitches {
         }
     }
 
+    /**
+     * Method returns localized name of the type.
+     * @param type Type we want to translate to language by Locale.
+     * @param locale Locale for language we want the type translated to.
+     * @return Localized name of the type.
+     */
     public static String switchTypeForName(Type type , Locale locale){
         if (type == null) {
             System.out.println("Null pointer v switchTypeForName");
@@ -223,6 +262,11 @@ public class BigSwitches {
         }
     }
 
+    /**
+     * Method returns enum type of the type given in localized name.
+     * @param name Localized name of the type.
+     * @return Enum Type by the given string in parameter.
+     */
     public static Type switchNameForType(String name){
         if (name == null) {
             System.out.println("Null pointer v switchNameForType");
@@ -254,6 +298,12 @@ public class BigSwitches {
         }
     }
 
+    /**
+     * Method returns localized name of the type of the demanded name of card.
+     * @param name Localized name of the card.
+     * @param locale Locale for language we want the type name in.
+     * @return Localized type name by localized card name.
+     */
     public static String switchCardNameForStringType(String name, Locale locale){
         if (name == null) {
             System.out.println("Null pointer v switchCardNameForStringType(String name, Locale locale)");

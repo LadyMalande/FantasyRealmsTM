@@ -15,15 +15,30 @@ import java.util.ResourceBundle;
  *
  * All methods on the navigator are static to facilitate
  * simple access from anywhere in the application.
+ *
+ * Taken with the consent of the author from the web page on github: https://gist.github.com/jewelsea/6460130
+ * @author jewelsea
+ * @see <a href="https://gist.github.com/jewelsea/6460130">https://gist.github.com/jewelsea/6460130</a>
  */
-class SceneNavigator {
+public class SceneNavigator {
+
+    // Convenience constants for fxml layouts managed by the navigator.
 
     /**
-     * Convenience constants for fxml layouts managed by the navigator.
+     * Holds the address of the FXML main window file.
      */
     static final String MAIN    = "main.fxml";
+    /**
+     * Holds the address of the FXML menu file.
+     */
     static final String MENU = "menu.fxml";
+    /**
+     * Holds the address of the FXML rules file.
+     */
     static final String RULES = "rules.fxml";
+    /**
+     * Holds the address of the FXML board file.
+     */
     static final String BOARD   = "board.fxml";
 
     /** The main application layout controller. */
@@ -66,6 +81,10 @@ class SceneNavigator {
         }
     }
 
+    /**
+     * Gets the locale for displaying the UI texts in the appropriate language.
+     * @return Locale for the desired language.
+     */
     private static Locale getLocaleFromConfig(){
         Properties props = new Properties();
         File configFile = new File("config.properties");

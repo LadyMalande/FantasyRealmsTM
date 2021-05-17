@@ -8,11 +8,11 @@ COLOR SCHEME
 #54DEE1 - Pastel Light Green
 #1D6C67 - Dark Green
 */
+
+
 #card_canvas {
   width: 100;
   height: 150;
-  
-  
 }
 
 #rectangle_type_flood{
@@ -212,8 +212,6 @@ COLOR SCHEME
 
 }
 
-
-
 .hand_StackPane:hover {
 
 }
@@ -240,6 +238,7 @@ COLOR SCHEME
     -fx-pref-width: 1280;
     -fx-max-height: 200;
 }
+
 #deck_Button{
     -fx-border-color: pink;
     -fx-border-width: 2;
@@ -251,6 +250,11 @@ COLOR SCHEME
 #deck_Button:hover{
     -fx-cursor: hand;
 }
+
+/*
+Labels on the right side of the screen. Default ones, active one, and in the scoring time different by the position
+of player. Non-playing, playing, gold, silver, bronze.
+*/
 
 .label_player{
     -fx-pref-width: 160;
