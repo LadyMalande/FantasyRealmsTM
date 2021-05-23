@@ -3,10 +3,12 @@ COLOR SCHEME
 
 #22121F - Dark Dark Blue
 #500759 - Pleasant purple pink
+#57A1C5 / light blue
 #0E59AC - Proper Blue
 #16B3E6 - Light Blue
 #54DEE1 - Pastel Light Green
 #1D6C67 - Dark Green
+#8F09A2 ! board hbox
 */
 
 
@@ -134,19 +136,20 @@ COLOR SCHEME
 }
 
 #vistaHolder {
-    -fx-background-color: #16B3E6;
+    -fx-background-color: #57A1C5;
 }
 
 .menu_button {
 
     -fx-pref-height: 100;
-    -fx-background-color: #3A72B1;
+    -fx-background-color: #5588C1;
     -fx-font-family: 'Impact', Arial, sans-serif;
     -fx-font-size: 24px;
+    -fx-text-fill: black;
 }
 
 .menu_button:hover {
-    -fx-background-color: #5588C1;
+    -fx-background-color: #3A72B1;
 }
 
 #off{
@@ -163,12 +166,12 @@ COLOR SCHEME
 }
 
 .menu_buttonLocalizeOn:hover {
-    -fx-background-color: #5588C1;
+    -fx-background-color: #3A72B1;
 }
 
 .menu_buttonLocalizeOff{
     -fx-pref-height: 50;
-    -fx-background-color: #3A72B1;
+    -fx-background-color: #5588C1;
 }
 
 .menu_buttonLocalizeOff:hover {
@@ -194,7 +197,7 @@ COLOR SCHEME
 }
 
 .board_HBox{
-    -fx-background-color: #8F09A2;
+    -fx-background-color: #8C578C;
 }
 
 .StackPane {

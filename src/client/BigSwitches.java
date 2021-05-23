@@ -93,63 +93,63 @@ public class BigSwitches {
      * @param id Id if the card in question.
      * @return English name for the card with given id.
      */
-    public static String switchIdForName(int id){
+    public static String switchIdForSimplifiedName(int id){
 
         switch(id){
-            case 1: return "Unicorn";
-            case 2: return "Hydra";
-            case 3: return "Basilisk";
-            case 4: return "Warhorse";
-            case 5: return "Dragon";
-            case 6: return "Magic Wand";
-            case 7: return "Zeppelin";
-            case 8: return "Warship";
-            case 9: return "Bow";
-            case 10: return "Sword";
-            case 11: return "Beastmaster";
-            case 12: return "Collector";
-            case 13: return "Necromant";
-            case 14: return "Jester";
-            case 15: return "Witch";
-            case 16: return "Archmage";
-            case 17: return "Princess";
-            case 18: return "Commander";
-            case 19: return "Queen";
-            case 20: return "King";
-            case 21: return "Empress";
-            case 22: return "Knights";
-            case 23: return "Striders";
-            case 24: return "Dwarf Infantry";
-            case 25: return "Archers";
-            case 26: return "Cavalry";
-            case 27: return "Shield";
-            case 28: return "Guard Rune";
-            case 29: return "Gem of Order";
-            case 30: return "World Tree";
-            case 31: return "Spellbook";
-            case 32: return "Fountain of Life";
-            case 33: return "Great Flood";
-            case 34: return "Water Elemental";
-            case 35: return "Swamp";
-            case 36: return "Island";
-            case 37: return "Fire Elemental";
-            case 38: return "Lightning";
-            case 39: return "Candle";
-            case 40: return "Forge";
-            case 41: return "Wildfire";
-            case 42: return "Belfry";
-            case 43: return "Earth Elemental";
-            case 44: return "Cave";
-            case 45: return "Mountain";
-            case 46: return "Forest";
-            case 47: return "Blizzard";
-            case 48: return "Air Elemental";
-            case 49: return "Tornado";
-            case 50: return "Storm";
-            case 51: return "Smoke";
-            case 52: return "Skinchanger";
-            case 53: return "Mirage";
-            case 54: return "Doppleganger";
+            case 1: return "unicorn";
+            case 2: return "hydra";
+            case 3: return "basilisk";
+            case 4: return "warhorse";
+            case 5: return "dragon";
+            case 6: return "wand";
+            case 7: return "dirigible";
+            case 8: return "warship";
+            case 9: return "bow";
+            case 10: return "sword";
+            case 11: return "beastmaster";
+            case 12: return "collector";
+            case 13: return "necromancer";
+            case 14: return "jester";
+            case 15: return "enchantress";
+            case 16: return "warlock";
+            case 17: return "princess";
+            case 18: return "warlord";
+            case 19: return "queen";
+            case 20: return "king";
+            case 21: return "empress";
+            case 22: return "knights";
+            case 23: return "rangers";
+            case 24: return "dwarfs";
+            case 25: return "archers";
+            case 26: return "cavalry";
+            case 27: return "shield";
+            case 28: return "rune";
+            case 29: return "gem";
+            case 30: return "tree";
+            case 31: return "book";
+            case 32: return "fountain";
+            case 33: return "greatflood";
+            case 34: return "welemental";
+            case 35: return "swamp";
+            case 36: return "island";
+            case 37: return "felemental";
+            case 38: return "lightning";
+            case 39: return "candle";
+            case 40: return "forge";
+            case 41: return "wildfire";
+            case 42: return "belfry";
+            case 43: return "eelemental";
+            case 44: return "cavern";
+            case 45: return "mountain";
+            case 46: return "forest";
+            case 47: return "blizzard";
+            case 48: return "aelemental";
+            case 49: return "tornado";
+            case 50: return "storm";
+            case 51: return "smoke";
+            case 52: return "shapeshifter";
+            case 53: return "mirage";
+            case 54: return "doppleganger";
             default: return "FAIL";
         }
     }
@@ -314,7 +314,7 @@ public class BigSwitches {
         switch(name){
             case "Knights":
             case "Rangers":
-            case "Dwarf Infantry":
+            case "Dwarvish Infantry":
             case "Elven Archers":
             case "Light Cavalry":
             case "Rytíři":
@@ -423,7 +423,7 @@ public class BigSwitches {
             case "Air Elemental":
             case "Smoke":
             case "Blizzard":
-            case "Storm":
+            case "Rainstorm":
             case "Whirlwind":
             case "Elementál vzduchu":
             case "Kouř":
@@ -442,6 +442,8 @@ public class BigSwitches {
             default: return "UNKNOWN";
         }
     }
+
+
 
 
 

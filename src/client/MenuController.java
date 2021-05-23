@@ -138,7 +138,7 @@ public class MenuController extends MainForApplication implements Initializable 
      * @param key Key that we want to get from the config file.
      * @return Value of the key queried.
      */
-    private String getValueInPropertiesFile(String key){
+    public static String getValueInPropertiesFile(String key){
         Properties props = new Properties();
         File configFile = new File("config.properties");
         String value = "";
@@ -175,7 +175,7 @@ public class MenuController extends MainForApplication implements Initializable 
     private boolean show_dialog_HowManyPlayers(){
         Locale locale = new Locale(getValueInPropertiesFile("locale"));
         ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", locale);
-        ArrayList<String> howManyPlayers = new ArrayList<>(){{add("1");add("2");add("3");add("4");add("5");add("6");}};
+        ArrayList<String> howManyPlayers = new ArrayList<>(){{add("2");add("3");add("4");add("5");add("6");}};
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(howManyPlayers.get(0), howManyPlayers);
         dialog.setTitle(rb.getString("menu_serversetup"));

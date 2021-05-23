@@ -1,12 +1,16 @@
 package client;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -31,6 +35,8 @@ public class RulesController implements Initializable {
      * Accordion containing the rules.
      */
     public Accordion rules_accordion;
+    public WebView webView;
+    public Button button_showCredits;
 
     /**
      * Event handler fired when the user requests a new vista.
@@ -48,5 +54,24 @@ public class RulesController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    @FXML
+    public void showCredits(ActionEvent event) {
+        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", new Locale(MenuController.getValueInPropertiesFile("locale")));
+        button_showCredits.setText(rb.getString("hideCredits"));
+        button_showCredits.setOnAction(this::hideCredits);
+        webView.setVisible(true);
+        WebEngine webEngine = webView.getEngine();
+        URL url = this.getClass().getResource("/client/resources/credits.html");
+        webEngine.load(url.toString());
+    }
+
+    @FXML
+    public void hideCredits(ActionEvent event) {
+        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", new Locale(MenuController.getValueInPropertiesFile("locale")));
+        button_showCredits.setText(rb.getString("showCredits"));
+        button_showCredits.setOnAction(this::showCredits);
+        webView.setVisible(false);
     }
 }

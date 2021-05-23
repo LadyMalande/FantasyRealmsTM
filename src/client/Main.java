@@ -10,6 +10,7 @@ class Main {
      * @param args Arguments to pass from the command line.
      */
     public static void main(String[] args){
+
         MainForApplication.main(args);
     }
 }

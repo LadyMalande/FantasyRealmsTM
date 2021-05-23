@@ -82,6 +82,7 @@
                     wrapText="true" StackPane.alignment="BOTTOM_CENTER"/>
              <Label fx:id="label_turnRules" prefHeight="74.0" prefWidth="150.0" translateY="-150.0" wrapText="true"
                     text="%board_turnrules"/>
+            <Button fx:id="button_scoreReveal" mnemonicParsing="false" text="%revealscore" translateY="190.0" prefWidth="150.0"/>
              <Button fx:id="button_backToMenu" mnemonicParsing="false" text="%backtomenu" translateY="190.0"/>
         </StackPane>
         <!-- VBox with player tags = names and score at the end -->

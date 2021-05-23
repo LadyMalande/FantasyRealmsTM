@@ -4,8 +4,10 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,12 +15,15 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,6 +49,7 @@ public class BoardController implements Initializable{
      */
     @FXML
     public Label label_turnRules;
+    public Button button_scoreReveal;
 
     /**
      * Contains all players to draw their data on the labels. Used to iterate through to decide who is playing.
@@ -65,6 +71,11 @@ public class BoardController implements Initializable{
      */
     private int numberOfCardsOnTable = 0;
 
+    public void setPreviewScore(int previewScore) {
+        this.previewScore = previewScore;
+    }
+
+    private int previewScore = -999;
 
     /**
      * Checks if the player got all the beginning 7 cards from the server. Until this is true,
@@ -176,7 +187,17 @@ public class BoardController implements Initializable{
      */
     @FXML
     void backToMenu(ActionEvent event) {
+        //client.sendMessage("ENDCONNECTION");
+        /*
+        try {
+            client.s.close();
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
+
+         */
         SceneNavigator.loadVista(SceneNavigator.MENU);
+
     }
 
 
@@ -308,6 +329,7 @@ public class BoardController implements Initializable{
 
             // Waits till the client gets 7 cards. Then the cards in hand are possible to create.
             boolean first = true;
+            gotAllCards.set(false);
             while (!gotAllCards.get()) {
                 if(first){
                     System.out.println("Waiting for server to get us all cards...");
@@ -320,6 +342,41 @@ public class BoardController implements Initializable{
             button_backToMenu.setOnAction(this::backToMenu);
             //Set the players name at the top of the screen.
         Platform.runLater(()-> label_score.setText(label_score.getText() + " " + player.getName()));
+        setPreviewScoreButton();
+
+    }
+
+    private void setPreviewScoreButton(){
+        button_scoreReveal.setOnMousePressed(event -> {
+            // Request score from server
+            if(previewScore == -999){
+                client.sendMessage("COUNTSCORE");
+            } else{
+                button_scoreReveal.setText(String.valueOf(previewScore));
+            }
+
+        });
+        button_scoreReveal.setOnMouseReleased(released -> {
+            ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", player.getLocale());
+            button_scoreReveal.setText(rb.getString("revealscore"));
+        });
+        button_scoreReveal.setOnMouseEntered(event -> {
+            // Request score from server
+            if(previewScore == -999){
+                client.sendMessage("COUNTSCORE");
+            } else{
+                Platform.runLater(()-> {
+                    button_scoreReveal.setText(String.valueOf(previewScore));
+                });
+            }
+
+        });
+        button_scoreReveal.setOnMouseExited(released -> {
+            ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", player.getLocale());
+                    Platform.runLater(()-> {
+                        button_scoreReveal.setText(rb.getString("revealscore"));
+                    });
+        });
     }
 
     /**
@@ -658,6 +715,55 @@ public class BoardController implements Initializable{
         client.sendMessage("DROP_CARD#" + card.getId());
 
         enableSecondActionButtons(false);
+        previewScore = -999;
+    }
+
+    private String localizeScore(String score){
+        StringBuilder sb = new StringBuilder();
+        ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", player.getLocale());
+        ResourceBundle nameBundle = ResourceBundle.getBundle("client.CardNames", player.getLocale());
+        String[] cards = score.split("\n");
+        if(cards.length > 1){
+            for(int i = 0; i < cards.length; i++){
+
+                String[] cardProperties = cards[i].split(";");
+                String name = nameBundle.getString(cardProperties[0]);
+                int tabCount = 3 - (name.length() / 8);
+                String type = BigSwitches.switchTypeForName(Type.valueOf(cardProperties[1]), player.getLocale());
+                if(cardProperties[2].startsWith("DELETED")){
+                    sb.append(rb.getString("cardcapital")).append(" ").append(name).append(" (").append(type).
+                            append(") ").append(rb.getString("deleted")).append(".");
+                } else{
+                    String strength = cardProperties[2];
+                    sb.append(rb.getString("cardcapital")).append(" ").append(name).append(" ").
+                            append(" (").append(type).append(") ").
+                            append(rb.getString("contributed")).append(" ").append(strength).append(".");
+
+                    if(cardProperties.length > 3){
+                        sb.append("\t".repeat(Math.max(0, tabCount)));
+                        if(cardProperties[3].startsWith("BONUS")){
+                            sb.append(rb.getString("bonus")).append(": +");
+                            String[] bonus = cardProperties[3].split(":");
+                            sb.append(bonus[1]).append("\t");
+                        }
+                        if(cardProperties[3].startsWith("MALUS")){
+                            sb.append(rb.getString("malus")).append(": ");
+                            String[] malus = cardProperties[3].split(":");
+                            sb.append(malus[1]);
+                        }
+                        if(cardProperties.length > 4){
+                            sb.append(rb.getString("malus")).append(": ");
+                            String[] malus = cardProperties[4].split(":");
+                            sb.append(malus[1]);
+                        }
+
+                    }
+                }
+
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
     }
 
     /**
@@ -666,10 +772,22 @@ public class BoardController implements Initializable{
      * @param toAdd Text of the score to add to the label.
      * @return String with the name and score of the player on the label.
      */
-    public String changeLabel(Label label, String toAdd){
+    public TextFlow changeLabel(Label label, String toAdd, String score){
         String oldText = label.getText();
+        Tooltip tt = new Tooltip();
+        String textForLabelTooltip = localizeScore(score);
+        Hyperlink showDetails = new Hyperlink(" Detail ");
+        showDetails.setOnAction(event -> {
+            Platform.runLater(()-> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(oldText);
+                alert.setHeaderText(textForLabelTooltip);
+                alert.showAndWait();
+            });
+        });
+        tt.setText(textForLabelTooltip);
+        label.setTooltip(tt);
         Platform.runLater(()-> {
-
             label.setText(oldText + "\n" + toAdd);
             if(toAdd.startsWith("1")){
                 label.getStyleClass().add("label_playerInGameGold");
@@ -684,6 +802,16 @@ public class BoardController implements Initializable{
         });
         String retValue;
         retValue = toAdd.split("(\\) )")[0] + ") " + oldText + ", " + toAdd.split("(\\) )")[1];
+        System.out.println("will be in row" + retValue);
+        return new TextFlow(new Text(retValue), showDetails);
+    }
+
+    public String gatherLadder(Label label, String toAdd){
+        String oldText = label.getText();
+        System.out.println("old text: " + oldText);
+        String retValue;
+        retValue = toAdd.split("(\\) )")[0] + ") " + oldText.split("\n")[0] + ", " + toAdd.split("(\\) )")[1];
+        System.out.println("retvalue: " + retValue);
         return retValue;
     }
 
@@ -692,26 +820,33 @@ public class BoardController implements Initializable{
      * window about the statistics. Changes the texts and colors of the labels in the process.
      * @param names Names of the players that should have their scores changed.
      */
-    public void buildPlayerScores(String[] names){
-        ArrayList<String> scoreTable = new ArrayList<>();
+    public void buildPlayerScores(String[] scores, String[] names){
+        ArrayList<TextFlow> scoreTable = new ArrayList<>();
+        ArrayList<String> ladder = new ArrayList<>();
         ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", player.getLocale());
         if(names.length > 0){
-            scoreTable.add(changeLabel(label_player1,names[0]));
+            scoreTable.add(changeLabel(label_player1,names[0],scores[0]));
+            ladder.add(gatherLadder(label_player1,names[0]));
         }
         if(names.length > 1){
-            scoreTable.add(changeLabel(label_player2,names[1]));
+            scoreTable.add(changeLabel(label_player2,names[1],scores[1]));
+            ladder.add(gatherLadder(label_player2,names[1]));
         }
         if(names.length > 2){
-            scoreTable.add(changeLabel(label_player3,names[2]));
+            scoreTable.add(changeLabel(label_player3,names[2],scores[2]));
+            ladder.add(gatherLadder(label_player3,names[2]));
         }
         if(names.length > 3){
-            scoreTable.add(changeLabel(label_player4,names[3]));
+            scoreTable.add(changeLabel(label_player4,names[3],scores[3]));
+            ladder.add(gatherLadder(label_player4,names[3]));
         }
         if(names.length > 4){
-            scoreTable.add(changeLabel(label_player5,names[4]));
+            scoreTable.add(changeLabel(label_player5,names[4],scores[4]));
+            ladder.add(gatherLadder(label_player5,names[4]));
         }
         if(names.length > 5){
-            scoreTable.add(changeLabel(label_player6,names[5]));
+            scoreTable.add(changeLabel(label_player6,names[5],scores[5]));
+            ladder.add(gatherLadder(label_player6,names[5]));
         }
         int rank = Integer.parseInt(names[0].split("\\)")[0]);
 
@@ -730,23 +865,44 @@ public class BoardController implements Initializable{
             default: position = rb.getString("board_sixth");
         }
         int score = Integer.parseInt(names[0].split("(\\) )")[1]);
-        scoreTable.forEach(System.out::println);
+        //scoreTable.forEach(System.out::println);
 
-        Collections.sort(scoreTable);
-        StringBuilder expandedScoreTable = new StringBuilder();
-        for (String s: scoreTable){
-                expandedScoreTable.append(s).append("\n");
+        Collections.sort(ladder);
+        TextFlow allFlowTexts = new TextFlow();
+        String headerText = rb.getString("board_gz") + " " + player.getName() + "! " +
+                position + " " + rb.getString("board_scoreof") + " " + score + " " +
+                rb.getString("board_points") + "\n\n" + rb.getString("board_scoretable") +
+                "\n";
+        allFlowTexts.getChildren().add(new Text(headerText));
+        int pos = 1;
+        for (String s: ladder){
+            System.out.println("inside loop with ladder children size" + scoreTable.get(0).getChildren().size()+ "s: " + s);
+
+            int finalPos = pos;
+            for(TextFlow tf : scoreTable){
+                System.out.println(tf.getChildren().get(0).toString());
+            }
+            TextFlow tf = scoreTable.stream().filter(textflow ->((Text) textflow.getChildren().get(0)).getText().startsWith(String.valueOf(finalPos))).findAny().get();
+                allFlowTexts.getChildren().add(tf);
+                allFlowTexts.getChildren().add(new Text("\n"));
+                pos++;
         }
         // Print an alert window with the final statistics.
         Platform.runLater(()-> {
             button_backToMenu.setVisible(true);
             button_backToMenu.setDisable(false);
+            button_scoreReveal.setVisible(false);
+            button_scoreReveal.setDisable(true);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(rb.getString("board_finalscore"));
 
-            alert.setHeaderText(rb.getString("board_gz") + " " + player.getName() + "! " + position + " " + rb.getString("board_scoreof") + " " + score + " " + rb.getString("board_points") + "\n\n" + rb.getString("board_scoretable") + "\n" + expandedScoreTable);
+            HBox hbox = new HBox();
+            HBox.setMargin(allFlowTexts, new Insets(10,10,10,10));
+            hbox.setPadding(Insets.EMPTY);
+            hbox.getChildren().addAll(allFlowTexts,new ImageView(this.getClass().getResource("graphics/medal.png").toString()));
+            alert.getDialogPane().setHeader(hbox);
             alert.setContentText(rb.getString("board_compare"));
-            alert.setGraphic(new ImageView(this.getClass().getResource("graphics/medal.png").toString()));
+            //alert.setGraphic();
 
             alert.showAndWait();
         });

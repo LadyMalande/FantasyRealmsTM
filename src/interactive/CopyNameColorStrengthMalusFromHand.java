@@ -31,7 +31,7 @@ public class CopyNameColorStrengthMalusFromHand {
 
         Platform.runLater(()-> {
             ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
-            dialog.setTitle(BigSwitches.switchIdForName(thiscardid));
+            dialog.setTitle(BigSwitches.switchIdForName(thiscardid, locale));
             ResourceBundle rb = ResourceBundle.getBundle("client.UITexts", locale);
             dialog.setHeaderText(rb.getString("interactives_cardnametocopy"));
             dialog.setContentText(rb.getString("interactives_chosenname"));

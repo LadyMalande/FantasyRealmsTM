@@ -4,10 +4,13 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -27,6 +30,8 @@ public class MainForApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception{
         stage.setTitle("Fantasy Realms TM");
+        stage.getIcons().clear();
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/client/graphics/program_icon.png")));
         stage.setScene(
                 createScene(
                         loadMainPane()
@@ -37,6 +42,9 @@ public class MainForApplication extends Application {
             Platform.exit();
             System.exit(0);
         });
+
+
+
 
         stage.show();
     }
@@ -77,11 +85,9 @@ public class MainForApplication extends Application {
         Scene scene = new Scene(
                 mainPane
         );
-
         scene.getStylesheets().setAll(
                 getClass().getResource("style.css").toExternalForm()
         );
-
         return scene;
     }
 

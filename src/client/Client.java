@@ -14,6 +14,7 @@ INTERACTIVE - sends info about interactive dialogue
 */
 
 import interactive.*;
+import javafx.application.Platform;
 
 import java.io.*;
 import java.net.*;
@@ -28,7 +29,7 @@ public class Client implements Runnable
     /**
      * Set server port to listen on.
      */
-    final static int ServerPort = 1234;
+    final static int ServerPort = 3456;
 
     /**
      * IP address of the server.
@@ -60,6 +61,8 @@ public class Client implements Runnable
      */
     Locale locale;
 
+    Socket s;
+
     /**
      * Constructor for Client.
      * @param player Player information necessary for operating with player.
@@ -82,7 +85,7 @@ public class Client implements Runnable
         try {
             ip = InetAddress.getByName("localhost");
             // establish the connection
-            Socket s = new Socket(ip, ServerPort);
+            s = new Socket(ip, ServerPort);
             // obtaining input and out streams
             dos = new ObjectOutputStream(s.getOutputStream());
             dis = new ObjectInputStream(s.getInputStream());
@@ -103,7 +106,9 @@ public class Client implements Runnable
                     dos.writeUTF(msg);
                     dos.flush();
                     System.out.println("Posted lobby info: " + msg);
-                } catch (IOException e) {
+                } catch(ConnectException connectFail){
+                    board.disconnectedFromServer();
+                }catch (IOException e) {
                     e.printStackTrace();
                 }
             });
@@ -135,6 +140,7 @@ public class Client implements Runnable
                                     Integer.parseInt(message[3]), message[4], message[5]);
 
                             BoardController.getPlayer().simhand.add(card);
+                            board.setPreviewScore(-999);
                             board.putCardToHand();
                         }
 
@@ -163,13 +169,19 @@ public class Client implements Runnable
                             board.buildPlayerLabels(names);
                         }
                         if (received.startsWith("SCORES")) {
-                            System.out.println(received + "\n");
+                            System.out.println("Got scores:\n"+received + "\n\n");
                             String[] message = received.split("#");
-                            int size = message.length - 2;
+                            int size = message.length - 1;
 
-                            String[] scores = new String[size];
-                            System.arraycopy(message, 2, scores, 0, size);
-                            board.buildPlayerScores(scores);
+                            String[] scores = new String[size/2];
+                            String[] names = new String[size/2];
+                            for(int i = 1, pos = 0; i < message.length ; i += 2, pos++){
+                                scores[pos] = message[i];
+                                names[pos] = message[i+1];
+                                System.out.println("scores " + scores[pos] + " names " + names[pos]);
+                            }
+                            //System.arraycopy(message, 1, scores, 0, size);
+                            board.buildPlayerScores(scores, names);
                         }
 
                         if (received.startsWith("ChangeColor")) {
@@ -211,6 +223,15 @@ public class Client implements Runnable
                             }
 
                             TakeCardOfTypeAtTheEnd.askPlayer(board, id, splitted, locale);
+                        }
+
+                        if (received.startsWith("COUNTSCORE")) {
+                            String[] message = received.split("#");
+                            int score = Integer.parseInt(message[1]);
+                            Platform.runLater(()-> {
+                                        board.button_scoreReveal.setText(String.valueOf(score));
+                                    });
+                            board.setPreviewScore(score);
                         }
 
                     } catch (SocketException se){

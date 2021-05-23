@@ -15,7 +15,7 @@
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20">
        <Label text="%appname">
           <font>
-             <Font name="Century Gothic Bold" size="24.0" />
+             <Font name="Century Gothic Bold" size="50.0" />
           </font>
        </Label>
    </HBox>
